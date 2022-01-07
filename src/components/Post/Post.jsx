@@ -8,7 +8,7 @@ function Post() {
                 <div className="post-author__info">
                     <div className="post-author-info__name">Игорь Савкин</div>
                     <div className="post-author-info__when">
-                        <div className="post-author-info__when-date">Jan 07, 2022 </div>
+                        <div className="post-author-info__when-date">Jan 07, 2022</div>
                         <div className="post-author-info__when-time">14:28</div>
                     </div>
                 </div>
