@@ -1,0 +1,31 @@
+.footer{
+    background-color: rgb(43, 42, 42);
+    margin-top: 150px;
+    padding: 40px 0;
+    color: white;
+}
+
+.footer-top{
+    display: flex;
+}
+
+.footer-column{
+    width: 33.333%;
+}
+
+.footer-bottom{
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    padding: 16px 16px;
+    text-align: center;
+}
+
+
+.footer-list{
+    
+}
+
+.footer-link{
+    margin: 28px 0px;
+    text-align: center;
+}

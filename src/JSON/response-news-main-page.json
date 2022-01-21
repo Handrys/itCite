@@ -1,0 +1,38 @@
+[
+    {
+        "title": "Новость об экономике",
+        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
+        "publish_date": "2022-01-19T10:09:36.245909Z",
+        "author": "Программист Программистов"
+    },
+    {
+        "title": "Новость об экономике зарубежом",
+        "image": "https://kod.ru/content/images/size/w1250/2022/01/NINTCHDBPICT000381028191.jpg",
+        "publish_date": "2022-01-19T10:11:08.386742Z",
+        "author": "Разработчик Разработчиков"
+    },
+    {
+        "title": "Опять новости об экономике",
+        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
+        "publish_date": "2022-01-19T10:17:21.952396Z",
+        "author": "Программист Программистов"
+    },
+    {
+        "title": "Новости из жизни",
+        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
+        "publish_date": "2022-01-19T10:20:44.641690Z",
+        "author": "Программист Программистов"
+    },
+    {
+        "title": "чел напился и умер",
+        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
+        "publish_date": "2022-01-19T10:23:16.690022Z",
+        "author": "Программист Программистов"
+    },
+    {
+        "title": "Новости из жизни",
+        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
+        "publish_date": "2022-01-19T10:20:44.641690Z",
+        "author": "Программист Программистов"
+    }
+]

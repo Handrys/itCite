@@ -1,0 +1,17 @@
+.header-bottom{
+    display: flex;
+    justify-content: center;
+    border-bottom: 1px solid grey;
+
+    padding: 10px;
+}
+
+.header-bottom__item{
+    margin: 0 14px;
+    font-size: 20px;
+    color: white;
+}
+
+Link{
+    text-decoration: none;
+}

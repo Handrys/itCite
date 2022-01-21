@@ -1,0 +1,4 @@
+.home__body{
+    display: flex;
+    justify-content: space-between;
+}

@@ -1,0 +1,8 @@
+.advertising{}
+
+.advertising__img{}
+
+.advertising__img img{
+    width: 100%;
+    height: 100%;
+}
