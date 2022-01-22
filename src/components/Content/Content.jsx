@@ -3,8 +3,9 @@ import './Content.css';
 import Post from './Post/Post';
 import { render } from '@testing-library/react';
 import { posts } from './../../shared/projectData';
-
+import { useEffect } from "react";
 import postList from "../../JSON/response-news-main-page.json";
+import { getPosts } from "../../redux/modules/posts";
 
 
 
@@ -12,6 +13,10 @@ export class Content extends Component {
     state = {
         blogArr: postList
     }
+
+    useEffect(() =>{
+        getPosts();
+    }, [])
     /*
         deletePost = pos => {
             const temp = [...this.state.blogArr];

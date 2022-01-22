@@ -8,8 +8,11 @@ import News from './components/Pages/News/News';
 import Articles from './components/Pages/Articles/Articles';
 import Reviews from './components/Pages/Reviews/Reviews';
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import { connect } from 'react-redux';
+import {getPosts, getPosts as getPostsAction} from './redux/modules/posts'
 
-function App() {
+function App({posts, getPosts}) {
+
   return (
     <div className="App">
           <Header />
@@ -27,4 +30,9 @@ function App() {
   );
 }
 
-export default App;
+export default connect(
+  ({posts}) => ({posts}),
+  {
+    getPosts: getPostsAction
+  }
+)(App);
