@@ -4,7 +4,7 @@ const Advertising = () => {
     return ( 
         <div className="advertising banner">
             <div className="advertising__img">
-                <img src="https://stylen.ru/images/blog/ylichnuy%20banner.jpg" alt="" />
+                <img src="https://media.dyvys.info/2019/12/90be9fd57953136288a1f6262ab88ea5-696x464.jpg" alt="" />
             </div>
         </div>
     );

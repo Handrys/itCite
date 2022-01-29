@@ -4,10 +4,18 @@
     width: 47.5%;
     /* width: 50%; */
     padding: 0 10px;
+    margin: 10px 0;
 }
-/* .post:last-child {
+/* .post:first-child {
+    width: 100%;
+}
+.post:last-child {
     width: 100%;
 } */
+.post__content{
+
+}
+
 
 .post__img {
     position: relative;
@@ -20,10 +28,25 @@
     left: 0;    
     width: 100%;
     height: 100%;
-    border-radius: 12px;
+    border-radius: 10px;
+    z-index: 2;
 }
+
+.post__img span{
+    z-index: 3;
+    position: absolute;
+    background-color: #d1d3d4;
+    border-radius: 6px;
+    border: 1px solid #e8eaec;
+    color: #6b6b6b;
+    padding: 3px;
+    top: 6px;
+    left: 6px;
+}
+
+
 .post__content {
-  
+margin-top: 10px;
 }
 
 .post__content-title {

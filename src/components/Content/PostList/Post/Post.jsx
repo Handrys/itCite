@@ -1,6 +1,7 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import './Post.css';
 
+
 export const Post = ({
     title,
     image,
@@ -9,7 +10,10 @@ export const Post = ({
 }) => {
     return ( 
     <div className="post">
-        <div className="post__img"><img src={image} alt="" /></div>
+        <div className="post__img">
+            <img src={image} alt="" />
+            <span>Новости</span>
+        </div>
         <div className="post__content">
             <div className="post__content-title">{title}</div>
             <div className="post__content-author">
@@ -22,6 +26,7 @@ export const Post = ({
                 </div>
             </div>
         </div>
+     
     </div> );
 }
 

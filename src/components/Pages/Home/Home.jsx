@@ -1,4 +1,5 @@
-import { Content } from './../../Content/Content';
+
+import Content from '../../Content/Content';
 import BannerList from './BannerList/BannerList';
 import './Home.css'
 

@@ -7,11 +7,11 @@
 }
 
 .header-bottom__item{
-    margin: 0 14px;
-    font-size: 20px;
+    margin: 0 16px;
+    font-size: 22px;
     color: white;
 }
 
-Link{
-    text-decoration: none;
+a{
+    text-decoration: none !important;
 }

@@ -1,1 +1,11 @@
-{"id":3,"category":["экономика","еда"],"title":"Опять новости об экономике","description":"кто как продает чипсы","image":"http://127.0.0.1:8000/media/picture/%D1%87%D0%B8%D0%BF%D1%81%D1%8B.jpg","publish_date":"2022-01-19T10:17:21.952396Z","author":3}
+{
+    "id": 3,
+    "category": [
+        "Статьи"
+    ],
+    "title": "Опять новости об экономике",
+    "description": "кто как продает чипсы",
+    "image": "http://127.0.0.1:8000/media/picture/%D1%87%D0%B8%D0%BF%D1%81%D1%8B.jpg",
+    "publish_date": "2022-01-19T10:17:21.952396Z",
+    "author": 3
+}

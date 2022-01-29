@@ -1,0 +1,23 @@
+.pages-description{
+    background-color: #f2f4f6;
+    text-align: center;
+    margin: 30px 0;
+    padding: 10px;
+}
+
+.pages-description__body{
+    width: 30%;
+    margin: 0 auto;
+}
+
+.pages-description__title{
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.pages-description__text{}
+
+.pages-description__value{
+    margin-top: 20px;
+    color: cornflowerblue;
+}

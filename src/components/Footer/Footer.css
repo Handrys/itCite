@@ -1,5 +1,5 @@
 .footer{
-    background-color: rgb(43, 42, 42);
+    background-color: rgb(16, 105, 165);
     margin-top: 150px;
     padding: 40px 0;
     color: white;
@@ -14,8 +14,8 @@
 }
 
 .footer-bottom{
-    border-top: 1px solid grey;
-    border-bottom: 1px solid grey;
+    border-top: 1px solid rgb(218, 217, 217);
+    border-bottom: 1px solid rgb(218, 217, 217);
     padding: 16px 16px;
     text-align: center;
 }

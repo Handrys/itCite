@@ -15,6 +15,6 @@
 .platforms__img img{
     width: 48px;
     height: 48px;
-    border: 2px solid black;
+    /* border: 2px solid black; */
     border-radius: 50%;
 }

@@ -8,10 +8,9 @@ import News from './components/Pages/News/News';
 import Articles from './components/Pages/Articles/Articles';
 import Reviews from './components/Pages/Reviews/Reviews';
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
-import { connect } from 'react-redux';
-import {getPosts, getPosts as getPostsAction} from './redux/modules/posts'
 
-function App({posts, getPosts}) {
+
+function App() {
 
   return (
     <div className="App">
@@ -22,6 +21,7 @@ function App({posts, getPosts}) {
             <Route path="/Articles" element = {<Articles />} />
             <Route path="/Reviews" element = {<Reviews />} />
           </Routes>
+          
           <Footer />
 
     </div>
@@ -30,9 +30,4 @@ function App({posts, getPosts}) {
   );
 }
 
-export default connect(
-  ({posts}) => ({posts}),
-  {
-    getPosts: getPostsAction
-  }
-)(App);
+export default App;
