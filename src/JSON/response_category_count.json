@@ -1,14 +1,14 @@
 [
     {
-        "name": "Новости",
+        "name": "News",
         "cnt": "4"
     },
     {
-        "name": "Статьи",
+        "name": "Articles",
         "cnt": "2"
     },
     {
-        "name": "Обзоры",
+        "name": "Reviews",
         "cnt": "2"
     }
 ]

@@ -3,16 +3,21 @@ import './Post.css';
 
 
 export const Post = ({
+    item,
+    id,
     title,
     image,
     author,
     publish_date,
+    postWidth,
+    deletePost
 }) => {
     return ( 
-    <div className="post">
+    <div className="post" style={{width: postWidth}}/*  onClick={() => {console.log(item); console.log(id)}} */>
         <div className="post__img">
             <img src={image} alt="" />
             <span>Новости</span>
+            <div className="delete-icon" onClick={deletePost}><DeleteIcon style = {{fontSize: '42px', color: 'black'}} /></div>
         </div>
         <div className="post__content">
             <div className="post__content-title">{title}</div>

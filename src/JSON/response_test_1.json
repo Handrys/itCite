@@ -1,3 +1,14 @@
+[{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+},
 {
     "id": 2,
     "category": [
@@ -5,7 +16,52 @@
     ],
     "title": "Новость об экономике зарубежом",
     "description": "какая-то страна разбогатела продавая куриные яйца",
-    "image": "http://127.0.0.1:8000/media/picture/3157298.jpg",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": "Igor"
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
     "publish_date": "2022-01-19T10:11:08.386742Z",
     "author": 1
 }
+]

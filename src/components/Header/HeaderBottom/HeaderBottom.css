@@ -11,6 +11,9 @@
     font-size: 22px;
     color: white;
 }
+.header-bottom__item:hover{
+    text-decoration: underline;
+}
 
 a{
     text-decoration: none !important;

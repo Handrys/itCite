@@ -1,7 +1,7 @@
 import './PagesDescription.css'
 import Button from '@mui/material/Button';
 
-const PagesDescription = () => {
+const PagesDescription = (handleShowAddForm) => {
     return ( 
         <div className="pages-description">
             <div className="pages-description__body">
@@ -9,7 +9,6 @@ const PagesDescription = () => {
                 <div className="pages-description__text">
                 Главные события вокруг российской и мировой IT-индустрии. Только свежая и ценная информация.
                 </div>
-                
                 <div className="pages-description__value">9358 публикаций</div>
 
             </div>
