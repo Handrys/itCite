@@ -1,15 +1,15 @@
 import './PagesDescription.css'
 import Button from '@mui/material/Button';
 
-const PagesDescription = (handleShowAddForm) => {
+const PagesDescription = (props) => {
     return ( 
         <div className="pages-description">
             <div className="pages-description__body">
-                <div className="pages-description__title">Новости</div>
+                <div className="pages-description__title">{props.categoryTitle}</div>
                 <div className="pages-description__text">
-                Главные события вокруг российской и мировой IT-индустрии. Только свежая и ценная информация.
+                {props.categoryDescription}
                 </div>
-                <div className="pages-description__value">9358 публикаций</div>
+                <div className="pages-description__value">{props.postCount} публикаций</div>
 
             </div>
         </div>

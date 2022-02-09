@@ -55,7 +55,7 @@ const AddPost = (props) => {
     return (
         <div className='add-post'>
             <div className="add-post__form">
-                <FormControl fullWidth className='' label="Категория:">
+                <form>
                     <div className="form-top">
                         <div className="form-top__close" onClick={() => {props.toggleShowForm(false)}}>X</div>
                     </div>
@@ -77,7 +77,7 @@ const AddPost = (props) => {
                             <Button variant="contained" style={{}} onClick={() => {createPost()}} >Добавить пост</Button>
                         </div>
                     </div>
-                </FormControl>
+                </form>
             </div>
             <div className="overlay"></div>
 

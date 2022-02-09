@@ -52,8 +52,11 @@
     opacity: 1;
     z-index: 4;
     position: absolute;
-    right: 5px;
-    top: 5px;
+    right: 15px;
+    top: 0px;
+    font-size: 30px;
+    font-weight: 900;
+    color: #fff;
 }
 
 .post__img span{

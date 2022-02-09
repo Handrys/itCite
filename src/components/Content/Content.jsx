@@ -8,11 +8,11 @@ import PostList from "./PostList/PostList";
 
 
 
-const Content = ({postListArr, postWidth, category, fetchPosts}) => {   
+const Content = ({postListArr, postWidth, category, categoryTitle, fetchPosts}) => {   
     
     return (
         <div>
-            <PostList postListArr = {postListArr} postWidth = {postWidth}  category = {category} fetchPosts={fetchPosts}  />
+            <PostList postListArr = {postListArr} postWidth = {postWidth}  category = {category} fetchPosts={fetchPosts} categoryTitle = {categoryTitle}  />
         </div>
         
     );

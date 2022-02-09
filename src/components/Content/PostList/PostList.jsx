@@ -8,7 +8,7 @@ import Button from '@mui/material/Button';
 import axios from 'axios';
 
 
-const PostList = ({ postListArr, postWidth, category, item, fetchPosts}) => {
+const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetchPosts}) => {
 
     const [blogArr, setBlogArr] = React.useState(postListArr);
     const [showAddForm, setShowAddForm] = React.useState(false);
@@ -54,6 +54,7 @@ const PostList = ({ postListArr, postWidth, category, item, fetchPosts}) => {
                 publish_date={item.publish_date}
                 deletePost={() => deletePost(item)}
                 postWidth={postWidth}
+                category = {item.category}
             />
         )
     })
@@ -63,7 +64,7 @@ const PostList = ({ postListArr, postWidth, category, item, fetchPosts}) => {
         <Button  style={{fontSize: '12px', color: 'blue', margin: '0 auto'}} onClick={() => { toggleShowForm(true)}}>[ Новый пост ]</Button>
         <div className="post-list">
             {
-                showAddForm ? <AddPost blogArr={blogArr} addNewPost={addNewPost} toggleShowForm = {toggleShowForm} category = {category} fetchPosts = {fetchPosts} />
+                showAddForm ? <AddPost blogArr={blogArr} addNewPost={addNewPost} toggleShowForm = {toggleShowForm} category = {category} categoryTitle = {categoryTitle} fetchPosts = {fetchPosts} />
                     : null
             }
             {posts}

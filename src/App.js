@@ -8,6 +8,7 @@ import News from './components/Pages/News/News';
 import Articles from './components/Pages/Articles/Articles';
 import Reviews from './components/Pages/Reviews/Reviews';
 import {BrowserRouter, Routes, Route, Link} from "react-router-dom";
+import Login from './components/Pages/Login/Login';
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
             <Route path="/News" element = {<News />} />
             <Route path="/Articles" element = {<Articles />} />
             <Route path="/Reviews" element = {<Reviews />} />
+            <Route path='/Login' element = {<Login/>} />
           </Routes>
           
           <Footer />

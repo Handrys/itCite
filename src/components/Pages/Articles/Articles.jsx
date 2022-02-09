@@ -8,6 +8,8 @@ import Content from './../../Content/Content';
 const Articles = () => {
     const [postList, setPostList] = React.useState([]);
     const [category, setCategory] = React.useState('articles')
+    const [categoryTitle, setCategoryTitle] = React.useState('Статьи')
+const [categoryDescription, setCategoryDescription] = React.useState('Авторские материалы от редакции. Своё мнение, своя аналитика, свои прогнозы. Совместная работа с экспертами рынка.')
     const postWidth = '30%'
     const [isPending, setIsPending] = React.useState(false)
 
@@ -37,8 +39,8 @@ const Articles = () => {
             <div className="container">
             {isPending &&  <div className="progress"><CircularProgress /></div>}
                 <div className="articles__body" style = {{opacity: setOpacity}}>
-                    <PagesDescription />
-                    <Content postListArr={postList} postWidth={postWidth} category={category}  fetchPosts= { fetchPosts} />
+                <PagesDescription postCount = {postList.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
+                    <Content postListArr={postList} postWidth={postWidth} category={category} categoryTitle = {categoryTitle}  fetchPosts= { fetchPosts} />
                 </div>
             </div>
         </div>

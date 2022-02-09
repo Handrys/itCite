@@ -1,38 +1,89 @@
-[
-    {
-        "title": "Новость об экономике",
-        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
-        "publish_date": "2022-01-19T10:09:36.245909Z",
-        "author": "Программист Программистов"
-    },
-    {
-        "title": "Новость об экономике зарубежом",
-        "image": "https://kod.ru/content/images/size/w1250/2022/01/NINTCHDBPICT000381028191.jpg",
-        "publish_date": "2022-01-19T10:11:08.386742Z",
-        "author": "Разработчик Разработчиков"
-    },
-    {
-        "title": "Опять новости об экономике",
-        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
-        "publish_date": "2022-01-19T10:17:21.952396Z",
-        "author": "Программист Программистов"
-    },
-    {
-        "title": "Новости из жизни",
-        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
-        "publish_date": "2022-01-19T10:20:44.641690Z",
-        "author": "Программист Программистов"
-    },
-    {
-        "title": "чел напился и умер",
-        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
-        "publish_date": "2022-01-19T10:23:16.690022Z",
-        "author": "Программист Программистов"
-    },
-    {
-        "title": "Новости из жизни",
-        "image": "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
-        "publish_date": "2022-01-19T10:20:44.641690Z",
-        "author": "Программист Программистов"
-    }
+[{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+},
+{
+    "id": 3,
+    "category": [
+        "Статьи"
+    ],
+    "title": "Опять новости об экономике",
+    "description": "кто как продает чипсы",
+    "image": "https://301-1.ru/uploads/image/img_files/2015_02_18_2a510f8e402d9c82e45e1365d83d1db7.jpg",
+    "publish_date": "2022-01-19T10:17:21.952396Z",
+    "author": 3
+},
+{
+    "id": 3,
+    "category": [
+        "Статьи"
+    ],
+    "title": "Опять новости об экономике",
+    "description": "кто как продает чипсы",
+    "image": "https://301-1.ru/uploads/image/img_files/2015_02_18_2a510f8e402d9c82e45e1365d83d1db7.jpg",
+    "publish_date": "2022-01-19T10:17:21.952396Z",
+    "author": 3
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": "Igor"
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+},
+{
+    "id": 2,
+    "category": [
+        "Новости"
+    ],
+    "title": "Новость об экономике зарубежом",
+    "description": "какая-то страна разбогатела продавая куриные яйца",
+    "image": "https://www.gastronom.ru/binfiles/images/20150218/b9b3cf4c.jpg",
+    "publish_date": "2022-01-19T10:11:08.386742Z",
+    "author": 1
+}
 ]
