@@ -4,11 +4,12 @@ import Post from './Post/Post';
 import './PostList.css'
 import './postLogic.js'
 /* import postListJSON from "../../../JSON/response-news-main-page.json"; */
-import Button from '@mui/material/Button';
+import Fab from '@mui/material/Fab';
+import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 
 
-const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetchPosts}) => {
+const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetchPosts }) => {
 
     const [blogArr, setBlogArr] = React.useState(postListArr);
     const [showAddForm, setShowAddForm] = React.useState(false);
@@ -18,7 +19,7 @@ const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetch
     });
 
     const toggleShowForm = (value) => {
-        value ?  setShowAddForm(true) : setShowAddForm(false)
+        value ? setShowAddForm(true) : setShowAddForm(false)
     }
 
     const addNewPost = (blogPost) => {
@@ -32,7 +33,7 @@ const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetch
             console.log(blogPost.id)
             axios.delete(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${category}/${blogPost.id}`)
                 .then((response) => {
-                    console.log('post delete',response.data)
+                    console.log('post delete', response.data)
                     fetchPosts()
                 })
                 .catch((err) => {
@@ -45,32 +46,37 @@ const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetch
     const posts = blogArr.map((item, pos) => {
         return (
             <Post
-                key = {pos}
-                id = {pos}
-                item = {item}
+                key={pos}
+                id={pos}
+                item={item}
                 title={item.title}
                 image={item.image}
                 author={item.author}
                 publish_date={item.publish_date}
                 deletePost={() => deletePost(item)}
                 postWidth={postWidth}
-                category = {item.category}
+                category={item.category}
             />
         )
     })
 
     return (
         <>
-        <Button  style={{fontSize: '12px', color: 'blue', margin: '0 auto'}} onClick={() => { toggleShowForm(true)}}>[ Новый пост ]</Button>
-        <div className="post-list">
-            {
-                showAddForm ? <AddPost blogArr={blogArr} addNewPost={addNewPost} toggleShowForm = {toggleShowForm} category = {category} categoryTitle = {categoryTitle} fetchPosts = {fetchPosts} />
-                    : null
-            }
-            {posts}
-        </div>
+            <div className="post-add-btn">      
+                <Fab color="primary" aria-label="add" onClick={() => { toggleShowForm(true) }}>
+                    <AddIcon />
+                </Fab>
+            </div>
+
+            <div className="post-list">
+                {
+                    showAddForm ? <AddPost blogArr={blogArr} addNewPost={addNewPost} toggleShowForm={toggleShowForm} category={category} categoryTitle={categoryTitle} fetchPosts={fetchPosts} />
+                        : null
+                }
+                {posts}
+            </div>
         </>
-        
+
     );
 }
 

@@ -3,10 +3,15 @@
 .container{
   max-width: 1320px;
   margin: 0 auto;
+  width: 100%;
 }
 
 
 .App {
   font-family: 'Roboto', sans-serif;
+}
+
+a{
+  text-decoration: none !important;
 }
 

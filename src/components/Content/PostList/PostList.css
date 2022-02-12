@@ -4,3 +4,10 @@
     justify-content: space-between;
     /* width: 100%; */
 }
+
+.post-add-btn{
+    position: fixed;
+    z-index: 5;
+    bottom: 20px;
+    right: 20px;
+}
