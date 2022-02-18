@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import AddPost from "./AddPost/AddPost";
 import Post from './Post/Post';
 import './PostList.css'
@@ -7,12 +7,31 @@ import './postLogic.js'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
+import Modal from '@mui/material/Modal';
+import {
+    Link,
+    NavLink
+} from "react-router-dom";
+import { Context } from '../../../state'
 
 
-const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetchPosts }) => {
+
+const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetchPosts, initialCount }) => {
+
+const { blogState } = useContext(Context)
+
+
 
     const [blogArr, setBlogArr] = React.useState(postListArr);
+
     const [showAddForm, setShowAddForm] = React.useState(false);
+
+    const [modalOpen, setModalOpen] = React.useState(false);
+    const handleModalOpen = () => setModalOpen(true);
+    const handleModalClose = () => setModalOpen(false);
+
+    const { postsState, dispatchPosts } = useContext(Context)
+    const { data, isPending } = postsState;
 
     useEffect(() => {
         setBlogArr(postListArr)
@@ -23,9 +42,9 @@ const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetch
     }
 
     const addNewPost = (blogPost) => {
-        const temp = [...blogArr];
+        const temp = [...data];
         temp.push(blogPost);
-        setBlogArr(temp)
+        dispatchPosts(temp)
     }
 
     const deletePost = (blogPost) => {
@@ -43,7 +62,7 @@ const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetch
     }
 
 
-    const posts = blogArr.map((item, pos) => {
+    const posts = data.map((item, pos) => {
         return (
             <Post
                 key={pos}
@@ -62,18 +81,38 @@ const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetch
 
     return (
         <>
-            <div className="post-add-btn">      
-                <Fab color="primary" aria-label="add" onClick={() => { toggleShowForm(true) }}>
-                    <AddIcon />
-                </Fab>
-            </div>
+            <div className="post-add-btn">
+                <NavLink to="/addpost" style={{ color: 'black' }}>
+                    <Fab color="primary" aria-label="add" onClick={handleModalOpen}>
+                        <AddIcon />
+                    </Fab>
+                </NavLink>
 
+
+            </div>
+{/*             <div className="reduser-list">
+                {blogState.map((item,pos) => {
+
+                })}
+            </div> */}
             <div className="post-list">
-                {
-                    showAddForm ? <AddPost blogArr={blogArr} addNewPost={addNewPost} toggleShowForm={toggleShowForm} category={category} categoryTitle={categoryTitle} fetchPosts={fetchPosts} />
-                        : null
-                }
+
                 {posts}
+                <Modal
+                    open={modalOpen}
+                    onClose={handleModalClose}
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <AddPost
+                        blogArr={blogArr}
+                        addNewPost={addNewPost}
+                        category={category}
+                        categoryTitle={categoryTitle}
+                        fetchPosts={fetchPosts}
+                        onClose={handleModalClose}
+                    />
+                </Modal>
             </div>
         </>
 

@@ -12,7 +12,7 @@ const Content = ({postListArr, postWidth, category, categoryTitle, fetchPosts}) 
     
     return (
         <div className="content">
-            <PostList postListArr = {postListArr} postWidth = {postWidth}  category = {category} fetchPosts={fetchPosts} categoryTitle = {categoryTitle}  />
+            <PostList postListArr = {postListArr} postWidth = {postWidth}  category = {category} fetchPosts={fetchPosts} categoryTitle = {categoryTitle} initialCount = {10}  />
         </div>
         
     );

@@ -22,11 +22,13 @@ import LoginIcon from '@mui/icons-material/Login';
 import Fab from '@mui/material/Fab';
 import Modal from '@mui/material/Modal';
 import Login from './../Pages/Login/Login';
+import HeaderMenu from './HeaderMenu/HeaderMenu';
+import HeaderMenuBurger from './HeaderMenuBurger/HeaderMenuBurger';
 
 const settings = ['Profile', 'Logout'];
 
 const ResponsiveAppBar = () => {
-    const [modalOpen, setModalOpen] = React.useState(true);
+    const [modalOpen, setModalOpen] = React.useState(false);
     const handleModalOpen = () => setModalOpen(true);
     const handleModalClose = () => setModalOpen(false);
 
@@ -68,7 +70,7 @@ const ResponsiveAppBar = () => {
                 <div className='container'>
                     <div className="header__body">
                         <Toolbar disableGutters>
-                            <Typography
+                            <Typography /* ЛОГОТИП */
                                 variant="h6"
                                 noWrap
                                 component="div"
@@ -76,58 +78,8 @@ const ResponsiveAppBar = () => {
                             >
                                 <CenterFocusStrongIcon fontSize='large' />
                             </Typography>
-                            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}> {/* Бургер */}
-                                <IconButton
-                                    size="large"
-                                    aria-label="account of current user"
-                                    aria-controls="menu-appbar"
-                                    aria-haspopup="true"
-                                    onClick={handleOpenNavMenu}
-                                    color="inherit"
-                                >
-                                    <MenuIcon />
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorElNav}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'left',
-                                    }}
-                                    open={Boolean(anchorElNav)}
-                                    onClose={handleCloseNavMenu}
-                                    sx={{
-                                        display: { xs: 'block', md: 'none' },
-                                    }}
-                                >
-                                    <MenuItem key={'home'} onClick={handleCloseUserMenu} >
-                                        <NavLink to="/" onClick={handleCloseNavMenu} style = {{color: 'black'}}>
-                                            Главная
-                                        </NavLink>
-                                    </MenuItem>
-                                    <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
-                                    <NavLink to="/News" onClick={handleCloseNavMenu} style = {{color: 'black'}}>
-                                            Новости
-                                    </NavLink>
-                                    </MenuItem>
-                                    <MenuItem>
-                                    <NavLink to="/Articles" onClick={handleCloseNavMenu} style = {{color: 'black'}}>
-                                            Статьи
-                                    </NavLink>
-                                    </MenuItem>
-                                    <MenuItem>
-                                    <NavLink to="/Reviews" onClick={handleCloseNavMenu} style = {{color: 'black'}}>
-                                        Обзоры
-                                    </NavLink>
-                                    </MenuItem>
-                                </Menu>
-                            </Box>
 
+                            <HeaderMenuBurger handleCloseNavMenu={handleCloseNavMenu} handleCloseUserMenu = {handleCloseUserMenu} anchorElNav = {anchorElNav} handleOpenNavMenu = {handleOpenNavMenu} />
 
                             <Typography   /* ЛОГОТИП */
                                 variant="h6"
@@ -135,49 +87,10 @@ const ResponsiveAppBar = () => {
                                 component="div"
                                 sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}
                             >
-                                LOGO
+                                БлогIT
                             </Typography>
 
-
-                            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}> {/* Меню */}
-                                <NavLink to="/" >
-                                    <Button 
-                                        key={'home'}
-                                        onClick={handleCloseNavMenu}
-                                        sx={{ my: 2, color: 'white', display: 'block' }}
-                                    >
-                                        Главная
-                                    </Button>
-                                </NavLink>
-                                <NavLink to="/News" >
-                                    <Button
-                                        key={'news'}
-                                        onClick={handleCloseNavMenu}
-                                        sx={{ my: 2, color: 'white', display: 'block' }}
-                                    >
-                                        Новости
-                                    </Button>
-                                </NavLink>
-                                <NavLink to="/Articles" >
-                                    <Button
-                                        key={'articles'}
-                                        onClick={handleCloseNavMenu}
-                                        sx={{ my: 2, color: 'white', display: 'block' }}
-                                    >
-                                        Статьи
-                                    </Button>
-                                </NavLink>
-                                <NavLink to="/Reviews" >
-                                    <Button
-                                        key={'reviews'}
-                                        onClick={handleCloseNavMenu}
-                                        sx={{ my: 2, color: 'white', display: 'block' }}
-                                    >
-                                        Обзоры
-                                    </Button>
-                                </NavLink>
-                            </Box>
-
+                            <HeaderMenu handleCloseNavMenu={handleCloseNavMenu} />
 
                             {isLogin ? //Кнопка справа
                                 <Box sx={{ flexGrow: 0 }}>
@@ -214,7 +127,7 @@ const ResponsiveAppBar = () => {
                                 <Box sx={{ flexGrow: 0 }}>
                                     <Tooltip title="Войти в аккаунт" onClick={handleModalOpen}>
                                         <IconButton sx={{ p: 0 }}>
-                                        <AccountCircleIcon style={{ color: '#ffff', fontSize: '42px' }} />
+                                            <AccountCircleIcon style={{ color: '#ffff', fontSize: '42px' }} />
                                         </IconButton>
                                     </Tooltip>
                                 </Box>
@@ -229,9 +142,9 @@ const ResponsiveAppBar = () => {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box>
+
                     <Login />
-                </Box>
+
             </Modal>
         </>
     );
