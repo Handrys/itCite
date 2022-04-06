@@ -2,7 +2,9 @@
 
 .post {
     padding: 0 10px;
-    margin: 10px 0;
+    margin: 15px 0;
+    box-sizing: border-box;
+    width: 33%;
 }
 /* .post:first-child {
     width: 100%;
@@ -38,7 +40,7 @@
     top: 0;
     left: 0;
     position: absolute;
-    background-color: rgba(255, 255, 255, 0.274);
+    background-color: rgba(175, 172, 172, 0.274);
     z-index: 3;
     border-radius: 10px;
 }
@@ -54,9 +56,9 @@
     position: absolute;
     right: 15px;
     top: 0px;
-    font-size: 30px;
+    font-size: 42px;
     font-weight: 900;
-    color: #fff;
+    color: rgb(255, 255, 255);
 }
 
 .post__img span{

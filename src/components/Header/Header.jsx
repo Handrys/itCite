@@ -66,7 +66,7 @@ const ResponsiveAppBar = () => {
 
     return (
         <>
-            <AppBar position="static" className='header'>
+            <AppBar position="static" className='header' sx={{ top: 'auto', bottom: 0 }}>
                 <div className='container'>
                     <div className="header__body">
                         <Toolbar disableGutters>

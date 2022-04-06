@@ -5,14 +5,21 @@ import { render } from '@testing-library/react';
 import { posts } from './../../shared/projectData';
 import postListJSON from "../../JSON/response-news-main-page.json";
 import PostList from "./PostList/PostList";
+import PostListHome from "./PostList/PostListHome";
 import './Content'
+import FetchPosts from "../Pages/FetchPosts";
 
 
-const Content = ({postListArr, postWidth, category, categoryTitle, fetchPosts}) => {   
+const Content = ({blogPage, isPage}) => {   
     
     return (
-        <div className="content">
-            <PostList postListArr = {postListArr} postWidth = {postWidth}  category = {category} fetchPosts={fetchPosts} categoryTitle = {categoryTitle} initialCount = {10}  />
+        <div className="content" >
+            {isPage === 'false' ?
+            <PostListHome  blogPage = {blogPage}  />
+            :
+            <PostList  blogPage = {blogPage} isPage = {isPage}  />
+        }
+
         </div>
         
     );

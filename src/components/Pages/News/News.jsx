@@ -13,17 +13,16 @@ import { RepeatOneSharp } from "@mui/icons-material";
 const News = () => {
 /* const [postList, setPostList] = React.useState(postListNews); */
 const [postList, setPostList] = React.useState([]);
-const [category, setCategory] = React.useState('news')
+const [blogPage, setBlogPage] = React.useState('news')
 const [categoryTitle, setCategoryTitle] = React.useState('Новости')
 const [categoryDescription, setCategoryDescription] = React.useState('Главные события вокруг российской и мировой IT-индустрии. Только свежая и ценная информация.')
 const postWidth = '30%'
-/* const [isPending, setIsPending] = React.useState(false) */
 
 const { postsState, dispatchPosts } = useContext(Context)
 const { data, isPending } = postsState;
 
-console.log(isPending)
 const setOpacity = isPending ? 0.5 : 1
+
 
     return ( 
         <div className="news page" >
@@ -31,7 +30,7 @@ const setOpacity = isPending ? 0.5 : 1
                 {isPending &&  <div className="progress"><CircularProgress /></div>}
                 <div className="news__body" style = {{opacity: setOpacity}} >
                 <PagesDescription postCount = {data.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
-                <Content postListArr = {data} postWidth = {postWidth} category = {category} categoryTitle = {categoryTitle}  /* fetchPosts= { fetchPosts} */   />
+                <Content blogPage = {'news'} isPage = {'true'} />
                 </div>
             </div>
         </div> 

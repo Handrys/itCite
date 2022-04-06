@@ -7,10 +7,12 @@
 
 .footer-top{
     display: flex;
+    justify-content: space-between;
 }
 
 .footer-column{
     width: 33.333%;
+    max-width: 300px;
 }
 
 .footer-bottom{

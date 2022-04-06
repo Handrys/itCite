@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import AddPost from "./AddPost/AddPost";
 import Post from './Post/Post';
 import './PostList.css'
@@ -13,53 +13,72 @@ import {
     NavLink
 } from "react-router-dom";
 import { Context } from '../../../state'
+import PostMenuDialog from './Post/PostMenuDialog/PostMenuDialog';
+import Dialog from '@mui/material/Dialog';
+import PostMenuDialogStatus from './Post/PostMenuDialog/PostMenuDialogStatus/PostMenuDialogStatus';
 
 
 
-const PostList = ({ postListArr, postWidth, category, categoryTitle, item, fetchPosts, initialCount }) => {
+const PostList = ({ blogPage }) => {
 
-const { blogState } = useContext(Context)
-
-
-
-    const [blogArr, setBlogArr] = React.useState(postListArr);
-
-    const [showAddForm, setShowAddForm] = React.useState(false);
-
-    const [modalOpen, setModalOpen] = React.useState(false);
-    const handleModalOpen = () => setModalOpen(true);
-    const handleModalClose = () => setModalOpen(false);
+    const { blogState } = useContext(Context)
 
     const { postsState, dispatchPosts } = useContext(Context)
     const { data, isPending } = postsState;
 
+    const [isDeleted, setIsDeleted] = useState(false)
+    const postDeleted = () => {}
+
+    const [dialogStatusOpen, setDialogStatusOpen] = React.useState(false);
+    const handleDialogStatusOpen = () => setDialogStatusOpen(true);
+    const handleDialogStatusClose = () => setDialogStatusOpen(false);
+
+    const [dialogStatusType, setDialogStatusType] = React.useState(false)
+    const handleDialogStatusTypeTrue = () => setDialogStatusType(true);
+    const handleDialogStatusTypeFalse = () => setDialogStatusType(false);
+
+    const fetchPosts = () => {
+
+        console.log(blogPage)
+        dispatchPosts({ type: 'loading', payload: true })
+        axios.get(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${blogPage}`)
+            .then((response) => {
+                console.log('Посты получены!')
+                dispatchPosts({ type: 'loading', payload: false })
+                dispatchPosts({
+                    type: 'add',
+                    payload: response.data,
+                })
+                console.log(response.data)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
     useEffect(() => {
-        setBlogArr(postListArr)
-    });
-
-    const toggleShowForm = (value) => {
-        value ? setShowAddForm(true) : setShowAddForm(false)
-    }
-
-    const addNewPost = (blogPost) => {
-        const temp = [...data];
-        temp.push(blogPost);
-        dispatchPosts(temp)
-    }
+        fetchPosts()
+    }, []);
 
     const deletePost = (blogPost) => {
-        if (window.confirm(`Удалить ${blogPost.title}?`)) {
-            console.log(blogPost.id)
-            axios.delete(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${category}/${blogPost.id}`)
+        
+            /* console.log(blogPost.id) */
+            axios.delete(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${blogPost.category}/${blogPost.id}`)
                 .then((response) => {
                     console.log('post delete', response.data)
+                    handleDialogStatusTypeTrue()
+                    handleDialogStatusOpen()
                     fetchPosts()
                 })
                 .catch((err) => {
                     console.log(err)
+                    handleDialogStatusTypeFalse()
+                    handleDialogStatusOpen()
                 })
-        }
-    }
+            
+
+                
+        
+    } 
 
 
     const posts = data.map((item, pos) => {
@@ -73,8 +92,10 @@ const { blogState } = useContext(Context)
                 author={item.author}
                 publish_date={item.publish_date}
                 deletePost={() => deletePost(item)}
-                postWidth={postWidth}
                 category={item.category}
+
+
+
             />
         )
     })
@@ -83,14 +104,14 @@ const { blogState } = useContext(Context)
         <>
             <div className="post-add-btn">
                 <NavLink to="/addpost" style={{ color: 'black' }}>
-                    <Fab color="primary" aria-label="add" onClick={handleModalOpen}>
+                    <Fab color="primary" aria-label="add">
                         <AddIcon />
                     </Fab>
                 </NavLink>
 
 
             </div>
-{/*             <div className="reduser-list">
+            {/*             <div className="reduser-list">
                 {blogState.map((item,pos) => {
 
                 })}
@@ -98,22 +119,20 @@ const { blogState } = useContext(Context)
             <div className="post-list">
 
                 {posts}
-                <Modal
-                    open={modalOpen}
-                    onClose={handleModalClose}
-                    aria-labelledby="modal-modal-title"
-                    aria-describedby="modal-modal-description"
-                >
-                    <AddPost
-                        blogArr={blogArr}
-                        addNewPost={addNewPost}
-                        category={category}
-                        categoryTitle={categoryTitle}
-                        fetchPosts={fetchPosts}
-                        onClose={handleModalClose}
-                    />
-                </Modal>
+
             </div>
+            
+            <Dialog
+                open={dialogStatusOpen}
+                onClose={handleDialogStatusClose}
+                dialogType = {dialogStatusType}
+            >
+                <PostMenuDialogStatus
+                    open={dialogStatusOpen}
+                    onClose={handleDialogStatusClose}
+                    dialogType = {dialogStatusType}
+                />
+            </Dialog> 
         </>
 
     );

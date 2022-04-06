@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useReducer } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
@@ -15,67 +15,103 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import './AddPost.css'
 import axios from "axios";
-import { Context, reducer } from '../../../../state'
-import postsReducer from './../../../../state/postsReducer';
+import { Context} from '../../../../state'
+import { InitialApp } from '../../../../state/context';
+import AddPostDialog from './AddPostDialog/AddPostDialog';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
+import Dialog from '@mui/material/Dialog';
+import { NavLink } from "react-router-dom";
+import CircularProgress from '@mui/material/CircularProgress';
+
+
+
+
+
+
+
+
 
 
 const AddPost = (props) => {
 
+    const [ isPending, setIsPending ] = React.useState(false);
+
+    const setOpacity = isPending ? 0.5 : 1
+
 
     const { postsState, dispatchPosts } = useContext(Context)
-    const { data, isPending } = postsState;
-    const { dispatchData, dispatchIsPending } = dispatchPosts;
-    console.log(postsState)
+
+
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const handleDialogOpen = () => setDialogOpen(true);
+    const handleDialogClose = () => setDialogOpen(false);
+
+    const [dialogType, setDialogType] = React.useState(false)
+    const handleDialogTypeTrue = () => setDialogType(true);
+    const handleDialogTypeFalse = () => setDialogType(false);
+
+
 
     const [form, setForm] = React.useState({
         category: '',
         title: '',
-        description: ''
+        description: '',
+        theme: ''
     })
     const update = (e) => {
+        /* console.log(form.theme) */
         setForm({
             ...form,
             [e.target.name]: e.target.value
         });
     };
+
+/*     const validate = () => {
+        let lemp = {}
+        temp.
+    } */
+
+    const [theme, setTheme] = React.useState('');
+    const handleChangeTheme = (event, newTheme) => {
+        setTheme(newTheme);
+    };
+
     const curTime = new Date().toLocaleString();
 
 
-    const [alignment, setAlignment] = React.useState('web');
-
-    const handleChangeButton = (event, newAlignment) => {
-        setAlignment(newAlignment);
-    };
-
     const createPost = () => {
+        setIsPending(true)
         const post = {
             id: postsState.length + 1,
-            category: props.category,
+            category: form.category,
+            theme: form.theme,
             title: form.title,
             description: form.description,
-            image: "https://kod.ru/content/images/size/w1250/2022/01/Tesla.png",
+            image: "https://www.iphones.ru/wp-content/uploads/2021/09/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0-2021-09-07-%D0%B2-19.48.05.jpg",
             publish_date: curTime,
             author: "Программист Программистов"
         }
-
-/*         console.log(props.postListArr) */
-
-
-
-/*         dispatchPosts({ type: 'upd', payload: post }) */
         console.log(post)
         addNewPost(post)
+
     }
 
     const addNewPost = (blogPost) => {
 
-        axios.post(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_news`, blogPost)
+        axios.post(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${blogPost.category}`, blogPost)
             .then((response) => {
                 console.log('Post is create =>', response.data)
-                props.fetchPosts()
+                handleDialogOpen()
+                handleDialogTypeTrue()
+                setIsPending(false)
             })
             .catch((err) => {
+                console.log(blogPost.category)
                 console.log('ПОСТ НЕ СОЗДАН!', err)
+                handleDialogOpen()
+                handleDialogTypeFalse()
+                setIsPending(false)
             })
     }
 
@@ -94,7 +130,8 @@ const AddPost = (props) => {
         <div className='add-post'>
             <div className="container">
                 <div className="add-post__body">
-                    <div className="add-post__form">
+                    {isPending &&  <div className="progress"><CircularProgress /></div>}
+                    <div className="add-post__form" style = {{opacity: setOpacity}}>
                         <form>
                             <div className="form-top" >
                                 <div className="form-top__img">
@@ -120,9 +157,9 @@ const AddPost = (props) => {
                                 </FormControl>
                                 <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
                                     <TextField id="select" label="Раздел:" value={form.category} select style={{ width: '100%' }} onChange={update} name='category'>
-                                        <MenuItem value="10">Новости</MenuItem>
-                                        <MenuItem value="20">Статьи</MenuItem>
-                                        <MenuItem value="20">Обзоры</MenuItem>
+                                        <MenuItem value="news">Новости</MenuItem>
+                                        <MenuItem value="articles">Статьи</MenuItem>
+                                        <MenuItem value="reviews">Обзоры</MenuItem>
                                     </TextField>
                                 </FormControl>
                                 <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
@@ -131,21 +168,38 @@ const AddPost = (props) => {
                                         aria-label="label"
                                         id='toggle-button'
                                         color="primary"
-                                        value={alignment}
+                                        name='theme'
+                                        value={theme}
                                         exclusive
-                                        onChange={handleChangeButton}
+                                        onChange={handleChangeTheme}
                                         sx={{ mt: 1 }}
                                     >
                                         <ToggleButton value="media">Медиа</ToggleButton>
                                         <ToggleButton value="tehnology">Технологии</ToggleButton>
                                         <ToggleButton value="sport">Спорт</ToggleButton>
-                                        <ToggleButton value="sport">Политика</ToggleButton>
+                                        <ToggleButton value="politics">Политика</ToggleButton>
                                         <ToggleButton value="medical">Медицина</ToggleButton>
                                     </ToggleButtonGroup>
                                 </FormControl>
                                 <div className='button-enter'>
-                                    <Button variant="contained" style={{ width: '200px', height: '50px' }} onClick={() => { createPost() }} >Добавить пост</Button>
+                                        <Button variant="contained" style={{ width: '200px', height: '50px' }} onClick={() => { createPost() }} >
+                                            Добавить пост
+                                        </Button>
                                 </div>
+                                <Dialog
+                                    dialogType={dialogType}
+                                    open={dialogOpen}
+                                    onClose={handleDialogClose}
+                                >
+                                    <AddPostDialog
+                                        dialogType={dialogType}
+                                        open={dialogOpen}
+                                        onClose={handleDialogClose}
+                                        aria-labelledby="modal-modal-title"
+                                        aria-describedby="modal-modal-description"
+                                        pages = {form.category}
+                                    />
+                                </Dialog>
                             </div>
                         </form>
                     </div>
