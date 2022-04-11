@@ -46,7 +46,7 @@ const PostList = ({ blogPage }) => {
                 console.log('Посты получены!')
                 dispatchPosts({ type: 'loading', payload: false })
                 dispatchPosts({
-                    type: 'add',
+                    type: 'addPost',
                     payload: response.data,
                 })
                 console.log(response.data)

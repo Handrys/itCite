@@ -17,17 +17,20 @@ import FetchPosts  from './components/Pages/FetchPosts';
 
 const App = () => {
 
+  /* const [isLoggedIn, setIsLoggedIn] = useState(false); */
+
   const initialState = {
     isPending: true,
     data: []
   }
 
   const [postsState, dispatchPosts] = useReducer(reducer, initialState)
+  const [isLogin, dispatchIsLogin] = useReducer(reducer, initialState)
 
 
   return (
     <div className="App">
-      <Context.Provider value={ {postsState, dispatchPosts} }>
+      <Context.Provider value={{ postsState, dispatchPosts, isLogin, dispatchIsLogin }}>
         <Header />
 
         <Routes>
