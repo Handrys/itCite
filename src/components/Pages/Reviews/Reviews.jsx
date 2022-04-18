@@ -5,6 +5,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import {Context} from '../../../state'
 import axios from "axios";
 import CircularProgress from '@mui/material/CircularProgress';
+import { useGetPosts } from './../../../shared/queries';
 
 const Reviews = () => {
     const [categoryTitle, setCategoryTitle] = React.useState('Обзоры')
@@ -12,17 +13,20 @@ const Reviews = () => {
     const [blogPage, setBlogPage] = React.useState('reviews')
 
     const { postsState, dispatchPosts } = useContext(Context)
-    const { data, isPending } = postsState;
+    const { posts, islogin } = postsState;
+    const { postsArr, isPending } = posts;
+    
+    const { status, isLoading, error, data:dataArr, isFetching } = useGetPosts(blogPage);
 
-const setOpacity = isPending ? 0.5 : 1
+const setOpacity = isFetching ? 0.5 : 1
 
-
+    console.log(isFetching)
     return ( 
         <div className="reviews page">
             <div className="container">
-            {isPending &&  <div className="progress"><CircularProgress /></div>}
+            {isFetching &&  <div className="progress"><CircularProgress /></div>}
                 <div className="reviews__body" style = {{opacity: setOpacity}}>
-                <PagesDescription postCount = {data.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
+                <PagesDescription postCount = {postsArr.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
                 <Content blogPage = {blogPage} isPage = {'true'}/>
                 </div>
             </div>

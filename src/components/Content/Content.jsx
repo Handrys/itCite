@@ -5,7 +5,6 @@ import { render } from '@testing-library/react';
 import { posts } from './../../shared/projectData';
 import postListJSON from "../../JSON/response-news-main-page.json";
 import PostList from "./PostList/PostList";
-import PostListHome from "./PostList/PostListHome";
 import './Content'
 import FetchPosts from "../Pages/FetchPosts";
 
@@ -14,11 +13,11 @@ const Content = ({blogPage, isPage}) => {
     
     return (
         <div className="content" >
-            {isPage === 'false' ?
+            {/* {isPage === 'false' ?
             <PostListHome  blogPage = {blogPage}  />
             :
+            <PostList  blogPage = {blogPage} isPage = {isPage}  /> */}
             <PostList  blogPage = {blogPage} isPage = {isPage}  />
-        }
 
         </div>
         

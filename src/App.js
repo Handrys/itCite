@@ -10,35 +10,51 @@ import Reviews from './components/Pages/Reviews/Reviews';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import Login from './components/Pages/Login/Login';
 import AddPost from './components/Content/PostList/AddPost/AddPost';
-import { Context, reducer } from './state'
+import { reducer } from './state/reducer'
+import {Context} from './state/context'
 import axios from "axios";
 import FetchPosts  from './components/Pages/FetchPosts';
-
+import { createContext } from 'react'
+import NotFound from './components/NotFound/NotFound';
+import { FullPost } from './components/Pages/FullPost/FullPost';
+import { useGetPosts } from './shared/queries';
 
 const App = () => {
 
-  /* const [isLoggedIn, setIsLoggedIn] = useState(false); */
 
-  const initialState = {
-    isPending: true,
-    data: []
+    
+
+  const init = {
+    posts : {
+      isPending: false,
+      postsArr: []
+    },
+    isLogin : {
+      authorized: localStorage.getItem('authorized') === 'true',
+      userName: localStorage.getItem('userName')
+    }
   }
 
-  const [postsState, dispatchPosts] = useReducer(reducer, initialState)
-  const [isLogin, dispatchIsLogin] = useReducer(reducer, initialState)
+
+  const [postsState, dispatchPosts] = useReducer(reducer, init)
+
 
 
   return (
     <div className="App">
-      <Context.Provider value={{ postsState, dispatchPosts, isLogin, dispatchIsLogin }}>
-        <Header />
+      <Context.Provider value={{ postsState, dispatchPosts}}>
+        <Header style={{position: 'sticky'}} />
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/News" element={<News />} />
-          <Route path="/Articles" element={<Articles />} />
-          <Route path="/Reviews" element={<Reviews />} />
-          <Route path='/AddPost' element={<AddPost />} />
+          <Route key = 'News' path="/News" element={<News />} />
+          <Route key = 'Articles' path="/Articles" element={<Articles />} />
+          <Route key = 'Reviews' path="/Reviews" element={<Reviews />} />
+          <Route key = 'AddPost' path='/AddPost' element={<AddPost />} />
+          <Route path='/:pages/post/:postId' element={<FullPost />} />
+         {/*  <Route path='/:News/post/:postId' element={<FullPost />} /> */}
+
+          <Route path='*' element={<NotFound />} />
         </Routes>
 
         <Footer />

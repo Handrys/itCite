@@ -23,6 +23,7 @@ import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import { NavLink } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
+import { useAddPost } from '../../../../shared/queries';
 
 
 
@@ -51,7 +52,7 @@ const AddPost = (props) => {
     const handleDialogTypeTrue = () => setDialogType(true);
     const handleDialogTypeFalse = () => setDialogType(false);
 
-
+    const addPostMutation = useAddPost();
 
     const [form, setForm] = React.useState({
         category: '',
@@ -98,17 +99,14 @@ const AddPost = (props) => {
     }
 
     const addNewPost = (blogPost) => {
-
-        axios.post(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${blogPost.category}`, blogPost)
-            .then((response) => {
-                console.log('Post is create =>', response.data)
+            const postCategory = blogPost.category
+            addPostMutation.mutateAsync({postCategory, blogPost})
+            .then(() => {
                 handleDialogOpen()
                 handleDialogTypeTrue()
                 setIsPending(false)
             })
             .catch((err) => {
-                console.log(blogPost.category)
-                console.log('ПОСТ НЕ СОЗДАН!', err)
                 handleDialogOpen()
                 handleDialogTypeFalse()
                 setIsPending(false)

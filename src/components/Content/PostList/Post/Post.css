@@ -16,6 +16,21 @@
 
 }
 
+.post-more{
+    display: none;
+    font-size: 16px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    transform: translateX(-50%);
+    color: #ffff;
+}
+
+.post-more a{
+    color: #fff;
+}
+
 
 .post__img {
     position: relative;
@@ -48,6 +63,10 @@
 .post__img:hover .delete-icon{
     display: block;
 }
+.post__img:hover .post-more{
+    display: block;
+}
+
 
 .delete-icon{
     display: none;

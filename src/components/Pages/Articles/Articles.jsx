@@ -5,6 +5,7 @@ import postListArticles from "../../../JSON/response_test_2.json";
 import PagesDescription from './../PagesDescription/PagesDescription';
 import Content from './../../Content/Content';
 import {Context} from '../../../state'
+import { useGetPosts } from './../../../shared/queries';
 
 const Articles = () => {
     const [blogPage, setBlogPage] = React.useState('articles')
@@ -14,9 +15,12 @@ const Articles = () => {
 
 
     const { postsState, dispatchPosts } = useContext(Context)
-    const { data, isPending } = postsState;
+    const { posts, islogin } = postsState;
+    const { postsArr, isPending } = posts;
 
-const setOpacity = isPending ? 0.5 : 1
+    const { status, isLoading, error, data:dataArr, isFetching } = useGetPosts(blogPage);
+
+const setOpacity = isFetching ? 0.5 : 1
 
 
 
@@ -24,9 +28,9 @@ const setOpacity = isPending ? 0.5 : 1
     return (
         <div className="articles page">
             <div className="container">
-            {isPending &&  <div className="progress"><CircularProgress /></div>}
+            {isFetching&&  <div className="progress"><CircularProgress /></div>}
                 <div className="articles__body" style = {{opacity: setOpacity}}>
-                <PagesDescription postCount = {data.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
+                <PagesDescription postCount = {postsArr.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
                     <Content blogPage = {blogPage} isPage = {'true'} />
                 </div>
             </div>

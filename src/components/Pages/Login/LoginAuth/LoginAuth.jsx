@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
-/* import './Login.css' */
 
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
@@ -15,12 +13,16 @@ import Input from '@mui/material/Input';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Fab from '@mui/material/Fab';
 import Button from '@mui/material/Button';
-
+import { Context } from '../../../../state';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 
 const LoginAuth = () => {
+
+    const { postsState, dispatchPosts } = useContext(Context)
+    const { posts, isLogin } = postsState;
+    const {authorized} = isLogin;
 
     const [values, setValues] = React.useState({
         username: '',
@@ -45,6 +47,21 @@ const LoginAuth = () => {
         event.preventDefault();
     };
 
+    const formSubmit = (event) => {
+        event.preventDefault();
+        console.log(postsState)
+        dispatchPosts({
+            type: 'isLogin',
+            payload: {
+                authorized: true,
+                userName: values.username,
+            }
+        })
+        localStorage.setItem('authorized', true)
+        localStorage.setItem('userName',values.username)
+        console.log(postsState)
+    }
+
     return (
         <>
             <div className="login-window__top">
@@ -55,7 +72,7 @@ const LoginAuth = () => {
                 </div>
                 <div className="login-window__top-title">Авторизация</div>
             </div>
-            <form action='#' className="login-window__form">
+            <form action='#' className="login-window__form" onSubmit={formSubmit}>
                 <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
                     <InputLabel htmlFor="standard-adornment-username">Имя пользователя</InputLabel>
                     <Input
@@ -96,7 +113,7 @@ const LoginAuth = () => {
                     />
                 </FormControl>
                 <FormControl sx={{ m: 1, width: '100%', marginTop: '30px' }} variant="standard">
-                    <Button variant="contained">Войти</Button>
+                    <Button variant="contained" type='submit'>Войти</Button>
                 </FormControl>
 
             </form>

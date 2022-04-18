@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Context } from '../../state';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -24,6 +25,7 @@ import Modal from '@mui/material/Modal';
 import Login from './../Pages/Login/Login';
 import HeaderMenu from './HeaderMenu/HeaderMenu';
 import HeaderMenuBurger from './HeaderMenuBurger/HeaderMenuBurger';
+import { Logout } from '@mui/icons-material';
 
 const settings = ['Profile', 'Logout'];
 
@@ -32,7 +34,11 @@ const ResponsiveAppBar = () => {
     const handleModalOpen = () => setModalOpen(true);
     const handleModalClose = () => setModalOpen(false);
 
-    const [isLogin, setIsLogin] = React.useState(false)
+    const { postsState, dispatchPosts } = useContext(Context)
+    const { posts, isLogin } = postsState;
+    const {authorized, userName} = isLogin;
+
+    
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -52,6 +58,18 @@ const ResponsiveAppBar = () => {
         setAnchorElUser(null);
     };
 
+    const logOut = () => {
+        localStorage.setItem('authorized', false)
+        localStorage.setItem('userName','')
+        dispatchPosts({
+            type: 'isLogin',
+            payload: {
+                authorized: false,
+                userName: '',
+            }
+        })
+    }
+
     const style = {
         position: 'absolute',
         top: '50%',
@@ -66,7 +84,7 @@ const ResponsiveAppBar = () => {
 
     return (
         <>
-            <AppBar position="static" className='header' sx={{ top: 'auto', bottom: 0 }}>
+            <AppBar position="sticky" className='header' sx={{ top: 'auto', bottom: 0}}>
                 <div className='container'>
                     <div className="header__body">
                         <Toolbar disableGutters>
@@ -92,8 +110,9 @@ const ResponsiveAppBar = () => {
 
                             <HeaderMenu handleCloseNavMenu={handleCloseNavMenu} />
 
-                            {isLogin ? //Кнопка справа
+                            {authorized ? //Кнопка справа
                                 <Box sx={{ flexGrow: 0 }}>
+                                    <Button sx={{color: '#ffff', mr: '14px'}} variant="text">{userName}</Button>
                                     <Tooltip title="Дополнительно">
                                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                             <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -118,7 +137,10 @@ const ResponsiveAppBar = () => {
                                         <MenuItem key={'profile'} onClick={handleCloseUserMenu}>
                                             <Typography textAlign="center">Профиль</Typography>
                                         </MenuItem>
-                                        <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
+                                        <MenuItem key={'logout'} onClick={() => {
+                                            handleCloseUserMenu()
+                                            logOut()
+                                        }}>
                                             <Typography textAlign="center">Выйти</Typography>
                                         </MenuItem>
                                     </Menu>

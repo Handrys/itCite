@@ -6,7 +6,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import axios from "axios";
 import CircularProgress from '@mui/material/CircularProgress';
 import {Context} from '../../../state'
-import { RepeatOneSharp } from "@mui/icons-material";
+import { useGetPosts } from './../../../shared/queries';
+
 
 
 
@@ -19,17 +20,21 @@ const [categoryDescription, setCategoryDescription] = React.useState('Главн
 const postWidth = '30%'
 
 const { postsState, dispatchPosts } = useContext(Context)
-const { data, isPending } = postsState;
+const { posts, isLogin } = postsState;
+const { postsArr, isPending } = posts;
 
-const setOpacity = isPending ? 0.5 : 1
+/* const { status, isLoading, data:dataArr, error, isFetching } = useGetPosts(blogPage); */
+const { status, isLoading, error, data:dataArr, isFetching } = useGetPosts(blogPage);
+
+const setOpacity = isFetching? 0.5 : 1
 
 
     return ( 
         <div className="news page" >
             <div className="container">
-                {isPending &&  <div className="progress"><CircularProgress /></div>}
+            {isFetching &&  <div className="progress"><CircularProgress /></div>}
                 <div className="news__body" style = {{opacity: setOpacity}} >
-                <PagesDescription postCount = {data.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
+                <PagesDescription postCount = {postsArr.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
                 <Content blogPage = {'news'} isPage = {'true'} />
                 </div>
             </div>

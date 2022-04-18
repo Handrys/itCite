@@ -8,26 +8,24 @@ import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import axios from 'axios';
 import Modal from '@mui/material/Modal';
-import {
-    Link,
-    NavLink
-} from "react-router-dom";
-import { Context } from '../../../state'
+import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
+import { Context } from './../../../state/context'
 import PostMenuDialog from './Post/PostMenuDialog/PostMenuDialog';
 import Dialog from '@mui/material/Dialog';
 import PostMenuDialogStatus from './Post/PostMenuDialog/PostMenuDialogStatus/PostMenuDialogStatus';
+import { useGetPosts, useDeletePost } from './../../../shared/queries';
 
 
 
-const PostList = ({ blogPage }) => {
+const PostList = ({ blogPage, isPage }) => {
 
-    const { blogState } = useContext(Context)
 
     const { postsState, dispatchPosts } = useContext(Context)
-    const { data, isPending } = postsState;
+    const { posts, islogin } = postsState;
+    const { postsArr, isPending } = posts;
 
     const [isDeleted, setIsDeleted] = useState(false)
-    const postDeleted = () => {}
+    const postDeleted = () => { }
 
     const [dialogStatusOpen, setDialogStatusOpen] = React.useState(false);
     const handleDialogStatusOpen = () => setDialogStatusOpen(true);
@@ -37,51 +35,29 @@ const PostList = ({ blogPage }) => {
     const handleDialogStatusTypeTrue = () => setDialogStatusType(true);
     const handleDialogStatusTypeFalse = () => setDialogStatusType(false);
 
-    const fetchPosts = () => {
+    const { status, isLoading, data: dataArr, error, isFetching, refetch } = useGetPosts(blogPage);
+    const deleteMutation = useDeletePost();
 
-        console.log(blogPage)
-        dispatchPosts({ type: 'loading', payload: true })
-        axios.get(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${blogPage}`)
-            .then((response) => {
-                console.log('Посты получены!')
-                dispatchPosts({ type: 'loading', payload: false })
-                dispatchPosts({
-                    type: 'addPost',
-                    payload: response.data,
-                })
-                console.log(response.data)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }
-    useEffect(() => {
-        fetchPosts()
-    }, []);
+
+    if (isLoading) return null
 
     const deletePost = (blogPost) => {
-        
-            /* console.log(blogPost.id) */
-            axios.delete(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${blogPost.category}/${blogPost.id}`)
-                .then((response) => {
-                    console.log('post delete', response.data)
-                    handleDialogStatusTypeTrue()
-                    handleDialogStatusOpen()
-                    fetchPosts()
-                })
-                .catch((err) => {
-                    console.log(err)
-                    handleDialogStatusTypeFalse()
-                    handleDialogStatusOpen()
-                })
-            
+        console.log(blogPost.id)
+        deleteMutation.mutateAsync({blogPage,blogPost})
+            .then(() => {
+                refetch();
+                handleDialogStatusTypeTrue();
+                handleDialogStatusOpen();
+            })
+            .catch((err) => {
+                handleDialogStatusTypeFalse()
+                handleDialogStatusOpen()
+            })
 
-                
-        
-    } 
+    };
 
 
-    const posts = data.map((item, pos) => {
+    const allPosts = postsArr.map((item, pos) => {
         return (
             <Post
                 key={pos}
@@ -93,12 +69,29 @@ const PostList = ({ blogPage }) => {
                 publish_date={item.publish_date}
                 deletePost={() => deletePost(item)}
                 category={item.category}
-
+                blogPage={blogPage}
 
 
             />
         )
     })
+
+    const presentPosts = postsArr.slice(0, 3).map((item, pos) => {
+        return (
+            <Post
+                key={pos}
+                id={pos}
+                item={item}
+                title={item.title}
+                image={item.image}
+                author={item.author}
+                publish_date={item.publish_date}
+                /*  deletePost={() => deletePost(item)} */
+                category={item.category}
+            />
+        )
+    })
+
 
     return (
         <>
@@ -111,28 +104,26 @@ const PostList = ({ blogPage }) => {
 
 
             </div>
-            {/*             <div className="reduser-list">
-                {blogState.map((item,pos) => {
-
-                })}
-            </div> */}
-            <div className="post-list">
-
-                {posts}
-
-            </div>
-            
+            {isPage === 'true' ?
+                <div className="post-list">
+                    {allPosts}
+                </div>
+                :
+                <div className="post-list">
+                    {presentPosts}
+                </div>
+            }
             <Dialog
                 open={dialogStatusOpen}
                 onClose={handleDialogStatusClose}
-                dialogType = {dialogStatusType}
+                dialogType={dialogStatusType}
             >
                 <PostMenuDialogStatus
                     open={dialogStatusOpen}
                     onClose={handleDialogStatusClose}
-                    dialogType = {dialogStatusType}
+                    dialogType={dialogStatusType}
                 />
-            </Dialog> 
+            </Dialog>
         </>
 
     );
@@ -140,4 +131,3 @@ const PostList = ({ blogPage }) => {
 
 export default PostList
 
-//Сделать проверку.В зависимости от того что в пропсах - берем данные или из одного файла или из другого УСЛОВНЫЙ РЕНДЕРИНГ
