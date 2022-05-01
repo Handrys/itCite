@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
+import { Context } from '../../../../../state/context';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,6 +14,10 @@ export default function PostMenu(props) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    const { state, dispatch } = useContext(Context)
+    const { dialog } = state;
+    const { isOpen, variant } = dialog;
 
 
 
@@ -42,13 +47,26 @@ export default function PostMenu(props) {
                     horizontal: 'left',
                 }}
             >
-                <MenuItem onClick={handleClose}>Редактировать</MenuItem>
                 <MenuItem onClick={() => {
                     handleClose()
-                    /* props.deletePost() */
-                    props.handleDialogOpen()
+                    console.log(props.blogPost)
+                }}>Редактировать</MenuItem>
+                <MenuItem onClick={() => {
+                    handleClose()
+                    dispatch({
+                        type: 'isOpenDialog',
+                        payload: {
+                            isOpen: true,
+                            variant: 'deletePostDialog',
+                            propsDialog: {
+                                blogPost: props.blogPost,
+                                blogPage: props.blogPage
+                            }
+                        }
+                    })
                 }}>Удалить</MenuItem>
             </Menu>
         </div>
     );
 }
+

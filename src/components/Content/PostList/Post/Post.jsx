@@ -2,25 +2,27 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './Post.css';
 import PostMenu from './PostMenu/PostMenu';
-import PostMenuDialog from './PostMenuDialog/PostMenuDialog';
 import Dialog from '@mui/material/Dialog';
-import PostMenuDialogStatus from './PostMenuDialog/PostMenuDialogStatus/PostMenuDialogStatus';
 import { BrowserRouter, Routes, Route, Link, NavLink, useParams } from "react-router-dom";
 import NotFound from './../../../NotFound/NotFound';
 import axios from 'axios';
 import { Context } from '../../../../state';
+import CustomDialog from '../../../CustomDialog/CustomDialog';
+import DeletePostDialog from './../../../CustomDialog/DeletePostDialog/DeletePostDialog';
 
 export const Post = (props) => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
     const handleDialogOpen = () => setDialogOpen(true);
     const handleDialogClose = () => setDialogOpen(false);
 
-    const { postsState, dispatchPosts } = useContext(Context)
-    const { posts, islogin } = postsState;
+    const { state, dispatch } = useContext(Context)
+    const { posts, islogin, dialog } = state;
     const { data, isPending } = posts;
+    const { isOpen, variant, succes, answer } = dialog;
 
-
-
+    useEffect(() => {
+        if (variant === 'deletePostDialog' && answer === true ) {props.deletePost(props.item)}
+    },[succes]);
 
     /*  isDeleted ? handleDialogStatusOpen() : handleDialogStatusClose() */
     /*  props.isDeleted ? console.log('yes') : console.log('no') */
@@ -36,18 +38,18 @@ export const Post = (props) => {
                     <img src={props.image} alt="" />
 
                     <div className="post-more">
-                    <NavLink key={props.item.id} to={`/${props.blogPage}/post/${props.item.id}`}>
-                        Подробнее...
-                        
+                        <NavLink key={props.item.id} to={`/${props.blogPage}/post/${props.item.id}`}>
+                            Подробнее...
+
                         </NavLink>
                     </div>
-                
+
                     {/* <span>{props.category}</span> */}
                     <div className="delete-icon" /* onClick={deletePost} */>
                         <PostMenu
                             category={props.category}
                             blogPost={props.item}
-                            deletePost={props.deletePost}
+                            
                             dialogOpen={dialogOpen}
                             handleDialogOpen={handleDialogOpen}
                             handleDialogClose={handleDialogClose}
@@ -69,23 +71,8 @@ export const Post = (props) => {
                     </div>
                 </div>
 
-                <Dialog
-                    open={dialogOpen}
-                    onClose={handleDialogClose}
-                >
-                    <PostMenuDialog
-                        open={dialogOpen}
-                        onClose={handleDialogClose}
-                        blogPost={props.item}
-                        deletePost={props.deletePost}
-
-
-                    />
-                </Dialog>
-
-
+                    
             </div>
-
         </React.Fragment>);
 }
 

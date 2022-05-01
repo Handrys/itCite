@@ -12,8 +12,8 @@ const Reviews = () => {
     const [categoryDescription, setCategoryDescription] = React.useState('Смотрим на актуальные гаджеты и не только. Предлагаем вашему вниманию честное и качественное мнение.')
     const [blogPage, setBlogPage] = React.useState('reviews')
 
-    const { postsState, dispatchPosts } = useContext(Context)
-    const { posts, islogin } = postsState;
+    const { state, dispatch } = useContext(Context)
+    const { posts, islogin } = state;
     const { postsArr, isPending } = posts;
     
     const { status, isLoading, error, data:dataArr, isFetching } = useGetPosts(blogPage);

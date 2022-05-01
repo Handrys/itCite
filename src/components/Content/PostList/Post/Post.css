@@ -18,17 +18,16 @@
 
 .post-more{
     display: none;
-    font-size: 16px;
     position: absolute;
     top: 50%;
     left: 50%;
     z-index: 3;
     transform: translateX(-50%);
-    color: #ffff;
 }
 
 .post-more a{
-    color: #fff;
+    color: rgb(180, 179, 179);
+    font-size: 18px;
 }
 
 

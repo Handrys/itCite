@@ -1,0 +1,48 @@
+           -----------FullPost------------
+ /*     useEffect(() => {
+            if (postId){
+            axios.get(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${pages}/${postId}`)
+                .then((response) => {
+                    console.log(response.data)
+                    setFullPost(response.data)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            }
+       }, [postId]); */
+
+
+
+
+
+	-------------PostList--------
+
+    /*     dispatchPosts({
+            type: 'addPost',
+            payload: dataArr,
+        }) */
+    /*  dataArr.map((item) => console.log(item))  */
+    /* const fetchPosts = () => {
+
+        console.log(blogPage)
+
+        dispatchPosts({ type: 'loading', payload: true })
+        axios.get(`https://61fe8fc6a58a4e00173c98db.mockapi.io/posts_${blogPage}`)
+            .then((response) => {
+                console.log('Посты получены!')
+                console.log(response.data)
+                dispatchPosts({ type: 'loading', payload: false })
+                dispatchPosts({
+                    type: 'addPost',
+                    payload: response.data,
+                })
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+    }
+    useEffect(() => {
+        fetchPosts()
+    }, []); */

@@ -1,6 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import { postsReducer } from './posts-reducer'
 import { userReducer } from './user-reducer'
+import { dialogReducer } from './dialog-reducer'
 
 const ADD_POST  = 'addPost'
 const DELETE_POST  = 'deletePost'
@@ -13,6 +14,6 @@ export function reducer(state, action) {
 
     state.posts = postsReducer(state.posts, action);
     state.isLogin = userReducer(state.isLogin, action); 
-    
+    state.dialog = dialogReducer(state.dialog, action); 
     return {...state}
 }

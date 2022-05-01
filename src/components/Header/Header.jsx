@@ -34,8 +34,8 @@ const ResponsiveAppBar = () => {
     const handleModalOpen = () => setModalOpen(true);
     const handleModalClose = () => setModalOpen(false);
 
-    const { postsState, dispatchPosts } = useContext(Context)
-    const { posts, isLogin } = postsState;
+    const { state, dispatch } = useContext(Context)
+    const { posts, isLogin } = state;
     const {authorized, userName} = isLogin;
 
     
@@ -61,7 +61,7 @@ const ResponsiveAppBar = () => {
     const logOut = () => {
         localStorage.setItem('authorized', false)
         localStorage.setItem('userName','')
-        dispatchPosts({
+        dispatch({
             type: 'isLogin',
             payload: {
                 authorized: false,

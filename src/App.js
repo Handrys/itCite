@@ -18,6 +18,7 @@ import { createContext } from 'react'
 import NotFound from './components/NotFound/NotFound';
 import { FullPost } from './components/Pages/FullPost/FullPost';
 import { useGetPosts } from './shared/queries';
+import Dialog from '@mui/material/Dialog';
 
 const App = () => {
 
@@ -32,26 +33,34 @@ const App = () => {
     isLogin : {
       authorized: localStorage.getItem('authorized') === 'true',
       userName: localStorage.getItem('userName')
+    },
+    dialog: {
+      isOpen: false,
+      variant: null,
+      succes: null,
+      answer: null,
+      select: '',
+      propsDialog: {}
     }
   }
 
 
-  const [postsState, dispatchPosts] = useReducer(reducer, init)
+  const [state, dispatch] = useReducer(reducer, init)
 
-
+console.log(state)
 
   return (
     <div className="App">
-      <Context.Provider value={{ postsState, dispatchPosts}}>
+      <Context.Provider value={{ state, dispatch}}>
         <Header style={{position: 'sticky'}} />
 
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route key = 'News' path="/News" element={<News />} />
-          <Route key = 'Articles' path="/Articles" element={<Articles />} />
-          <Route key = 'Reviews' path="/Reviews" element={<Reviews />} />
-          <Route key = 'AddPost' path='/AddPost' element={<AddPost />} />
-          <Route path='/:pages/post/:postId' element={<FullPost />} />
+          <Route exact key = 'News' path="/News" element={<News />} />
+          <Route exact  key = 'Articles' path="/Articles" element={<Articles />} />
+          <Route exact key = 'Reviews' path="/Reviews" element={<Reviews />} />
+          <Route exact key = 'AddPost' path='/AddPost' element={<AddPost />} />
+          <Route exact path='/:blogPage/post/:postId' element={<FullPost />} />
          {/*  <Route path='/:News/post/:postId' element={<FullPost />} /> */}
 
           <Route path='*' element={<NotFound />} />

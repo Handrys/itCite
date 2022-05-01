@@ -19,8 +19,8 @@ const [categoryTitle, setCategoryTitle] = React.useState('Новости')
 const [categoryDescription, setCategoryDescription] = React.useState('Главные события вокруг российской и мировой IT-индустрии. Только свежая и ценная информация.')
 const postWidth = '30%'
 
-const { postsState, dispatchPosts } = useContext(Context)
-const { posts, isLogin } = postsState;
+const { state, dispatch } = useContext(Context)
+const { posts, isLogin } = state;
 const { postsArr, isPending } = posts;
 
 /* const { status, isLoading, data:dataArr, error, isFetching } = useGetPosts(blogPage); */

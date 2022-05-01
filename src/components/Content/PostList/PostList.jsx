@@ -10,48 +10,43 @@ import axios from 'axios';
 import Modal from '@mui/material/Modal';
 import { BrowserRouter, Routes, Route, Link, NavLink } from "react-router-dom";
 import { Context } from './../../../state/context'
-import PostMenuDialog from './Post/PostMenuDialog/PostMenuDialog';
 import Dialog from '@mui/material/Dialog';
-import PostMenuDialogStatus from './Post/PostMenuDialog/PostMenuDialogStatus/PostMenuDialogStatus';
 import { useGetPosts, useDeletePost } from './../../../shared/queries';
+import CustomDialog from './../../CustomDialog/CustomDialog';
 
 
 
 const PostList = ({ blogPage, isPage }) => {
 
 
-    const { postsState, dispatchPosts } = useContext(Context)
-    const { posts, islogin } = postsState;
+    const { state, dispatch } = useContext(Context)
+    const { posts, islogin, dialog } = state;
     const { postsArr, isPending } = posts;
-
-    const [isDeleted, setIsDeleted] = useState(false)
-    const postDeleted = () => { }
-
-    const [dialogStatusOpen, setDialogStatusOpen] = React.useState(false);
-    const handleDialogStatusOpen = () => setDialogStatusOpen(true);
-    const handleDialogStatusClose = () => setDialogStatusOpen(false);
-
-    const [dialogStatusType, setDialogStatusType] = React.useState(false)
-    const handleDialogStatusTypeTrue = () => setDialogStatusType(true);
-    const handleDialogStatusTypeFalse = () => setDialogStatusType(false);
+    const { isOpen, variant, succes, answer, propsDialog } = dialog;
 
     const { status, isLoading, data: dataArr, error, isFetching, refetch } = useGetPosts(blogPage);
-    const deleteMutation = useDeletePost();
 
+    const [isFullpost, setIsFullpost] = React.useState(false)
+
+    const deleteMutation = useDeletePost(blogPage, isFullpost);
 
     if (isLoading) return null
 
     const deletePost = (blogPost) => {
-        console.log(blogPost.id)
-        deleteMutation.mutateAsync({blogPage,blogPost})
+        console.log(blogPost)
+        deleteMutation.mutateAsync({ blogPage, blogPost })
             .then(() => {
                 refetch();
-                handleDialogStatusTypeTrue();
-                handleDialogStatusOpen();
+                dispatch({
+                    type: 'isOpenDialog',
+                    payload: { isOpen: true, variant: 'deletePostStatusDialog', succes: 'true' },
+                })
             })
-            .catch((err) => {
-                handleDialogStatusTypeFalse()
-                handleDialogStatusOpen()
+            .catch(() => {
+                dispatch({
+                    type: 'isOpenDialog',
+                    payload: { isOpen: true, variant: 'deletePostStatusDialog', succes: 'false' },
+                })
             })
 
     };
@@ -67,7 +62,7 @@ const PostList = ({ blogPage, isPage }) => {
                 image={item.image}
                 author={item.author}
                 publish_date={item.publish_date}
-                deletePost={() => deletePost(item)}
+                deletePost={deletePost}
                 category={item.category}
                 blogPage={blogPage}
 
@@ -88,6 +83,7 @@ const PostList = ({ blogPage, isPage }) => {
                 publish_date={item.publish_date}
                 /*  deletePost={() => deletePost(item)} */
                 category={item.category}
+                blogPage={blogPage}
             />
         )
     })
@@ -113,17 +109,7 @@ const PostList = ({ blogPage, isPage }) => {
                     {presentPosts}
                 </div>
             }
-            <Dialog
-                open={dialogStatusOpen}
-                onClose={handleDialogStatusClose}
-                dialogType={dialogStatusType}
-            >
-                <PostMenuDialogStatus
-                    open={dialogStatusOpen}
-                    onClose={handleDialogStatusClose}
-                    dialogType={dialogStatusType}
-                />
-            </Dialog>
+        <CustomDialog deletePost = {() => deletePost(propsDialog.blogPost)} />       
         </>
 
     );

@@ -24,11 +24,7 @@ import Dialog from '@mui/material/Dialog';
 import { NavLink } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import { useAddPost } from '../../../../shared/queries';
-
-
-
-
-
+import CustomDialog from '../../../CustomDialog/CustomDialog';
 
 
 
@@ -41,37 +37,50 @@ const AddPost = (props) => {
     const setOpacity = isPending ? 0.5 : 1
 
 
-    const { postsState, dispatchPosts } = useContext(Context)
+    const { state, dispatch } = useContext(Context)
 
+    const [dialogType, setDialogType] = useState(null)
 
-    const [dialogOpen, setDialogOpen] = React.useState(false);
-    const handleDialogOpen = () => setDialogOpen(true);
-    const handleDialogClose = () => setDialogOpen(false);
+    const goodDialogOpen = () =>  dispatch({
+        type: 'isOpenDialog',
+        payload: {
+            isOpen: true,
+            variant: 'AddPostStatusDialog',
+            succes: true
+        }
+    });
 
-    const [dialogType, setDialogType] = React.useState(false)
-    const handleDialogTypeTrue = () => setDialogType(true);
-    const handleDialogTypeFalse = () => setDialogType(false);
+    const badDialogOpen = () =>  dispatch({
+        type: 'isOpenDialog',
+        payload: {
+            isOpen: true,
+            variant: 'AddPostStatusDialog',
+            succes: false
+        }
+    });
 
     const addPostMutation = useAddPost();
 
     const [form, setForm] = React.useState({
         category: '',
+        categoryPresent: '',
         title: '',
         description: '',
         theme: ''
     })
     const update = (e) => {
-        /* console.log(form.theme) */
         setForm({
             ...form,
             [e.target.name]: e.target.value
         });
     };
 
-/*     const validate = () => {
-        let lemp = {}
-        temp.
+/*     const updateCategoryPresent = () => {
+        if (form.category === 'news') setForm({categoryPresent: 'Новости'})
+        if (form.category === 'reviews') setForm({categoryPresent: 'Обзоры'})
+        if (form.category === 'articles') setForm({categoryPresent: 'Статьи'})
     } */
+
 
     const [theme, setTheme] = React.useState('');
     const handleChangeTheme = (event, newTheme) => {
@@ -84,8 +93,9 @@ const AddPost = (props) => {
     const createPost = () => {
         setIsPending(true)
         const post = {
-            id: postsState.length + 1,
+            id: state.length + 1,
             category: form.category,
+            categoryPresent: form.categoryPresent,
             theme: form.theme,
             title: form.title,
             description: form.description,
@@ -102,14 +112,16 @@ const AddPost = (props) => {
             const postCategory = blogPost.category
             addPostMutation.mutateAsync({postCategory, blogPost})
             .then(() => {
-                handleDialogOpen()
-                handleDialogTypeTrue()
+                setDialogType(true)
+                goodDialogOpen()
                 setIsPending(false)
+
             })
             .catch((err) => {
-                handleDialogOpen()
-                handleDialogTypeFalse()
+                setDialogType(false)
+                badDialogOpen()
                 setIsPending(false)
+
             })
     }
 
@@ -125,6 +137,7 @@ const AddPost = (props) => {
     };
 
     return (
+        <>
         <div className='add-post'>
             <div className="container">
                 <div className="add-post__body">
@@ -151,7 +164,7 @@ const AddPost = (props) => {
                                     <TextField id="post-name" label="Название поста" variant="outlined" required style={{ width: '100%' }} onChange={update} value={form.title} name='title' />
                                 </FormControl>
                                 <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
-                                    <TextField id="post-text" label="Описание" variant="outlined" required multiline rows={7} style={{ width: '100%' }} onChange={update} value={form.description} name='description' />
+                                    <TextField id="post-text" label="Описание" variant="outlined" required multiline rows={10} style={{ width: '100%' }} onChange={update} value={form.description} name='description' />
                                 </FormControl>
                                 <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
                                     <TextField id="select" label="Раздел:" value={form.category} select style={{ width: '100%' }} onChange={update} name='category'>
@@ -184,7 +197,7 @@ const AddPost = (props) => {
                                             Добавить пост
                                         </Button>
                                 </div>
-                                <Dialog
+ {/*                                <Dialog
                                     dialogType={dialogType}
                                     open={dialogOpen}
                                     onClose={handleDialogClose}
@@ -197,14 +210,17 @@ const AddPost = (props) => {
                                         aria-describedby="modal-modal-description"
                                         pages = {form.category}
                                     />
-                                </Dialog>
+                                </Dialog> */}
+                        
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
 
+                </div>
+            </div>                  
         </div>
+        <CustomDialog />  
+        </>
     );
 }
 

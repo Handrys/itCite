@@ -2,16 +2,18 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { useQuery, useQueryClient, useMutation } from "react-query";
 import axios from "axios";
 import { Context } from '../state';
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 const postsUrl = 'https://61fe8fc6a58a4e00173c98db.mockapi.io/posts'
 
 
 export const useGetPosts = (blogPage) => {
-    const { postsState, dispatchPosts } = useContext(Context)
+    const { state, dispatch } = useContext(Context)
     return useQuery('postsArr', () => {
         return axios.get(`${postsUrl}_${blogPage}`)
             .then((res) => {
-                dispatchPosts({
+                dispatch({
                     type: 'addPost',
                     payload: res.data,
                 })
@@ -27,10 +29,10 @@ export const useGetPosts = (blogPage) => {
 
 
 
-export const useGetSinglePost = (pages, postId) => {
+export const useGetSinglePost = (blogPage, postId) => {
 
     return useQuery('post', () => {
-        return axios.get(`${postsUrl}_${pages}/${postId}`)
+        return axios.get(`${postsUrl}_${blogPage}/${postId}`)
             .then((res) => {
                 return res.data
             })
@@ -45,8 +47,9 @@ export const useGetSinglePost = (pages, postId) => {
 
 
 
-export const useDeletePost = () => {
+export const useDeletePost = (blogPage,isFullpost) => {
     const queryClient = useQueryClient();
+    const history = useNavigate()
     return useMutation(
         ({ blogPage, blogPost }) => {
             return axios.delete(`${postsUrl}_${blogPage}/${blogPost.id}`)
@@ -56,6 +59,7 @@ export const useDeletePost = () => {
                 })
         }, {
         onSuccess: (data) => {
+            if (isFullpost) history(`/${blogPage}`)
             queryClient.invalidateQueries('posts');
         },
         onError: (error) => {
