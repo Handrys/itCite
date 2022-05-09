@@ -1,0 +1,86 @@
+.avatar{
+    width: 35%;
+    height: 100%;
+    position: relative;
+}
+.avatar img{
+    position: absolute;
+    top:0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    /* object-fit: cover; */
+    border-radius: 15px;
+}
+
+.info{
+    margin-left: 16px;
+    width: 50%;
+    
+}
+
+.info__name{
+    
+}
+.info__firstName{
+    font-size: 26px;
+    font-family: 'Roboto Flex', sans-serif;
+    font-weight: 700;
+}
+.info__lastName{
+    font-size: 26px;
+    font-family: 'Roboto Flex', sans-serif;
+    font-weight: 700;
+}
+
+.info__userName{
+    color: rgb(168, 161, 161);
+}
+
+.info__status{
+    margin-top: 20px;
+}
+
+.info__statusAccount{}
+.statusAccount__title{}
+.statusAccount__condition{
+    /* background: #66BB6A; */
+    background-color: #1976d2;
+}
+
+.info__statusRole{}
+.statusRole__title{}
+.statusRole__condition{
+    /* background: #dddf4d; */
+    background-color: #f8c223;
+}
+
+.info__statusElement{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 14px 0;
+}
+.status__title{
+    font-size: 22px;
+    font-weight: 500;
+    color: rgb(92, 92, 92);
+    font-style: italic;
+}
+
+.status__title span{
+    font-size: 12px;
+    color: grey;
+    line-height: 12px;
+}
+.status__condition{
+    color: #ffff;
+    font-size: 18px;
+    font-style: italic;
+    padding: 7px 16px;  
+    border-radius: 100px;
+    margin-left: 5px;
+    box-shadow: 2px 2px 4px rgb(178, 179, 178);
+    cursor: pointer;
+    /* width: 130px;text-align: center; */
+}

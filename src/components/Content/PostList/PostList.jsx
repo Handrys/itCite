@@ -30,6 +30,8 @@ const PostList = ({ blogPage, isPage }) => {
 
     const deleteMutation = useDeletePost(blogPage, isFullpost);
 
+
+
     if (isLoading) return null
 
     const deletePost = (blogPost) => {

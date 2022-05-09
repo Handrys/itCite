@@ -6,6 +6,7 @@ import DeletePostStatusDialog from './DeletePostStatusDialog/DeletePostStatusDia
 import { useDeletePost } from './../../shared/queries';
 import { useGetPosts } from './../../shared/queries';
 import AddPostStatusDialog from './AddPostStatusDialog/AddPostStatusDialog';
+import EditPostStatusDialog from './EditPostStatusDialog/EditPostStatusDialog';
 
 const CustomDialog = (props) => {
 
@@ -66,6 +67,14 @@ const CustomDialog = (props) => {
             {
                 variant === 'AddPostStatusDialog' &&
                     <AddPostStatusDialog
+                        open={isOpen}
+                        onClose={handleDialogClose}
+                        dialogType = {succes}
+                    />
+            }
+            {
+                variant === 'EditPostStatusDialog' &&
+                    <EditPostStatusDialog
                         open={isOpen}
                         onClose={handleDialogClose}
                         dialogType = {succes}

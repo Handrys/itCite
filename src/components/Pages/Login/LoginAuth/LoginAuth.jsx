@@ -20,8 +20,8 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
 const LoginAuth = () => {
 
-    const { postsState, dispatchPosts } = useContext(Context)
-    const { posts, isLogin } = postsState;
+    const { state, dispatch } = useContext(Context)
+    const { posts, isLogin } = state;
     const {authorized} = isLogin;
 
     const [values, setValues] = React.useState({
@@ -49,8 +49,8 @@ const LoginAuth = () => {
 
     const formSubmit = (event) => {
         event.preventDefault();
-        console.log(postsState)
-        dispatchPosts({
+        console.log(state)
+        dispatch({
             type: 'isLogin',
             payload: {
                 authorized: true,
@@ -59,7 +59,7 @@ const LoginAuth = () => {
         })
         localStorage.setItem('authorized', true)
         localStorage.setItem('userName',values.username)
-        console.log(postsState)
+        console.log(state)
     }
 
     return (

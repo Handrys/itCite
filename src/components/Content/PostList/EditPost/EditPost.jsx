@@ -13,46 +13,88 @@ import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-import './AddPost.css'
+import './EditPost.css'
 import axios from "axios";
 import { Context } from '../../../../state'
 import { InitialApp } from '../../../../state/context';
-import AddPostDialog from './AddPostDialog/AddPostDialog';
+
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
-import { useAddPost } from '../../../../shared/queries';
+import { useAddPost, useEditPost, useGetSinglePost } from '../../../../shared/queries';
 import CustomDialog from '../../../CustomDialog/CustomDialog';
 
-import { convertToRaw, EditorState } from 'draft-js';
+import { CompositeDecorator, ContentState, convertFromHTML, convertToRaw, EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import description from './Description.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToHTML } from 'draft-convert';
 import draftToHtml from 'draftjs-to-html';
+import { stateFromHTML } from 'draft-js-import-html';
+import htmlToDraft from 'html-to-draftjs';
 
 
 
 
 
-const AddPost = (props) => {
+const EditPost = (props) => {
 
     const [isPending, setIsPending] = React.useState(false);
 
     const setOpacity = isPending ? 0.5 : 1
 
+    const { blogPage, postId } = useParams();
 
     const { state, dispatch } = useContext(Context)
 
     const [dialogType, setDialogType] = useState(null)
 
+    const { status, isLoading, data: post, error, isFetching, refetch } = useGetSinglePost(blogPage, postId);
+
+
+    const editPostMutation = useEditPost(blogPage);
+
+
+    const editPost = () => {
+
+        const blogPost = {
+            id: post.id,
+            category: form.category,
+            categoryPresent: form.categoryPresent,
+            theme: form.theme,
+            title: form.title,
+            /* description: form.description, */
+            description: form.description,
+            image: "https://www.iphones.ru/wp-content/uploads/2021/09/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0-2021-09-07-%D0%B2-19.48.05.jpg",
+            publish_date: curTime,
+            author: "Программист Программистов"
+        }
+
+        editPostMutation.mutateAsync({ blogPage, blogPost })
+            .then(() => {
+                setDialogType(true)
+                goodDialogOpen()
+                setIsPending(false)
+
+            })
+            .catch((err) => {
+                setDialogType(false)
+                badDialogOpen()
+                setIsPending(false)
+
+            })
+    }
+
+
+
+
     const goodDialogOpen = () => dispatch({
         type: 'isOpenDialog',
         payload: {
             isOpen: true,
-            variant: 'AddPostStatusDialog',
+            variant: 'EditPostStatusDialog',
             succes: true
         }
     });
@@ -61,7 +103,7 @@ const AddPost = (props) => {
         type: 'isOpenDialog',
         payload: {
             isOpen: true,
-            variant: 'AddPostStatusDialog',
+            variant: 'EditPostStatusDialog',
             succes: false
         }
     });
@@ -69,12 +111,14 @@ const AddPost = (props) => {
     const addPostMutation = useAddPost();
 
     const [form, setForm] = React.useState({
-        category: '',
-        categoryPresent: '',
-        title: '',
-        description: '',
-        theme: ''
+        category: post.category,
+        categoryPresent: post.categoryPresent,
+        title: post.title,
+        description: post.description,
+        theme: post.theme
     })
+
+
     const update = (e) => {
         setForm({
             ...form,
@@ -89,13 +133,28 @@ const AddPost = (props) => {
 
     const curTime = new Date().toLocaleString();
 
-    const [editorState, setEditorState] = useState(
-        () => EditorState.createEmpty())
+   /*  const descriptionNice = EditorState.createWithContent(stateFromHTML(form.description)) */
 
-    const [convertedContent, setConvertedContent] = useState('')
+
+
+    const blocksFromHTML = convertFromHTML(post.description);
+
+
+    const blocksFromHtml = htmlToDraft(post.description);
+    const { contentBlocks, entityMap } = blocksFromHtml;
+    const contentState = ContentState.createFromBlockArray(contentBlocks, entityMap);
+    const newEditorState = EditorState.createWithContent(contentState);   
+
+   /*  setEditorState(newEditorState) */
+   const [editorState, setEditorState] = useState(
+    () => EditorState.createEmpty())
+
+    useEffect(() => {
+        setEditorState(newEditorState)
+      },[]);
 
     const handleEditorChange = (state) => {
-        setEditorState(state);
+        setEditorState(state)
         setForm({
             ...form,
             description: draftToHtml(convertToRaw(state.getCurrentContent()))
@@ -103,41 +162,6 @@ const AddPost = (props) => {
     }
 
 
-    const createPost = () => {
-        setIsPending(true)
-        const post = {
-            id: state.length + 1,
-            category: form.category,
-            categoryPresent: form.categoryPresent,
-            theme: form.theme,
-            title: form.title,
-            /* description: form.description, */
-            description: form.description,
-            image: "https://www.iphones.ru/wp-content/uploads/2021/09/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0-2021-09-07-%D0%B2-19.48.05.jpg",
-            publish_date: curTime,
-            author: "Программист Программистов"
-        }
-        console.log(post)
-        addNewPost(post)
-
-    }
-
-    const addNewPost = (blogPost) => {
-        const postCategory = blogPost.category
-        addPostMutation.mutateAsync({ postCategory, blogPost })
-            .then(() => {
-                setDialogType(true)
-                goodDialogOpen()
-                setIsPending(false)
-
-            })
-            .catch((err) => {
-                setDialogType(false)
-                badDialogOpen()
-                setIsPending(false)
-
-            })
-    }
 
     const Input = styled('input')({
         display: 'none',
@@ -239,24 +263,10 @@ const convertContentToHTML = () => {
                                         </ToggleButtonGroup>
                                     </FormControl>
                                     <div className='button-enter'>
-                                        <Button variant="contained" style={{ width: '200px', height: '50px' }} onClick={() => { createPost() }} >
-                                            Добавить пост
+                                        <Button variant="contained" style={{ width: '200px', height: '50px' }} onClick={() => { editPost() }} >
+                                            Сохранить
                                         </Button>
                                     </div>
-                                    {/*                                <Dialog
-                                    dialogType={dialogType}
-                                    open={dialogOpen}
-                                    onClose={handleDialogClose}
-                                >
-                                    <AddPostDialog
-                                        dialogType={dialogType}
-                                        open={dialogOpen}
-                                        onClose={handleDialogClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        pages = {form.category}
-                                    />
-                                </Dialog> */}
 
                                 </div>
                             </form>
@@ -270,4 +280,4 @@ const convertContentToHTML = () => {
     );
 }
 
-export default AddPost;
+export default EditPost;

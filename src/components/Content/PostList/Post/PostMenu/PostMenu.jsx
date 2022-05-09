@@ -4,6 +4,7 @@ import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 export default function PostMenu(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -50,7 +51,11 @@ export default function PostMenu(props) {
                 <MenuItem onClick={() => {
                     handleClose()
                     console.log(props.blogPost)
-                }}>Редактировать</MenuItem>
+                }}>
+                    <NavLink style={{color: 'black'}} key={props.blogPost.id} to={`/${props.blogPage}/post/${props.blogPost.id}/edit`}>
+                        Редактировать
+                    </NavLink>
+                </MenuItem>
                 <MenuItem onClick={() => {
                     handleClose()
                     dispatch({

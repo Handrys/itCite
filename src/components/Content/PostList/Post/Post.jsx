@@ -49,7 +49,7 @@ export const Post = (props) => {
                         <PostMenu
                             category={props.category}
                             blogPost={props.item}
-                            
+                            blogPage={props.blogPage}
                             dialogOpen={dialogOpen}
                             handleDialogOpen={handleDialogOpen}
                             handleDialogClose={handleDialogClose}

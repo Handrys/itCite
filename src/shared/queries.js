@@ -47,7 +47,7 @@ export const useGetSinglePost = (blogPage, postId) => {
 
 
 
-export const useDeletePost = (blogPage,isFullpost) => {
+export const useDeletePost = (blogPage, isFullpost) => {
     const queryClient = useQueryClient();
     const history = useNavigate()
     return useMutation(
@@ -74,7 +74,7 @@ export const useAddPost = () => {
     const queryClient = useQueryClient();
 
     return useMutation(
-        ({postCategory, blogPost}) => {
+        ({ postCategory, blogPost }) => {
             return axios.post(`${postsUrl}_${postCategory}`, blogPost)
                 .then(res => res.data)
                 .catch(err => {
@@ -84,6 +84,27 @@ export const useAddPost = () => {
         onSuccess: (data) => {
             console.log('success', data);
             queryClient.invalidateQueries('posts');
+        },
+        onError: (error) => {
+            console.log(error)
+        },
+    }
+    )
+}
+
+export const useEditPost = (blogPage) => {
+    const queryClient = useQueryClient();
+    const history = useNavigate()
+    return useMutation(
+        ({blogPage, blogPost}) => {
+            return axios.put(`${postsUrl}_${blogPage}/${blogPost.id}`, blogPost)
+                .then(res => res.data)
+                .catch(err => {
+                    throw new Error(err)
+                })
+        }, {
+        onSuccess: (updatedPost) => {
+            /* history(`/${blogPage}`) */
         },
         onError: (error) => {
             console.log(error)

@@ -4,7 +4,7 @@ import React, { useState, useEffect, useContext, useCallback, useRef } from 'rea
 import s from './FullPost.module.css'
 import PostMenu from '../../Content/PostList/Post/PostMenu/PostMenu';
 import Dialog from '@mui/material/Dialog';
-import { BrowserRouter, Routes, Route, Link, useParams } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useParams, NavLink } from "react-router-dom";
 import axios from 'axios';
 import { Context } from '../../../state/context';
 import { useGetSinglePost, useDeletePost } from './../../../shared/queries';
@@ -32,7 +32,7 @@ import CustomDialog from './../../CustomDialog/CustomDialog';
 
 export const FullPost = (props) => {
 
-    const handleDialogOpen = () =>  dispatch({
+    const handleDialogOpen = () => dispatch({
         type: 'isOpenDialog',
         payload: {
             isOpen: true,
@@ -68,12 +68,12 @@ export const FullPost = (props) => {
             if (post.category === 'reviews') { setCategoryPresent('Обзоры') }
             if (post.category === 'articles') { setCategoryPresent('Статьи') }
 
-/*             if (post === undefined) history(`/*`) */
+            /*             if (post === undefined) history(`/*`) */
         }
     });
 
-    const deleteMutation = useDeletePost(blogPage,isFullpost);
-    
+    const deleteMutation = useDeletePost(blogPage, isFullpost);
+
     const deletePost = (blogPost) => {
 
         deleteMutation.mutateAsync({ blogPage, blogPost })
@@ -111,7 +111,7 @@ export const FullPost = (props) => {
         }
     };
 
- 
+
 
     return (
         <div className={s.fullpost}>
@@ -142,7 +142,9 @@ export const FullPost = (props) => {
                                     <div className={s.post__control}>
                                         <Stack direction="row" spacing={2}>
                                             <Button sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
+                                                <NavLink style={{color: '#1069a5'}} key={post.id} to={`/${blogPage}/post/${post.id}/edit`}>
                                                 Редактировать
+                                                </NavLink>
                                             </Button>
                                             <Button sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
                                                 Удалить
@@ -155,7 +157,9 @@ export const FullPost = (props) => {
 
                                 <div className={s.post__description}>
 
-                                    {post.description.split('\n').map(s => <p>{s}</p>)}
+                                    {/* {post.description.split('\n').map(s => <p>{s}</p>)} */}
+                                    {/*                                 {post.description} */}
+                                    <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
 
                                 </div>
 
@@ -200,7 +204,7 @@ export const FullPost = (props) => {
 
 
 
-                            <CustomDialog deletePost = {() => deletePost(post)} />      
+                            <CustomDialog deletePost={() => deletePost(post)} />
 
                         </div>
 

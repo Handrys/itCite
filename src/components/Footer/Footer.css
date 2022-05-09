@@ -1,6 +1,6 @@
 .footer{
-    background-color: #1069a5;
-    margin-top: 150px;
+    background-color: hsl(204, 82%, 35%);
+    /* margin-top: 150px; */
     padding: 40px 0;
     color: white;
 }

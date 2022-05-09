@@ -19,6 +19,8 @@ import NotFound from './components/NotFound/NotFound';
 import { FullPost } from './components/Pages/FullPost/FullPost';
 import { useGetPosts } from './shared/queries';
 import Dialog from '@mui/material/Dialog';
+import EditPost from './components/Content/PostList/EditPost/EditPost';
+import Profile from './components/Pages/Profile/Profile';
 
 const App = () => {
 
@@ -56,10 +58,12 @@ console.log(state)
 
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route exact key = 'Profile' path="/Profile" element={<Profile />} />
           <Route exact key = 'News' path="/News" element={<News />} />
           <Route exact  key = 'Articles' path="/Articles" element={<Articles />} />
           <Route exact key = 'Reviews' path="/Reviews" element={<Reviews />} />
           <Route exact key = 'AddPost' path='/AddPost' element={<AddPost />} />
+          <Route exact key = 'EditPost' path='/:blogPage/post/:postId/edit' element={<EditPost />} />
           <Route exact path='/:blogPage/post/:postId' element={<FullPost />} />
          {/*  <Route path='/:News/post/:postId' element={<FullPost />} /> */}
 
