@@ -7,7 +7,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 400px;
+    width: 420px;
     background-color: 'background.paper';
     border: '2px solid #000';
     box-shadow: 24;
@@ -25,7 +25,7 @@
     padding: 16px;
 }
 .login-window__content{
-    padding: 7px 35px 25px 35px;
+    padding: 7px 8% 25px 8%;
 }
 .login-change__elem{
    /*  width: 50%; */

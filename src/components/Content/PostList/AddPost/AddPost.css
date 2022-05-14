@@ -5,11 +5,14 @@
 .wrapper-class{
     border: 1px solid rgb(202, 196, 196);
 }
+.wrapper-class-error{
+    border: 1px solid rgb(196, 4, 4);
+}
 
 .editor-class{
     padding: 0px 16px;
     min-height: 500px;
-    overflow: scroll;
+
 }
 
 .add-post__form{

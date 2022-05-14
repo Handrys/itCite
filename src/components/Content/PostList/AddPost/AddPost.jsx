@@ -25,6 +25,7 @@ import { NavLink } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import { useAddPost } from '../../../../shared/queries';
 import CustomDialog from '../../../CustomDialog/CustomDialog';
+import FormHelperText from '@mui/material/FormHelperText';
 
 import { convertToRaw, EditorState } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
@@ -33,7 +34,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToHTML } from 'draft-convert';
 import draftToHtml from 'draftjs-to-html';
 
-
+/* import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator'; */
+import { useForm, Controller } from "react-hook-form";
 
 
 
@@ -75,14 +77,38 @@ const AddPost = (props) => {
         description: '',
         theme: ''
     })
+
+    /*     const [errors, setErrors] = React.useState({}) */
+
+
     const update = (e) => {
+        console.log(errors)
         setForm({
             ...form,
             [e.target.name]: e.target.value
         });
-    };
+    }
 
-    const [theme, setTheme] = React.useState('');
+
+    /*  const formValidator = (event) => {
+         const { target: { value, name } } = event;
+         const formTitle = /^[а-яa-z0-9_-]{6,24}$/
+         const formCategory = (value !== '')
+         console.log('job')
+         if (!formTitle.test(value) && name === 'title') {setErrors({title: true})} else {setErrors({title: false}) };
+         if (!formCategory && name === 'category') {setErrors({category: true})} else {setErrors({category: false}) };
+         
+     } */
+
+    /*    const [formValidate, setFormValidate] = React.useState({
+           title: /^[а-яa-z0-9_-]{6,24}$/,
+           category: form.category === '',
+       }) */
+
+
+
+
+    const [theme, setTheme] = React.useState('media');
     const handleChangeTheme = (event, newTheme) => {
         setTheme(newTheme);
     };
@@ -96,6 +122,8 @@ const AddPost = (props) => {
 
     const handleEditorChange = (state) => {
         setEditorState(state);
+        /*   console.log(editorState.getCurrentContent().hasText()) */
+        console.log(editorState.getCurrentContent().getPlainText().length)
         setForm({
             ...form,
             description: draftToHtml(convertToRaw(state.getCurrentContent()))
@@ -104,6 +132,8 @@ const AddPost = (props) => {
 
 
     const createPost = () => {
+        /* event.preventDefault(); */
+        console.log(errors)
         setIsPending(true)
         const post = {
             id: state.length + 1,
@@ -170,15 +200,27 @@ const convertContentToHTML = () => {
 
     /* draftToHtml(convertToRaw(state.getCurrentContent())) */
 
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isValid },
+        watch,
+        control
+    } = useForm({
+        mode: 'onSubmit',
+        /*         reValidateMode: 'onSubmit', */
+    });
+
 
     return (
         <>
+
             <div className='add-post'>
                 <div className="container">
                     <div className="add-post__body">
                         {isPending && <div className="progress"><CircularProgress /></div>}
                         <div className="add-post__form" style={{ opacity: setOpacity }}>
-                            <form>
+                            <form onSubmit={handleSubmit(createPost)}>
                                 <div className="form-top" >
                                     <div className="form-top__img">
                                         <img src={postImage} alt="" style={{ width: '100%' }} />
@@ -196,50 +238,74 @@ const convertContentToHTML = () => {
                                 <div className="form-content">
 
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
-                                        <TextField id="post-name" label="Название поста" variant="outlined" required style={{ width: '100%' }} onChange={update} value={form.title} name='title' />
+                                        <TextField  {...register('title', { required: true, onChange: (e) => { }, pattern: /^[а-яa-z0-9_-]{6,24}$/ })} id="post-name" label="Название поста" variant="outlined" style={{ width: '100%' }} onChange={update} value={form.title} name='title' error={errors.title} helperText={errors.title ? 'Обязательное поле. Название должно иметь от 6 до 24 символов.' : ''} />
                                     </FormControl>
-                                    {<FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
-                                        {/* <TextField id="post-text" label="Описание" variant="outlined" required multiline rows={10} style={{ width: '100%' }} onChange={update} value={form.description} name='description' /> */}
+                                    <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" aria-labelledby="form-description-label">
+                                        <TextField name='description'  /* sx={{display: 'none'}} */ error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} />
 
+                                        <Controller
+                                            name="DraftJS"
+                                            control={control}
+                                            render={({ value, onChange }) => {
+                                                return <Editor
+                                                {...register('description', { required: true })}
+                                                value={editorState.getCurrentContent().getPlainText()}
+                                                wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
+                                                editorClassName="editor-class"
+                                                toolbarClassName="toolbar-class"
+                                                error
+                                                editorState={editorState}
+                                                onEditorStateChange={handleEditorChange}
+                                            />
+                                            }}
+                                        />
                                         <Editor
-                                            name='description'
-                                            wrapperClassName="wrapper-class"
+                                            /* {...register('description', { required: true })} */
+                                            value={editorState.getCurrentContent().getPlainText()}
+                                            wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
                                             editorClassName="editor-class"
                                             toolbarClassName="toolbar-class"
+                                            error
                                             editorState={editorState}
                                             onEditorStateChange={handleEditorChange}
                                         />
-                                    </FormControl>}
+
+                                        <FormHelperText sx={{ color: '#d32f2f' }} id="form-description-label">{errors.description ? 'Обязательное поле. Описание должно иметь не менее 200 символов' : ''}</FormHelperText>
+                                    </FormControl>
 
 
-                                    <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
-                                        <TextField id="select" label="Раздел:" value={form.category} select style={{ width: '100%' }} onChange={update} name='category'>
+                                    <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" required>
+                                        <TextField {...register('category', { required: true })} id="select" label="Раздел:" value={form.category} select style={{ width: '100%' }} onChange={update} name='category' error={errors.category} helperText={errors.category ? 'Выберите один из вариантов' : ''}>
                                             <MenuItem value="news">Новости</MenuItem>
                                             <MenuItem value="articles">Статьи</MenuItem>
                                             <MenuItem value="reviews">Обзоры</MenuItem>
                                         </TextField>
                                     </FormControl>
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
-                                        <FormLabel id="demo-row-radio-buttons-group-label">Тематика</FormLabel>
+                                        <FormHelperText sx={{ color: '#d32f2f' }} id="demo-row-radio-buttons-group-label">{errors.theme ? 'Выберите один из вариантов' : ''}</FormHelperText>
                                         <ToggleButtonGroup
+                                            {...register('theme'/* , {required: true, minLength: 1} */)}
                                             aria-label="label"
                                             id='toggle-button'
+                                            aria-labelledby="demo-radio-buttons-group-label"
                                             color="primary"
-                                            name='theme'
-                                            value={theme}
+                                            value={form.theme}
+                                            onChange={update}
                                             exclusive
-                                            onChange={handleChangeTheme}
                                             sx={{ mt: 1 }}
+                                            name='theme'
+                                            error={errors.theme}
                                         >
-                                            <ToggleButton value="media">Медиа</ToggleButton>
-                                            <ToggleButton value="tehnology">Технологии</ToggleButton>
-                                            <ToggleButton value="sport">Спорт</ToggleButton>
-                                            <ToggleButton value="politics">Политика</ToggleButton>
-                                            <ToggleButton value="medical">Медицина</ToggleButton>
+                                            <ToggleButton name='theme' value="media">Медиа</ToggleButton>
+                                            <ToggleButton name='theme' value="tehnology">Технологии</ToggleButton>
+                                            <ToggleButton name='theme' value="sport">Спорт</ToggleButton>
+                                            <ToggleButton name='theme' value="politics">Политика</ToggleButton>
+                                            <ToggleButton name='theme' value="medical">Медицина</ToggleButton>
                                         </ToggleButtonGroup>
+
                                     </FormControl>
                                     <div className='button-enter'>
-                                        <Button variant="contained" style={{ width: '200px', height: '50px' }} onClick={() => { createPost() }} >
+                                        <Button /* disabled={!isValid} */ variant="contained" style={{ width: '200px', height: '50px' }} type='submit' /* onClick={() => { createPost() }} */ >
                                             Добавить пост
                                         </Button>
                                     </div>

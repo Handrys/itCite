@@ -53,8 +53,7 @@ const PostList = ({ blogPage, isPage }) => {
 
     };
 
-
-    const allPosts = postsArr.map((item, pos) => {
+    const allPosts = postsArr.reverse().map((item, pos) => {
         return (
             <Post
                 key={pos}
