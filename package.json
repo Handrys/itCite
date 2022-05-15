@@ -2,7 +2,7 @@
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://handrys.github.io/itCite/",
+  "homepage": "https://handrys.github.io/blog-it",
   "dependencies": {
     "@editorjs/editorjs": "^2.24.1",
     "@emotion/react": "^11.7.1",
