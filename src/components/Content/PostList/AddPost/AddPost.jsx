@@ -123,11 +123,14 @@ const AddPost = (props) => {
     const handleEditorChange = (state) => {
         setEditorState(state);
         /*   console.log(editorState.getCurrentContent().hasText()) */
-        console.log(editorState.getCurrentContent().getPlainText().length)
+        const descriptionText = editorState.getCurrentContent().getPlainText();
+        console.log(descriptionText)
+        setValue('description', descriptionText)
         setForm({
             ...form,
             description: draftToHtml(convertToRaw(state.getCurrentContent()))
         });
+        console.log(getValues('description'))
     }
 
 
@@ -204,11 +207,12 @@ const convertContentToHTML = () => {
         register,
         handleSubmit,
         formState: { errors, isValid },
+        setValue,
+        getValues,
         watch,
         control
     } = useForm({
-        mode: 'onSubmit',
-        /*         reValidateMode: 'onSubmit', */
+        mode: 'onChange',
     });
 
 
@@ -238,44 +242,75 @@ const convertContentToHTML = () => {
                                 <div className="form-content">
 
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
-                                        <TextField  {...register('title', { required: true, onChange: (e) => { }, pattern: /^[а-яa-z0-9_-]{6,24}$/ })} id="post-name" label="Название поста" variant="outlined" style={{ width: '100%' }} onChange={update} value={form.title} name='title' error={errors.title} helperText={errors.title ? 'Обязательное поле. Название должно иметь от 6 до 24 символов.' : ''} />
+                                        <TextField  {...register('title', { 
+                                            required: {
+                                                value: true,
+                                                message: 'Это обязательное поле*'
+                                            },
+                                            minLength: {
+                                                value: 12 ,
+                                                message: 'Название должно иметь от 12 до 80 символов'
+                                            },
+                                            maxLength: {
+                                                value: 80 ,
+                                                message: 'Название должно иметь от 12 до 80 символов'
+                                            }
+                                        })} 
+                                            id="post-name" label="Название поста" 
+                                            variant="outlined" style={{ width: '100%' }} 
+/*                                             onChange={update} 
+                                            value={form.title}  */
+                                            name='title' 
+                                            error={errors.title} helperText={errors.title ? errors.title.message : ''} />
                                     </FormControl>
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" aria-labelledby="form-description-label">
-                                        <TextField name='description'  /* sx={{display: 'none'}} */ error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} />
+                                       {/*  <TextField name='description'  error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} /> */}
 
                                         <Controller
-                                            name="DraftJS"
+                                            name="description"
                                             control={control}
+                                            rules = {{
+                                                required: {
+                                                    value: true,
+                                                    message: 'Это обязательное поле*'
+                                                },
+                                                minLength: {
+                                                    value: 200,
+                                                    message: 'Минимальная длинна 200 символов'
+                                                } 
+                                            }}
                                             render={({ value, onChange }) => {
                                                 return <Editor
                                                 {...register('description', { required: true })}
-                                                value={editorState.getCurrentContent().getPlainText()}
+                                                /* value={editorState.getCurrentContent().getPlainText()} */
                                                 wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
                                                 editorClassName="editor-class"
                                                 toolbarClassName="toolbar-class"
-                                                error
                                                 editorState={editorState}
                                                 onEditorStateChange={handleEditorChange}
+                                                name = 'description'
                                             />
                                             }}
                                         />
-                                        <Editor
-                                            /* {...register('description', { required: true })} */
-                                            value={editorState.getCurrentContent().getPlainText()}
-                                            wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
-                                            editorClassName="editor-class"
-                                            toolbarClassName="toolbar-class"
-                                            error
-                                            editorState={editorState}
-                                            onEditorStateChange={handleEditorChange}
-                                        />
 
-                                        <FormHelperText sx={{ color: '#d32f2f' }} id="form-description-label">{errors.description ? 'Обязательное поле. Описание должно иметь не менее 200 символов' : ''}</FormHelperText>
+                                        <FormHelperText sx={{ color: '#d32f2f' }} id="form-description-label">{errors.description ? errors.description.message : ''}</FormHelperText>
                                     </FormControl>
 
 
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" required>
-                                        <TextField {...register('category', { required: true })} id="select" label="Раздел:" value={form.category} select style={{ width: '100%' }} onChange={update} name='category' error={errors.category} helperText={errors.category ? 'Выберите один из вариантов' : ''}>
+                                        <TextField {...register('category', { 
+                                                required: true,
+                                                
+                                            })} 
+                                            id="select" 
+                                            label="Раздел:" 
+                                            /* value={form.category}  */
+                                            select 
+                                            style={{ width: '100%' }} 
+                                           /*  onChange={update}  */
+                                            name='category' 
+                                            error={errors.category} 
+                                            helperText={errors.category ? 'Выберите один из вариантов' : ''}>
                                             <MenuItem value="news">Новости</MenuItem>
                                             <MenuItem value="articles">Статьи</MenuItem>
                                             <MenuItem value="reviews">Обзоры</MenuItem>
@@ -284,7 +319,7 @@ const convertContentToHTML = () => {
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
                                         <FormHelperText sx={{ color: '#d32f2f' }} id="demo-row-radio-buttons-group-label">{errors.theme ? 'Выберите один из вариантов' : ''}</FormHelperText>
                                         <ToggleButtonGroup
-                                            {...register('theme'/* , {required: true, minLength: 1} */)}
+                                            {...register('theme', {required: true, minLength: 1})}
                                             aria-label="label"
                                             id='toggle-button'
                                             aria-labelledby="demo-radio-buttons-group-label"
@@ -309,20 +344,7 @@ const convertContentToHTML = () => {
                                             Добавить пост
                                         </Button>
                                     </div>
-                                    {/*                                <Dialog
-                                    dialogType={dialogType}
-                                    open={dialogOpen}
-                                    onClose={handleDialogClose}
-                                >
-                                    <AddPostDialog
-                                        dialogType={dialogType}
-                                        open={dialogOpen}
-                                        onClose={handleDialogClose}
-                                        aria-labelledby="modal-modal-title"
-                                        aria-describedby="modal-modal-description"
-                                        pages = {form.category}
-                                    />
-                                </Dialog> */}
+                    
 
                                 </div>
                             </form>

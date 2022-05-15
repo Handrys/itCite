@@ -16,13 +16,14 @@ export const Post = (props) => {
     const handleDialogClose = () => setDialogOpen(false);
 
     const { state, dispatch } = useContext(Context)
-    const { posts, islogin, dialog } = state;
+    const { posts, isLogin, dialog } = state;
     const { data, isPending } = posts;
     const { isOpen, variant, succes, answer } = dialog;
+    const { authorized } = isLogin;
 
     useEffect(() => {
-        if (variant === 'deletePostDialog' && answer === true ) {props.deletePost(props.item)}
-    },[succes]);
+        if (variant === 'deletePostDialog' && answer === true) { props.deletePost(props.item) }
+    }, [succes]);
 
     /*  isDeleted ? handleDialogStatusOpen() : handleDialogStatusClose() */
     /*  props.isDeleted ? console.log('yes') : console.log('no') */
@@ -45,16 +46,19 @@ export const Post = (props) => {
                     </div>
 
                     {/* <span>{props.category}</span> */}
-                    <div className="delete-icon" /* onClick={deletePost} */>
-                        <PostMenu
-                            category={props.category}
-                            blogPost={props.item}
-                            blogPage={props.blogPage}
-                            dialogOpen={dialogOpen}
-                            handleDialogOpen={handleDialogOpen}
-                            handleDialogClose={handleDialogClose}
-                        />
-                    </div>
+                    {authorized &&
+                        <div className="delete-icon" /* onClick={deletePost} */>
+                            <PostMenu
+                                category={props.category}
+                                blogPost={props.item}
+                                blogPage={props.blogPage}
+                                dialogOpen={dialogOpen}
+                                handleDialogOpen={handleDialogOpen}
+                                handleDialogClose={handleDialogClose}
+                            />
+                        </div>
+                    }
+
                 </div>
 
 
@@ -71,7 +75,7 @@ export const Post = (props) => {
                     </div>
                 </div>
 
-                    
+
             </div>
         </React.Fragment>);
 }

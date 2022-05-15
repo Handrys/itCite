@@ -18,8 +18,9 @@ export default function PostMenu(props) {
 
     const { state, dispatch } = useContext(Context)
     const { dialog } = state;
+    const { posts, isLogin } = state;
     const { isOpen, variant } = dialog;
-
+    const { authorized } = isLogin;
 
 
     return (
@@ -48,7 +49,9 @@ export default function PostMenu(props) {
                     horizontal: 'left',
                 }}
             >
-                <MenuItem onClick={() => {
+                <MenuItem 
+               /*  disabled = {!authorized} */
+                onClick={() => {
                     handleClose()
                     console.log(props.blogPost)
                 }}>
@@ -56,7 +59,9 @@ export default function PostMenu(props) {
                         Редактировать
                     </NavLink>
                 </MenuItem>
-                <MenuItem onClick={() => {
+                <MenuItem 
+                /* disabled = {!authorized} */
+                onClick={() => {
                     handleClose()
                     dispatch({
                         type: 'isOpenDialog',

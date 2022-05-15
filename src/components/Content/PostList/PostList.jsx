@@ -20,9 +20,10 @@ const PostList = ({ blogPage, isPage }) => {
 
 
     const { state, dispatch } = useContext(Context)
-    const { posts, islogin, dialog } = state;
+    const { posts, isLogin, dialog } = state;
     const { postsArr, isPending } = posts;
     const { isOpen, variant, succes, answer, propsDialog } = dialog;
+    const { authorized } = isLogin;
 
     const { status, isLoading, data: dataArr, error, isFetching, refetch } = useGetPosts(blogPage);
 
@@ -30,6 +31,7 @@ const PostList = ({ blogPage, isPage }) => {
 
     const deleteMutation = useDeletePost(blogPage, isFullpost);
 
+    console.log(authorized)
 
 
     if (isLoading) return null
@@ -92,15 +94,15 @@ const PostList = ({ blogPage, isPage }) => {
 
     return (
         <>
-            <div className="post-add-btn">
+            {authorized === true ? <div className="post-add-btn">
                 <NavLink to="/addpost" style={{ color: 'black' }}>
                     <Fab color="primary" aria-label="add">
                         <AddIcon />
                     </Fab>
                 </NavLink>
-
-
             </div>
+                : null
+            }
             {isPage === 'true' ?
                 <div className="post-list">
                     {allPosts}
@@ -110,7 +112,7 @@ const PostList = ({ blogPage, isPage }) => {
                     {presentPosts}
                 </div>
             }
-        <CustomDialog deletePost = {() => deletePost(propsDialog.blogPost)} />       
+            <CustomDialog deletePost={() => deletePost(propsDialog.blogPost)} />
         </>
 
     );

@@ -48,8 +48,8 @@ const LoginAuth = () => {
         event.preventDefault();
     };
 
-    const formSubmit = (event) => {
-        event.preventDefault();
+    const formSubmit = () => {
+        /* event.preventDefault(); */
         console.log(state)
         dispatch({
             type: 'isLogin',
@@ -86,7 +86,7 @@ const LoginAuth = () => {
                 </div>
                 <div className="login-window__top-title">Авторизация</div>
             </div>
-            <form onSubmit={e => handleSubmit(formSubmit(e))} action='#' className="login-window__form">
+            <form onSubmit={handleSubmit(formSubmit)} action='#' className="login-window__form">
             <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
                     <TextField
                         {...register('username', {

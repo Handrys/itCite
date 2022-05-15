@@ -46,8 +46,9 @@ export const FullPost = (props) => {
 
 
     const { state, dispatch } = useContext(Context)
-    const { posts, islogin } = state;
+    const { posts, isLogin } = state;
     const { data, isPending } = posts;
+    const { authorized } = isLogin;
 
     const [categoryPresent, setCategoryPresent] = React.useState('')
     const [isFullpost, setIsFullpost] = React.useState(true)
@@ -138,15 +139,15 @@ export const FullPost = (props) => {
                                             </div>
                                         </div>
                                     </div>
-                                    {/*                                     <span className={s.post__category}>{categoryPresent}</span> */}
+                                    {/* <span className={s.post__category}>{categoryPresent}</span> */}
                                     <div className={s.post__control}>
                                         <Stack direction="row" spacing={2}>
-                                            <Button sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
-                                                <NavLink style={{color: '#1069a5'}} key={post.id} to={`/${blogPage}/post/${post.id}/edit`}>
-                                                Редактировать
+                                            <Button disabled = {!authorized} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
+                                                <NavLink style={{ color: '#1069a5' }} key={post.id} to={`/${blogPage}/post/${post.id}/edit`}>
+                                                    Редактировать
                                                 </NavLink>
                                             </Button>
-                                            <Button sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
+                                            <Button disabled = {!authorized} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
                                                 Удалить
                                             </Button>
 
