@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/itCite/static/css/main.0f34eb3e.css",
+    "main.js": "/itCite/static/js/main.59334b5d.js",
+    "static/js/787.cfd8f164.chunk.js": "/itCite/static/js/787.cfd8f164.chunk.js",
+    "static/media/background.jpg": "/itCite/static/media/background.e0ede958e4c9a7618811.jpg",
+    "static/media/avatar.jpg": "/itCite/static/media/avatar.1dc9bedff296fa58d459.jpg",
+    "static/media/home.png": "/itCite/static/media/home.c9bc1dba86e594cafd54.png",
+    "static/media/profile-sad.png": "/itCite/static/media/profile-sad.15851973416dc830d37e.png",
+    "index.html": "/itCite/index.html",
+    "main.0f34eb3e.css.map": "/itCite/static/css/main.0f34eb3e.css.map",
+    "main.59334b5d.js.map": "/itCite/static/js/main.59334b5d.js.map",
+    "787.cfd8f164.chunk.js.map": "/itCite/static/js/787.cfd8f164.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.0f34eb3e.css",
+    "static/js/main.59334b5d.js"
+  ]
+}
