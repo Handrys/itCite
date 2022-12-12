@@ -9,7 +9,7 @@ const PagesDescription = (props) => {
                 <div className="pages-description__text">
                 {props.categoryDescription}
                 </div>
-                <div className="pages-description__value">{props.postCount} публикаций</div>
+                <div className="pages-description__value">{props.postsCount} публикаций</div>
 
             </div>
         </div>

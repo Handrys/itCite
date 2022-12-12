@@ -8,6 +8,8 @@
     display: flex;
     justify-content: space-between;
     position: relative;
+    background-color: #EAEAEA;
+    padding: 10px;
 }
 .top:after{
     position: absolute;
@@ -42,10 +44,40 @@
     position: relative;
     width: 100%;
     height: 100%;
+    padding: 12px;
+    margin-top: 22px;
+    overflow-y: scroll;
+
 }
 
+/* .content::-webkit-scrollbar-thumb{
+    background-color: rgba(54, 101, 230, 0.247);
+} */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: #5a77f7cb orange;
+  }
+  
+  /* Работает в Chrome, Edge и Safari */
+  .content::-webkit-scrollbar {
+    width: 14px;
+    margin: 10px 0;
+  }
+  
+  .content::-webkit-scrollbar-track {
+    background: rgb(214, 212, 212);
+
+  }
+  
+  .content::-webkit-scrollbar-thumb {
+    background-color: #5a77f7cb;
+    border-radius: 0px;
+    
+    
+  }
+
 .content__none{
-    width: 50%;
+    width: 60%;
     height: 40%;
     position: absolute;
     top: 40%;

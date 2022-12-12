@@ -25,31 +25,31 @@ export default function AddPostStatusDialog(props) {
                         </DialogContent>
                         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
                             {/*           <Button onClick={handleDialogClose}>Disagree</Button> */}
-                            <NavLink to={'/'/*  + props.pages */} >
-                                <Button onClick={props.onClose} autoFocus>
-                                    ОК
-                                </Button>
-                            </NavLink>
+
+                            <Button onClick={props.onClose} autoFocus>
+                                ОК
+                            </Button>
+
                         </DialogActions>
                     </Dialog>
                 </>
                 :
                 <>
-                <Dialog open={props.open}>
-                    <DialogTitle id="alert-dialog-title" sx={{ backgroundColor: 'red', color: '#ffff', padding: '10px', fontSize: '16px' }}>
-                        {"Создание поста"}
-                    </DialogTitle>
-                    <DialogContent>
-                        <DialogContentText id="alert-dialog-description" sx={{ paddingTop: '25px' }}>
-                            Ошибка! Пост не создан.
-                        </DialogContentText>
-                    </DialogContent>
-                    <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
-                        {/*           <Button onClick={handleDialogClose}>Disagree</Button> */}
-                        <Button onClick={props.onClose} autoFocus>
-                            ОК
-                        </Button>
-                    </DialogActions>
+                    <Dialog open={props.open}>
+                        <DialogTitle id="alert-dialog-title" sx={{ backgroundColor: 'red', color: '#ffff', padding: '10px', fontSize: '16px' }}>
+                            {"Создание поста"}
+                        </DialogTitle>
+                        <DialogContent>
+                            <DialogContentText id="alert-dialog-description" sx={{ paddingTop: '25px' }}>
+                                Ошибка! Пост не создан.
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
+                            {/*           <Button onClick={handleDialogClose}>Disagree</Button> */}
+                            <Button onClick={props.onClose} autoFocus>
+                                ОК
+                            </Button>
+                        </DialogActions>
                     </Dialog>
                 </>}
         </div>

@@ -7,12 +7,16 @@ import { useDeletePost } from './../../shared/queries';
 import { useGetPosts } from './../../shared/queries';
 import AddPostStatusDialog from './AddPostStatusDialog/AddPostStatusDialog';
 import EditPostStatusDialog from './EditPostStatusDialog/EditPostStatusDialog';
+import Auth from './Auth/Auth'
+import AuthSucces from './AuthSucces/AuthSucces'
+import DialogSucces from './DialogSucces/DialogSucces';
+import DialogError from './DialogError/DialogError';
 
 const CustomDialog = (props) => {
 
     const { state, dispatch } = useContext(Context)
     const { dialog } = state;
-    const { isOpen, variant, answer, succes, propsDialog } = dialog;
+    const { isOpen, variant, answer, succes, propsDialog, dialogTitle, dialogText } = dialog;
 
     const handleAnswerTrue = () => {
         dispatch({
@@ -52,34 +56,71 @@ const CustomDialog = (props) => {
                     blogPost={propsDialog.blogPost}
                     blogPage={propsDialog.blogPage}
                     deletePost={props.deletePost}
-                    handleAnswerFalse = {handleAnswerFalse}
-                    handleAnswerTrue = {handleAnswerTrue}
+                    handleAnswerFalse={handleAnswerFalse}
+                    handleAnswerTrue={handleAnswerTrue}
                 />
 
             }
             {
+                variant === 'Auth' &&
+                <Auth
+                    open={isOpen}
+                    onClose={handleDialogClose}
+                    
+                />
+            }
+
+            {
+                variant === 'succes' &&
+                <DialogSucces
+                    open={isOpen}
+                    onClose={handleDialogClose}
+                    dialogTitle={dialogTitle}
+                    dialogText={dialogText}
+                />
+            }
+            {
+                variant === 'error' &&
+                <DialogError
+                    open={isOpen}
+                    onClose={handleDialogClose}
+                    dialogTitle={dialogTitle}
+                    dialogText={dialogText}
+                />
+            }
+
+            {/*  {
                 variant === 'deletePostStatusDialog' &&
-                    <DeletePostStatusDialog
-                        open={isOpen}
-                        onClose={handleDialogClose}
-                    />
+                <DeletePostStatusDialog
+                    open={isOpen}
+                    onClose={handleDialogClose}
+                />
             }
             {
                 variant === 'AddPostStatusDialog' &&
-                    <AddPostStatusDialog
-                        open={isOpen}
-                        onClose={handleDialogClose}
-                        dialogType = {succes}
-                    />
+                <AddPostStatusDialog
+                    open={isOpen}
+                    onClose={handleDialogClose}
+                    dialogType={succes}
+                />
             }
             {
                 variant === 'EditPostStatusDialog' &&
-                    <EditPostStatusDialog
-                        open={isOpen}
-                        onClose={handleDialogClose}
-                        dialogType = {succes}
-                    />
+                <EditPostStatusDialog
+                    open={isOpen}
+                    onClose={handleDialogClose}
+                    dialogType={succes}
+                />
             }
+                        {
+                variant === 'AuthSucces' &&
+                <AuthSucces
+                    open={isOpen}
+                    onClose={handleDialogClose}
+                    dialogType={propsDialog}
+                />
+            }
+ */}
 
 
         </>

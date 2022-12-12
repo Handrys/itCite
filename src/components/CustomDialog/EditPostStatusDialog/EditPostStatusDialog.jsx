@@ -25,11 +25,11 @@ export default function EditPostStatusDialog(props) {
                         </DialogContent>
                         <DialogActions sx={{ display: 'flex', justifyContent: 'center' }}>
                             {/*           <Button onClick={handleDialogClose}>Disagree</Button> */}
-                            <NavLink to={'/'/*  + props.pages */} >
+                  
                                 <Button onClick={props.onClose} autoFocus>
                                     ОК
                                 </Button>
-                            </NavLink>
+                           
                         </DialogActions>
                     </Dialog>
                 </>

@@ -14,14 +14,14 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import './AddPost.css'
-import axios from "axios";
+import axios from '../../../../shared/axios'
 import { Context } from '../../../../state'
 import { InitialApp } from '../../../../state/context';
 import AddPostDialog from './AddPostDialog/AddPostDialog';
 import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 import { useAddPost } from '../../../../shared/queries';
 import CustomDialog from '../../../CustomDialog/CustomDialog';
@@ -41,21 +41,30 @@ import { useForm, Controller } from "react-hook-form";
 
 const AddPost = (props) => {
 
+    const navigate = useNavigate()
     const [isPending, setIsPending] = React.useState(false);
 
     const setOpacity = isPending ? 0.5 : 1
 
 
     const { state, dispatch } = useContext(Context)
+    const { posts, user } = state;
+    const { authorized, userData } = user;
 
     const [dialogType, setDialogType] = useState(null)
+
+
+
+    const curTime = new Date().toLocaleString();
+
 
     const goodDialogOpen = () => dispatch({
         type: 'isOpenDialog',
         payload: {
             isOpen: true,
-            variant: 'AddPostStatusDialog',
-            succes: true
+            variant: 'succes',
+            dialogTitle: 'Информация:',
+            dialogText:'Пост успешно создан!'
         }
     });
 
@@ -63,47 +72,38 @@ const AddPost = (props) => {
         type: 'isOpenDialog',
         payload: {
             isOpen: true,
-            variant: 'AddPostStatusDialog',
-            succes: false
+            variant: 'error',
+            dialogTitle: 'Ошибка',
+            dialogText:'При создании поста произошла ошибка!'
         }
     });
 
     const addPostMutation = useAddPost();
 
+
+
     const [form, setForm] = React.useState({
+        image: "http://localhost:4444/uploads/home.png",
+        author: '',
         category: '',
         categoryPresent: '',
         title: '',
         description: '',
-        theme: ''
+        /*  theme: '', */
     })
 
     /*     const [errors, setErrors] = React.useState({}) */
 
 
     const update = (e) => {
-        console.log(errors)
+    
         setForm({
             ...form,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
+            ['author']: userData
         });
     }
 
-
-    /*  const formValidator = (event) => {
-         const { target: { value, name } } = event;
-         const formTitle = /^[а-яa-z0-9_-]{6,24}$/
-         const formCategory = (value !== '')
-         console.log('job')
-         if (!formTitle.test(value) && name === 'title') {setErrors({title: true})} else {setErrors({title: false}) };
-         if (!formCategory && name === 'category') {setErrors({category: true})} else {setErrors({category: false}) };
-         
-     } */
-
-    /*    const [formValidate, setFormValidate] = React.useState({
-           title: /^[а-яa-z0-9_-]{6,24}$/,
-           category: form.category === '',
-       }) */
 
 
 
@@ -113,7 +113,7 @@ const AddPost = (props) => {
         setTheme(newTheme);
     };
 
-    const curTime = new Date().toLocaleString();
+
 
     const [editorState, setEditorState] = useState(
         () => EditorState.createEmpty())
@@ -123,33 +123,48 @@ const AddPost = (props) => {
     const handleEditorChange = (state) => {
         setEditorState(state);
         /*   console.log(editorState.getCurrentContent().hasText()) */
-        const descriptionText = editorState.getCurrentContent().getPlainText();
+        /* const descriptionText = editorState.getCurrentContent().getPlainText(); */
+        const descriptionText = draftToHtml(convertToRaw(state.getCurrentContent()))
         console.log(descriptionText)
         setValue('description', descriptionText)
         setForm({
             ...form,
             description: draftToHtml(convertToRaw(state.getCurrentContent()))
         });
-        console.log(getValues('description'))
+        console.log(getValues('description'));
+
     }
 
+    useEffect(() => {
+        const editorText = editorState.getCurrentContent().getPlainText();
+        const hasText = editorState.getCurrentContent().hasText();
+        editorText.length < 160 ? setError('description', { type: 'custom', message: 'Минимальная длинна 160 символов' }) : clearErrors('description');
+        /*  if (editorText.length < 200) { setError('description', { type: 'custom', message: 'Минимальная длинна 200 символов' }) }
+         else if (!hasText) { setError('description', { type: 'custom', message: 'Обязательное поле*' }) }
+         else clearErrors('description') */
+    }, [editorState.getCurrentContent().getPlainText().length]);
 
-    const createPost = () => {
+
+
+    const createPost = (data) => {
         /* event.preventDefault(); */
         console.log(errors)
         setIsPending(true)
-        const post = {
+        /* const post = {
             id: state.length + 1,
             category: form.category,
             categoryPresent: form.categoryPresent,
             theme: form.theme,
             title: form.title,
-            /* description: form.description, */
+             description: form.description,
             description: form.description,
             image: "https://www.iphones.ru/wp-content/uploads/2021/09/%D0%A1%D0%BD%D0%B8%D0%BC%D0%BE%D0%BA-%D1%8D%D0%BA%D1%80%D0%B0%D0%BD%D0%B0-2021-09-07-%D0%B2-19.48.05.jpg",
             publish_date: curTime,
             author: "Программист Программистов"
-        }
+        } */
+        console.log(userData)
+
+        const post = form;
         console.log(post)
         addNewPost(post)
 
@@ -158,10 +173,11 @@ const AddPost = (props) => {
     const addNewPost = (blogPost) => {
         const postCategory = blogPost.category
         addPostMutation.mutateAsync({ postCategory, blogPost })
-            .then(() => {
+            .then((res) => {
                 setDialogType(true)
                 goodDialogOpen()
                 setIsPending(false)
+                navigate(`/posts/${res._id}`)
 
             })
             .catch((err) => {
@@ -177,10 +193,22 @@ const AddPost = (props) => {
     });
 
     const [postImage, setPostImage] = React.useState(ManImg);
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        setPostImage(URL.createObjectURL(file));
-        console.log(postImage)
+    const handleImageChange = async (e) => {
+        console.log('work')
+        try {
+            const formData = new FormData();
+            const file = e.target.files[0];
+            formData.append('image', file)
+            setPostImage(URL.createObjectURL(file));
+
+            const { data } = await axios.post('/upload', formData)
+            console.log(data.url)
+            setForm({ ...form, ['image']: `http://localhost:4444${data.url}` });
+        } catch (err) {
+            console.warn(err)
+            console.log('Error')
+        }
+
     };
 
 
@@ -209,11 +237,15 @@ const convertContentToHTML = () => {
         formState: { errors, isValid },
         setValue,
         getValues,
+        setError,
+        clearErrors,
         watch,
         control
     } = useForm({
         mode: 'onChange',
+        defaultValues: form,
     });
+
 
 
     return (
@@ -230,7 +262,7 @@ const convertContentToHTML = () => {
                                         <img src={postImage} alt="" style={{ width: '100%' }} />
                                         <Box sx={{ position: 'absolute', right: '0', bottom: '0' }}>
                                             <label htmlFor="icon-button-file"  >
-                                                <Input accept="image/*" id="icon-button-file" type="file" onChange={handleImageChange} />
+                                                <input hidden accept="image/*" id="icon-button-file" type="file" onChange={handleImageChange} />
                                                 <IconButton color="primary" aria-label="upload picture" component="span">
                                                     <PhotoCamera sx={{ fontSize: '42px', color: 'rgb(16, 105, 165)' }} />
                                                 </IconButton>
@@ -242,90 +274,89 @@ const convertContentToHTML = () => {
                                 <div className="form-content">
 
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
-                                        <TextField  {...register('title', { 
+                                        <TextField  {...register('title', {
                                             required: {
                                                 value: true,
                                                 message: 'Это обязательное поле*'
                                             },
                                             minLength: {
-                                                value: 12 ,
-                                                message: 'Название должно иметь от 12 до 80 символов'
+                                                value: 8,
+                                                message: 'Название должно иметь от 8 до 100 символов'
                                             },
                                             maxLength: {
-                                                value: 80 ,
-                                                message: 'Название должно иметь от 12 до 80 символов'
+                                                value: 100,
+                                                message: 'Название должно иметь от 8 до 100 символов'
                                             }
-                                        })} 
-                                            id="post-name" label="Название поста" 
-                                            variant="outlined" style={{ width: '100%' }} 
-/*                                             onChange={update} 
-                                            value={form.title}  */
-                                            name='title' 
+                                        })}
+                                            id="post-name" label="Название поста"
+                                            variant="outlined" style={{ width: '100%' }}
+                                            onChange={update}
+                                            /*value={form.title}  */
+                                            name='title'
                                             error={errors.title} helperText={errors.title ? errors.title.message : ''} />
                                     </FormControl>
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" aria-labelledby="form-description-label">
-                                       {/*  <TextField name='description'  error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} /> */}
+                                        {/*  <TextField name='description'  error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} /> */}
 
-                                        <Controller
-                                            name="description"
-                                            control={control}
-                                            rules = {{
+                                        <Editor
+                                            {...register('description', {
                                                 required: {
                                                     value: true,
                                                     message: 'Это обязательное поле*'
-                                                },
-                                                minLength: {
-                                                    value: 200,
-                                                    message: 'Минимальная длинна 200 символов'
-                                                } 
-                                            }}
-                                            render={({ value, onChange }) => {
-                                                return <Editor
-                                                {...register('description', { required: true })}
-                                                /* value={editorState.getCurrentContent().getPlainText()} */
-                                                wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
-                                                editorClassName="editor-class"
-                                                toolbarClassName="toolbar-class"
-                                                editorState={editorState}
-                                                onEditorStateChange={handleEditorChange}
-                                                name = 'description'
-                                            />
+                                                }
+                                            })}
+                                            /* value={editorState.getCurrentContent().getPlainText()} */
+                                            wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
+                                            editorClassName="editor-class"
+                                            toolbarClassName="toolbar-class"
+                                            editorState={editorState}
+                                            onEditorStateChange={handleEditorChange}
+                                            name='description'
+                                            onChange={update}
+                                            /* toolbarOnFocus */
+                                            toolbar={{
+                                                options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
+                                                /*     option: {
+                                                        className: 'toolbarBtn'
+                                                    } */
                                             }}
                                         />
+
+
 
                                         <FormHelperText sx={{ color: '#d32f2f' }} id="form-description-label">{errors.description ? errors.description.message : ''}</FormHelperText>
                                     </FormControl>
 
 
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" required>
-                                        <TextField {...register('category', { 
-                                                required: true,
-                                                
-                                            })} 
-                                            id="select" 
-                                            label="Раздел:" 
+                                        <TextField {...register('category', {
+                                            required: true,
+
+                                        })}
+                                            id="select"
+                                            label="Раздел:"
                                             /* value={form.category}  */
-                                            select 
-                                            style={{ width: '100%' }} 
-                                           /*  onChange={update}  */
-                                            name='category' 
-                                            error={errors.category} 
+                                            select
+                                            style={{ width: '100%' }}
+                                            onChange={update}
+                                            name='category'
+                                            error={errors.category}
                                             helperText={errors.category ? 'Выберите один из вариантов' : ''}>
                                             <MenuItem value="news">Новости</MenuItem>
                                             <MenuItem value="articles">Статьи</MenuItem>
                                             <MenuItem value="reviews">Обзоры</MenuItem>
                                         </TextField>
                                     </FormControl>
-                                    <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
+                                    {/*  <FormControl sx={{ mt: 3, width: '100%' }} variant="standard">
                                         <FormHelperText sx={{ color: '#d32f2f' }} id="demo-row-radio-buttons-group-label">{errors.theme ? 'Выберите один из вариантов' : ''}</FormHelperText>
                                         <ToggleButtonGroup
-                                            {...register('theme', {required: true, minLength: 1})}
+                                            {...register('theme', { validate: value => value = !getValues('theme').split('').length > 1 || 'Пароли не совпадают' })}
                                             aria-label="label"
                                             id='toggle-button'
                                             aria-labelledby="demo-radio-buttons-group-label"
                                             color="primary"
-                                            value={form.theme}
-                                            onChange={update}
+/*                                             value={form.theme}
+                                            onChange={update} 
                                             exclusive
                                             sx={{ mt: 1 }}
                                             name='theme'
@@ -338,13 +369,13 @@ const convertContentToHTML = () => {
                                             <ToggleButton name='theme' value="medical">Медицина</ToggleButton>
                                         </ToggleButtonGroup>
 
-                                    </FormControl>
+                                    </FormControl> */}
                                     <div className='button-enter'>
                                         <Button /* disabled={!isValid} */ variant="contained" style={{ width: '200px', height: '50px' }} type='submit' /* onClick={() => { createPost() }} */ >
                                             Добавить пост
                                         </Button>
                                     </div>
-                    
+
 
                                 </div>
                             </form>

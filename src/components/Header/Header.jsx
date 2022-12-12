@@ -16,28 +16,36 @@ import CenterFocusStrongIcon from '@mui/icons-material/CenterFocusStrong';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import {
     Link,
-    NavLink
+    NavLink,
+    useNavigate
 } from "react-router-dom";
 import './Header.css'
 import LoginIcon from '@mui/icons-material/Login';
 import Fab from '@mui/material/Fab';
 import Modal from '@mui/material/Modal';
-import Login from './../Pages/Login/Login';
 import HeaderMenu from './HeaderMenu/HeaderMenu';
 import HeaderMenuBurger from './HeaderMenuBurger/HeaderMenuBurger';
 import { Logout } from '@mui/icons-material';
+import CustomDialog from '../CustomDialog/CustomDialog';
 
 const settings = ['Profile', 'Logout'];
 
 const ResponsiveAppBar = () => {
-    const [modalOpen, setModalOpen] = React.useState(false);
-    const handleModalOpen = () => setModalOpen(true);
-    const handleModalClose = () => setModalOpen(false);
+    /*     const [modalOpen, setModalOpen] = React.useState(false);
+        const handleModalOpen = () => setModalOpen(true);
+        const handleModalClose = () => setModalOpen(false); */
+    const handleDialogOpen = () => dispatch({
+        type: 'isOpenDialog',
+        payload: {
+            isOpen: true,
+            variant: 'Auth',
+        }
+    });
 
     const { state, dispatch } = useContext(Context)
-    const { posts, isLogin } = state;
-    const { authorized, userName } = isLogin;
-
+    const { posts, user } = state;
+    const { authorized, userData, userName } = user;
+    const navigate = useNavigate()
 
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -60,15 +68,18 @@ const ResponsiveAppBar = () => {
 
     const logOut = () => {
         localStorage.setItem('authorized', false)
-        localStorage.setItem('userName', '')
+        localStorage.removeItem('userData')
+        localStorage.removeItem('token')
         dispatch({
-            type: 'isLogin',
+            type: 'user',
             payload: {
                 authorized: false,
                 userName: '',
             }
         })
+
     }
+
 
     const style = {
         position: 'absolute',
@@ -82,9 +93,11 @@ const ResponsiveAppBar = () => {
         p: 4,
     };
 
+   /*  if (!userData) return null */
+    
     return (
         <>
-            <AppBar position="sticky" className='header' sx={{ top: 'auto', bottom: 0 }}>
+            <AppBar position="sticky" className='header' sx={{ top: 'auto', bottom: 0, backgroundColor: '#325374' }}>
                 <div className='container'>
                     <div className="header__body">
                         <Toolbar disableGutters>
@@ -114,8 +127,8 @@ const ResponsiveAppBar = () => {
                                 <Box sx={{ flexGrow: 0 }}>
                                     <Button sx={{ color: '#ffff', mr: '14px' }} variant="text">{userName}</Button>
                                     <Tooltip title="Дополнительно">
-                                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                            <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, boxShadow : '0px 0px 3px 2px black'}}>
+                                            <Avatar  alt="Remy Sharp" src= {userData ? userData.avatarUrl : ''} />
                                         </IconButton>
                                     </Tooltip>
                                     <Menu
@@ -136,7 +149,7 @@ const ResponsiveAppBar = () => {
                                     >
                                         <MenuItem key={'profile'} onClick={handleCloseUserMenu}>
                                             <Typography textAlign="center">
-                                                <NavLink style={{color: 'black'}} key={''} to={`/Profile`}>
+                                                <NavLink style={{ color: 'black' }} key={''} to={`Profile`}>
                                                     Профиль
                                                 </NavLink>
                                             </Typography>
@@ -144,6 +157,7 @@ const ResponsiveAppBar = () => {
                                         <MenuItem key={'logout'} onClick={() => {
                                             handleCloseUserMenu()
                                             logOut()
+                                            navigate(`/`)
                                         }}>
                                             <Typography textAlign="center">Выйти</Typography>
                                         </MenuItem>
@@ -151,7 +165,7 @@ const ResponsiveAppBar = () => {
                                 </Box>
                                 :
                                 <Box sx={{ flexGrow: 0 }}>
-                                    <Tooltip title="Войти в аккаунт" onClick={handleModalOpen}>
+                                    <Tooltip title="Войти в аккаунт" onClick={handleDialogOpen}>
                                         <IconButton sx={{ p: 0 }}>
                                             <AccountCircleIcon style={{ color: '#ffff', fontSize: '42px' }} />
                                         </IconButton>
@@ -162,16 +176,9 @@ const ResponsiveAppBar = () => {
                     </div>
                 </div>
             </AppBar>
-            <Modal
-                open={modalOpen}
-                onClose={handleModalClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
 
-                <Login />
 
-            </Modal>
+
         </>
     );
 };

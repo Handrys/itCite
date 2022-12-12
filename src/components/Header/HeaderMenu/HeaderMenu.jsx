@@ -18,7 +18,7 @@ const HeaderMenu = (props) => {
                         Главная
                     </Button>
                 </NavLink>
-                <NavLink to="/News" >
+                <NavLink to="News" >
                     <Button
                         key={'news'}
                         onClick={props.handleCloseNavMenu}
@@ -27,7 +27,7 @@ const HeaderMenu = (props) => {
                         Новости
                     </Button>
                 </NavLink>
-                <NavLink to="/Articles" >
+                <NavLink to="Articles" >
                     <Button
                         key={'articles'}
                         onClick={props.handleCloseNavMenu}
@@ -36,7 +36,7 @@ const HeaderMenu = (props) => {
                         Статьи
                     </Button>
                 </NavLink>
-                <NavLink to="/Reviews" >
+                <NavLink to="Reviews" >
                     <Button
                         key={'reviews'}
                         onClick={props.handleCloseNavMenu}

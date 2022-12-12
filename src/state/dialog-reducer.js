@@ -12,6 +12,8 @@ export const dialogReducer = (state, action) => {
                 isOpen: action.payload.isOpen,
                 variant: action.payload.variant,
                 succes: action.payload.succes,
+                dialogTitle: action.payload.dialogTitle,
+                dialogText: action.payload.dialogText,
                 propsDialog: action.payload.propsDialog
             }
         }

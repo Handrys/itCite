@@ -1,8 +1,22 @@
-.post-list{
+.posts-wrapper{
+    width: 100%;
+
+}
+
+.posts-list{
     display: flex;
     flex-wrap: wrap;
+
+/*     flex-direction: row-reverse; */
     /* justify-content: space-between; */
     /* width: 100%; */
+}
+
+
+.posts-bottom{
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
 }
 
 .post-add-btn{

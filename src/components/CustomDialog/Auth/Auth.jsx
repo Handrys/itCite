@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import './Login.css'
+import './Auth.css'
 
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
@@ -18,15 +18,19 @@ import Button from '@mui/material/Button';
 
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import LoginAuth from './LoginAuth/LoginAuth';
-import LoginReg from './LoginReg/LoginReg';
+import AuthLogin from './AuthLogin/AuthLogin';
+import AuthReg from './AuthReg/AuthReg';
 
 import AppBar from '@mui/material/AppBar';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { Dialog, DialogTitle } from '@mui/material';
+import { useContext } from 'react';
+import { Context } from '../../../state';
 
 
-const Login = () => {
+const Login = (props) => {
+    const { state, dispatch } = useContext(Context)
 
     const [values, setValues] = React.useState({
         username: '',
@@ -55,24 +59,31 @@ const Login = () => {
         event.preventDefault();
     };
 
+
+
     return (
-        <div className="login">
+        <Dialog open={props.open}>
+            <div className="login">
                 <div className="login__body">
                     <div className="login__window">
                         <div className="login-window__change">
-                                <Tabs value = {selectedTab} onChange = {handleChaneTab}  variant="fullWidth">
-                                    <Tab label = 'Авторизация'/>
-                                    <Tab label = 'Регистрация' />
+                            <DialogTitle>
+                                <Tabs value={selectedTab} onChange={handleChaneTab} variant="fullWidth">
+                                    <Tab label='Авторизация' />
+                                    <Tab label='Регистрация' />
                                 </Tabs>
+                            </DialogTitle>
                         </div>
                         <div className="login-window__content">
-                            {selectedTab === 0 && <LoginAuth/>}
-                            {selectedTab === 1 && <LoginReg/>}
+                            {selectedTab === 0 && <AuthLogin  onClose = {props.onClose} />}
+                            {selectedTab === 1 && <AuthReg  onClose = {props.onClose} />}
 
                         </div>
+                        <div className="login-close" onClick={props.onClose}>x</div>
                     </div>
                 </div>
             </div>
+        </Dialog>
     );
 }
 

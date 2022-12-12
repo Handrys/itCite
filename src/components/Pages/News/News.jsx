@@ -7,7 +7,7 @@ import axios from "axios";
 import CircularProgress from '@mui/material/CircularProgress';
 import {Context} from '../../../state'
 import { useGetPosts } from './../../../shared/queries';
-
+import Button from '@mui/material/Button';
 
 
 
@@ -16,8 +16,9 @@ const News = () => {
 const [postList, setPostList] = React.useState([]);
 const [blogPage, setBlogPage] = React.useState('news')
 const [categoryTitle, setCategoryTitle] = React.useState('Новости')
-const [categoryDescription, setCategoryDescription] = React.useState('Главные события вокруг российской и мировой IT-индустрии. Только свежая и ценная информация.')
+const [categoryDescription, setCategoryDescription] = React.useState('Главные события вокруг мировой IT-индустрии. Только свежая и ценная информация.')
 const postWidth = '30%'
+const [postsCount, setPostsCount] = React.useState(0)
 
 const { state, dispatch } = useContext(Context)
 const { posts, isLogin } = state;
@@ -29,13 +30,30 @@ const { status, isLoading, error, data:dataArr, isFetching } = useGetPosts(blogP
 const setOpacity = isFetching? 0.5 : 1
 
 
+useEffect(() => {
+    if (!isFetching) {
+        let count = 0;
+        postsArr.map((item, pos) => {
+           /*  console.log(item) */
+            if (item.category == blogPage) count +=1;
+        })
+        setPostsCount(count)
+
+    }
+
+    
+})
+console.log(postsCount)
+
+
+
     return ( 
         <div className="news page" >
             <div className="container">
-            {isFetching &&  <div className="progress"><CircularProgress /></div>}
+            {isFetching &&  <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>}
                 <div className="news__body" style = {{opacity: setOpacity}} >
-                <PagesDescription postCount = {postsArr.length} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
-                <Content blogPage = {'news'} isPage = {'true'} />
+                <PagesDescription postsCount = {postsCount} categoryTitle = {categoryTitle} categoryDescription = {categoryDescription}/>
+                <Content postsCount = {postsCount} blogPage = {'news'} type = {'pagePosts'} />
                 </div>
             </div>
         </div> 

@@ -1,5 +1,5 @@
 .footer-navigation {
-
+   
 }
 .footer-column {
 }
@@ -9,12 +9,18 @@
 .footer-navigation__content {
 }
 .footer-navigation__list {
-
+    display: flex;
+    justify-content: space-between;
 }
 .footer-navigation__link {
     font-size: 20px;
     list-style-type: none;
 
+}
+
+.footer-navigation__link:hover{
+    /* text-decoration: underline; */
+    transform: scale(1.1);
 }
 
 .footer-title{

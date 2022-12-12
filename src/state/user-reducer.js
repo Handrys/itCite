@@ -1,12 +1,20 @@
-const IS_LOGIN = 'isLogin'
+const USER = 'user'
+const USER_POSTS = 'userPosts'
 
 export const userReducer = (state, action) => {
     switch (action.type) {
-        case IS_LOGIN: {
+        case USER: {
             return {
                 ...state,
                 authorized: action.payload.authorized,
-                userName: action.payload.userName,
+                userData: action.payload.userData,
+                authStatus: action.payload.authStatus,
+            }
+        }
+        case USER_POSTS: {
+            return {
+                ...state,
+                myPosts: action.payload.myPosts
             }
         }
         default:

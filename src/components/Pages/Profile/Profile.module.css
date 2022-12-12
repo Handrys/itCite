@@ -11,25 +11,28 @@
 }
 
 .column{
-    height: calc(100vh - 200px);
+    height: 100vh;
     width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+   
 }
 
 .title{
     height: 30%;
-    padding: 20px;
+    padding: 16px;
 }
 
 .data{
     height: 70%;
-    padding: 20px;
+    padding: 16px;
 }
 
 
 .posts{
     height: 100%;
-    padding: 20px;
+    padding: 16px;
+    overflow: hidden;
+    box-sizing: border-box;
 }

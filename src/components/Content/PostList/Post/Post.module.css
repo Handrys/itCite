@@ -1,0 +1,133 @@
+
+
+.post {
+    padding: 0 10px;
+    margin: 15px 0;
+    box-sizing: border-box;
+    width: 33%;
+    word-wrap: break-word;
+    overflow: hidden;
+}
+/* .post:first-child {
+    width: 100%;
+}
+.post:last-child {
+    width: 100%;
+} */
+.post__content{
+
+}
+
+.postMore{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 3;
+    transform: translateX(-50%);
+}
+
+.postMore a{
+    color: rgb(180, 179, 179);
+    font-size: 18px;
+}
+
+
+.post__img {
+    position: relative;
+    padding: 0 0 50% 0;
+    cursor: pointer;
+}
+
+.post__img img{
+    position: absolute;
+    top:0;
+    left: 0;    
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    z-index: 2;
+}
+.post__img:hover::before{
+    z-index: 2;
+    content: "";
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: absolute;
+    background-color: rgba(175, 172, 172, 0.274);
+    z-index: 3;
+    border-radius: 10px;
+}
+
+.post__img:hover .deleteIcon{
+    display: block;
+}
+.post__img:hover .postMore{
+    display: block;
+}
+
+
+.deleteIcon{
+    display: none;
+    opacity: 1;
+    z-index: 4;
+    position: absolute;
+    right: 15px;
+    top: 0px;
+    font-size: 42px;
+    font-weight: 900;
+    color: rgb(255, 255, 255);
+}
+
+.post__img span{
+    z-index: 3;
+    position: absolute;
+    background-color: #d1d3d4;
+    border-radius: 6px;
+    border: 1px solid #e8eaec;
+    color: #6b6b6b;
+    padding: 3px;
+    top: 6px;
+    left: 6px;
+}
+
+
+.post__content {
+margin-top: 10px;
+}
+
+.postContent__title {
+    font-size: 22px;
+    font-weight: 600;
+}
+.postContent__author {
+    display: flex;
+    margin-top: 12px;
+}
+
+.postAuthor__avatar{
+
+}
+
+.postAuthor__avatar img{
+    box-shadow: 0 0 1px 3px #3a8cc8;
+    border-radius: 50%;
+    transition: box-shadow .25s ease-in-out;
+    width: 50px;
+    height: 50px;
+}
+.postAuthor__info {
+    margin-left: 14px;
+}
+
+
+.postAuthor__info__name {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+
+.postAuthor__info__date {
+}

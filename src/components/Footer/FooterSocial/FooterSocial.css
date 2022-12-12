@@ -1,5 +1,5 @@
 .footer-social {
-
+  
 }
 .footer-column {
 }
@@ -9,10 +9,25 @@
 .footer-social__content {
 }
 .footer-social__list {
-
+    display: flex;
+    justify-content: space-between;
 }
 .footer-social__link {
     font-size: 20px;
     list-style-type: none;
-  
+    display: flex;
+    align-items: center;
+}
+
+.footer-social__link:hover{
+    transform: scale(1.05);
+}
+
+.footer-social__link span{
+    margin-left: 7px;
+}
+
+.footer-social__link img{
+    max-width: 48px;
+    max-height: 48px;
 }

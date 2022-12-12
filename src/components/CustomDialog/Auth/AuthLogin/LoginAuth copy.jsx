@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-
-/* import './Login.css' */
 
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
@@ -15,25 +13,28 @@ import Input from '@mui/material/Input';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Fab from '@mui/material/Fab';
 import Button from '@mui/material/Button';
-
+import { Context } from '../../../../state';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { useForm } from 'react-hook-form';
 
-import { useForm, Controller } from "react-hook-form";
 
-const LoginReg = () => {
+const LoginAuth = () => {
+
+    const { state, dispatch } = useContext(Context)
+    const { posts, isLogin } = state;
+    const {authorized} = isLogin;
 
     const [values, setValues] = React.useState({
-        username: '',
-        password: '',
         email: '',
-        repeatPassword: '',
+        password: '',
+        weight: '',
+        weightRange: '',
         showPassword: false,
     });
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
-        console.log(errors)
     };
 
     const handleClickShowPassword = () => {
@@ -47,6 +48,22 @@ const LoginReg = () => {
         event.preventDefault();
     };
 
+    
+    const formSubmit = () => {
+        /* event.preventDefault(); */
+        console.log(state)
+        dispatch({
+            type: 'isLogin',
+            payload: {
+                authorized: true,
+                userName: values.username,
+            }
+        })
+        localStorage.setItem('authorized', true)
+        localStorage.setItem('userName',values.username)
+        console.log(state)
+    }
+
     const {
         register,
         getValues,
@@ -58,9 +75,7 @@ const LoginReg = () => {
         mode: 'onChange',
         /*         reValidateMode: 'onSubmit', */
     });
-    
 
-    const formSubmit = data => console.log(data);
 
     return (
         <>
@@ -70,48 +85,27 @@ const LoginReg = () => {
                         <LockOutlinedIcon />
                     </Fab>
                 </div>
-                <div className="login-window__top-title">Регистрация</div>
+                <div className="login-window__top-title">Авторизация</div>
             </div>
             <form onSubmit={handleSubmit(formSubmit)} action='#' className="login-window__form">
-                <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
-                    <TextField
-                        {...register('email', {
-                            required: {
-                                value: true,
-                                message: '*Обязательное поле'
-                            },
-                            pattern: {
-                                value: /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/,
-                                message: 'Некорректный e-mail'
-                            }
-                        })}
-                        variant="standard"
-                        id="standard-adornment-username"
-                        /*  value={values.email} */
-                        label="*E-mail:"
-                        error={errors.email}
-                        helperText={errors.email ? errors.email.message : ''}
-                    /* onChange={handleChange('email')} */
-                    />
-                </FormControl>
-                <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
+            <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
                     <TextField
                         {...register('username', {
                             required: {
                                 value: true,
                                 message: '*Обязательное поле'
                             },
-                            pattern: {
+/*                             pattern: {
                                 value: /^[a-z0-9_-]{3,16}$/,
                                 message: 'Имя пользователя должно иметь от 3 до 16 символов (латиница), включая символы "-" и "_"'
-                            }
+                            } */
                         })}
                         id="standard-adornment-username"
                         variant="standard"
                         /*   value={values.username} */
                         error={errors.username}
                         helperText={errors.username ? errors.username.message : ''}
-                        label="*Имя пользователя:"
+                        label="Имя пользователя:"
                         /* onChange={handleChange('username')} */
                         InputProps={{
                             endAdornment: (
@@ -134,10 +128,10 @@ const LoginReg = () => {
                                 value: true,
                                 message: '*Обязательное поле'
                             },
-                            pattern: {
+                            /* pattern: {
                                 value: /^[a-z0-9_-]{6,18}$/,
                                 message: 'Пароль слижком легкий. Используйте от 6 до 16 символов (латиница), включая спец.символы.'
-                            }
+                            } */
                         })}
                         id="standard-adornment-password"
                         type={values.showPassword ? 'text' : 'password'}
@@ -162,22 +156,8 @@ const LoginReg = () => {
                         }}
                     />
                 </FormControl>
-                <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
-
-                    <TextField
-                        {...register('repeatPassword', { required: {value: true, message: '*Обязательное поле'}, validate: value => value === getValues('password') || 'Пароли не совпадают' })}
-                        id="standard-adornment-password"
-                        type={values.showPassword ? 'text' : 'password'}
-                        /* value={values.password2} */
-                        label='*Повторите пароль:'
-                        error={errors.repeatPassword}
-                        helperText={errors.repeatPassword ? errors.repeatPassword.message : ''}
-                        /*  onChange={handleChange('password2')} */
-                        variant='standard'
-                    />
-                </FormControl>
                 <FormControl sx={{ m: 1, width: '100%', marginTop: '30px' }} variant="standard">
-                    <Button type='submit' variant="contained">Зарегестрироваться</Button>
+                    <Button variant="contained" type='submit'>Войти</Button>
                 </FormControl>
 
             </form>
@@ -187,4 +167,4 @@ const LoginReg = () => {
     );
 }
 
-export default LoginReg;
+export default LoginAuth;

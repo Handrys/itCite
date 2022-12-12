@@ -29,6 +29,7 @@ import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import CustomDialog from './../../CustomDialog/CustomDialog';
+import { Popover, Typography } from 'antd';
 
 export const FullPost = (props) => {
 
@@ -39,24 +40,33 @@ export const FullPost = (props) => {
             variant: 'deletePostDialog',
             propsDialog: {
                 blogPost: post,
-                blogPage: blogPage
             }
         }
     });
 
 
     const { state, dispatch } = useContext(Context)
-    const { posts, isLogin } = state;
+    const { posts, user } = state;
     const { data, isPending } = posts;
-    const { authorized } = isLogin;
+    const { authorized } = user;
+    const [isAuthor, setisAuthor] = useState(false)
 
     const [categoryPresent, setCategoryPresent] = React.useState('')
     const [isFullpost, setIsFullpost] = React.useState(true)
 
 
-    const { blogPage, postId } = useParams();
+    const { postId } = useParams();
 
-    const { status, isLoading, data: post, error, isFetching, refetch } = useGetSinglePost(blogPage, postId);
+    const { status, isLoading, data: post, error, isFetching, refetch } = useGetSinglePost(postId);
+
+    const [publishData, setPublishData] = useState({ data: '', time: '' })
+
+
+
+
+    useEffect(() => {
+        refetch()
+    }, [postId])
 
 
     const setOpacity = isFetching ? 0.5 : 1
@@ -69,32 +79,44 @@ export const FullPost = (props) => {
             if (post.category === 'reviews') { setCategoryPresent('Обзоры') }
             if (post.category === 'articles') { setCategoryPresent('Статьи') }
 
-            /*             if (post === undefined) history(`/*`) */
-        }
-    });
 
-    const deleteMutation = useDeletePost(blogPage, isFullpost);
+
+
+        }
+    }, [status]);
+
+    const deleteMutation = useDeletePost(isFullpost);
 
     const deletePost = (blogPost) => {
 
-        deleteMutation.mutateAsync({ blogPage, blogPost })
+        deleteMutation.mutateAsync({ blogPost })
             .then(() => {
                 dispatch({
                     type: 'isOpenDialog',
-                    payload: { isOpen: true, variant: 'deletePostStatusDialog', succes: 'true' },
+                    payload: {
+                        isOpen: true,
+                        variant: 'succes',
+                        dialogTitle: 'Информация:',
+                        dialogText: 'Пост успешно удален!'
+                    }
                 })
                 refetch();
             })
             .catch((err) => {
                 dispatch({
                     type: 'isOpenDialog',
-                    payload: { isOpen: true, variant: 'deletePostStatusDialog', succes: 'false' },
+                    payload: {
+                        isOpen: true,
+                        variant: 'error',
+                        dialogTitle: 'Ошибка',
+                        dialogText: 'При удалении поста произошла ошибка!'
+                    }
                 })
             })
 
     };
 
-    const [copySuccess, setCopySuccess] = useState(`http://localhost:3000/${blogPage}/post/${postId}`);
+    const [copySuccess, setCopySuccess] = useState(`http://localhost:3000/posts/${postId}`);
 
     const styleSocialLink = {
         width: '25%'
@@ -114,105 +136,141 @@ export const FullPost = (props) => {
 
 
 
+    useEffect(() => {
+        if (user.userData && post) {
+            (user.userData._id === post.author._id || user.userData.role === 'admin') ? setisAuthor(true) : setisAuthor(false)
+            setPublishData({
+                'data': post.createdAt.split('.').shift().split('T').shift(),
+                'time': post.createdAt.split('.').shift().split('T').pop()
+            });
+        }
+    }, [status || user.author || postId])
+
+
+    if (isFetching) return null
+
+
+    const stylePostImage = {
+        backgroundAttachment: 'fixed',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundImage: `url(${post.image})`
+    }
+
+   /*  console.log(post.image) */
     return (
         <div className={s.fullpost}>
-            <div className="container">
-                {isFetching ?
-                    <div className="progress"><CircularProgress /></div>
-                    :
-                    <div className={s.fullpost__body}>
-                        <div className={s.post} style={{ with: '100%', height: '100%', opacity: setOpacity }}>
-                            <div className={s.post__img}>
-                                <img src={post.image} alt="" />
-                                <div className={s.post__title}>{post.title}</div>
+            {isFetching ?
+                <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>
+                :
+                <>
+                    <div className={s.post__img} style ={stylePostImage}>
+                        {/* <img src={post.image} alt="" /> */}
+                        <div className={s.post__title}>{post.title}</div>
 
-                            </div>
-                            <div className={s.post__content}>
+                    </div>
+                    <div className="container">
 
-                                <div className={s.post__head}>
-                                    <div className={s.post__author}>
-                                        <div className={s.post__author__avatar}><img src="https://kod.ru/content/images/size/w50/2020/04/------2.jpg" alt="" /></div>
-                                        <div className={s.post__author__info}>
-                                            <div className={s.post__author__name}>{post.author}</div>
-                                            <div className={s.post__author__date}>
-                                                {post.publish_date}
+                        <div className={s.fullpost__body}>
+                            <div className={s.post} style={{ width: '100%', height: '100%', opacity: setOpacity }}>
+
+                                <div className={s.post__content}>
+
+                                    <div className={s.post__head}>
+                                        <div className={s.post__author}>
+                                            <div className={s.post__author__avatar}><img src={post.author.avatarUrl} alt="" /></div>
+                                            <div className={s.post__author__info}>
+                                                <div className={s.post__author__name}>{post.author.fullName}</div>
+                                                <div className={s.post__author__description}>{post.author.description}</div>
+                                                {/*                                             <div className={s.post__author__date}>
+                                                Дата создания: {post.createdAt}
+                                            </div> */}
                                             </div>
                                         </div>
+                                        {/* <span className={s.post__category}>{categoryPresent}</span> */}
+                                        <div className={s.post__control}>
+                                            <Stack direction="row" spacing={2}>
+                                                <Button disabled={!isAuthor} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
+                                                    <NavLink style={{ /* color: '#1069a5' */ }} key={post._id} to={`/posts/${post._id}/edit`}>
+                                                        Редактировать
+                                                    </NavLink>
+                                                </Button>
+                                                <Button disabled={!isAuthor} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
+                                                    Удалить
+                                                </Button>
+
+                                            </Stack>
+                                        </div>
+
                                     </div>
-                                    {/* <span className={s.post__category}>{categoryPresent}</span> */}
-                                    <div className={s.post__control}>
-                                        <Stack direction="row" spacing={2}>
-                                            <Button disabled = {!authorized} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
-                                                <NavLink style={{ color: '#1069a5' }} key={post.id} to={`/${blogPage}/post/${post.id}/edit`}>
-                                                    Редактировать
-                                                </NavLink>
-                                            </Button>
-                                            <Button disabled = {!authorized} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
-                                                Удалить
-                                            </Button>
 
-                                        </Stack>
+                                    <div className={s.post__description} >
+
+                                        {/* {post.description.split('\n').map(s => <p>{s}</p>)} */}
+                                        {/*                                 {post.description} */}
+                                        <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
+
                                     </div>
 
-                                </div>
+                                    <div className={s.post__share}>
+                                        <div className={s.post__share__title}>Поделись материалом</div>
+                                        <div className={s.post__share__buttons}>
+                                            <Stack direction="row" spacing={3}>
+                                                <ButtonLink sx={styleSocialLink} href="https://twitter.com/intent/tweet?text=%D0%90%D0%B2%D1%82%D0%BE%D0%BF%D0%B8%D0%BB%D0%BE%D1%82%20Tesla%20%D0%B2%D1%80%D0%B5%D0%B7%D0%B0%D0%BB%D1%81%D1%8F%20%D0%B2%20%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%BC%D0%BE%D0%BB%D1%91%D1%82&url=https://kod.ru/tesla-crashed-into-plame/">
+                                                    <Button sx={styleSocialButton} className='fullpost-social-icon' variant="contained" >
+                                                        <TwitterIcon />
+                                                    </Button>
+                                                </ButtonLink>
 
-                                <div className={s.post__description}>
+                                                <ButtonLink sx={styleSocialLink} href="https://www.facebook.com/sharer/sharer.php?u=http://kod.ru">
+                                                    <Button sx={styleSocialButton} variant="contained" >
+                                                        <FacebookIcon />
+                                                    </Button>
+                                                </ButtonLink>
 
-                                    {/* {post.description.split('\n').map(s => <p>{s}</p>)} */}
-                                    {/*                                 {post.description} */}
-                                    <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
+                                                <ButtonLink sx={styleSocialLink} href="tg://msg_url?url=https://kod.ru/tesla-crashed-into-plame/">
+                                                    <Button sx={styleSocialButton} variant="contained" >
 
-                                </div>
+                                                        <SendIcon />
 
-                                <div className={s.post__share}>
-                                    <div className={s.post__share__title}>Поделись материалом</div>
-                                    <div className={s.post__share__buttons}>
-                                        <Stack direction="row" spacing={3}>
-                                            <ButtonLink sx={styleSocialLink} href="https://twitter.com/intent/tweet?text=%D0%90%D0%B2%D1%82%D0%BE%D0%BF%D0%B8%D0%BB%D0%BE%D1%82%20Tesla%20%D0%B2%D1%80%D0%B5%D0%B7%D0%B0%D0%BB%D1%81%D1%8F%20%D0%B2%20%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%BC%D0%BE%D0%BB%D1%91%D1%82&url=https://kod.ru/tesla-crashed-into-plame/">
-                                                <Button sx={styleSocialButton} className='fullpost-social-icon' variant="contained" >
-                                                    <TwitterIcon />
-                                                </Button>
-                                            </ButtonLink>
+                                                    </Button>
+                                                </ButtonLink>
 
-                                            <ButtonLink sx={styleSocialLink} href="https://www.facebook.com/sharer/sharer.php?u=http://kod.ru">
-                                                <Button sx={styleSocialButton} variant="contained" >
-                                                    <FacebookIcon />
-                                                </Button>
-                                            </ButtonLink>
+                                                <ButtonLink sx={styleSocialLink} onClick={() => { navigator.clipboard.writeText(copySuccess) }}>
+                                                    <Button sx={styleSocialButton} variant="contained" >
+                                                        <ContentCopyIcon />
+                                                    </Button>
 
-                                            <ButtonLink sx={styleSocialLink} href="tg://msg_url?url=https://kod.ru/tesla-crashed-into-plame/">
-                                                <Button sx={styleSocialButton} variant="contained" >
-
-                                                    <SendIcon />
-
-                                                </Button>
-                                            </ButtonLink>
-
-                                            <ButtonLink sx={styleSocialLink} onClick={() => { navigator.clipboard.writeText(copySuccess) }}>
-                                                <Button sx={styleSocialButton} variant="contained" >
-                                                    <ContentCopyIcon />
-                                                </Button>
-                                            </ButtonLink>
-                                        </Stack>
+                                                </ButtonLink>
+                                            </Stack>
+                                        </div>
+                                    </div>
+                                    <div className={s.post__publishData}>
+                                        <span>Создано: {publishData.data}</span>
+                                        <span style={{ marginLeft: '5px' }}>в {publishData.time}</span>
+                                    </div>
+                                    <div style={{ height: '1px', width: '33.333%', margin: '20px auto', backgroundColor: '#858383', border: 'none' }} />
+                                    <div className={s.post__more}>
+                                        <div className={s.post__more__title}>Редакция рекомендует:</div>
+                                        <PostList blogPage={post.category} type='presentPosts' isPage='false' />
                                     </div>
                                 </div>
-                                <div style={{ height: '1px', width: '33.333%', margin: '50px auto', backgroundColor: '#858383', border: 'none' }} />
-                                <div className={s.post__more}>
-                                    <div className={s.post__more__title}>Редакция рекомендует:</div>
-                                    <PostList blogPage={post.category} isPage='false' />
-                                </div>
+
+
+
+                                <CustomDialog deletePost={() => deletePost(post)} />
+
                             </div>
-
-
-
-                            <CustomDialog deletePost={() => deletePost(post)} />
 
                         </div>
 
                     </div>
-                }
-            </div>
+                </>
+            }
+
         </div>
+
 
 
 

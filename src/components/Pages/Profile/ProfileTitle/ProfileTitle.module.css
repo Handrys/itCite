@@ -20,7 +20,7 @@
 }
 
 .info__name{
-    
+    display: flex;
 }
 .info__firstName{
     font-size: 26px;
@@ -31,10 +31,14 @@
     font-size: 26px;
     font-family: 'Roboto Flex', sans-serif;
     font-weight: 700;
+    margin-left: 10px;
 }
 
 .info__userName{
     color: rgb(168, 161, 161);
+    display: flex;
+    align-items: center;
+    margin-top: 8px;
 }
 
 .info__status{
@@ -45,42 +49,62 @@
 .statusAccount__title{}
 .statusAccount__condition{
     /* background: #66BB6A; */
-    background-color: #1976d2;
+   /*  background-color: #1976d2; */
+    color: #1976d2;
 }
 
 .info__statusRole{}
 .statusRole__title{}
 .statusRole__condition{
     /* background: #dddf4d; */
-    background-color: #f8c223;
+    /* background-color: #f8c223; */
+    color: #a85446;
 }
 
 .info__statusElement{
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     margin: 14px 0;
 }
 .status__title{
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 500;
     color: rgb(92, 92, 92);
     font-style: italic;
 }
 
 .status__title span{
-    font-size: 12px;
+    font-size: 14px;
     color: grey;
     line-height: 12px;
 }
 .status__condition{
-    color: #ffff;
-    font-size: 18px;
+  /*   color: #ffff; */
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
     font-style: italic;
-    padding: 7px 16px;  
+    /* padding: 7px 16px;   */
     border-radius: 100px;
     margin-left: 5px;
-    box-shadow: 2px 2px 4px rgb(178, 179, 178);
+    text-shadow: 2px 2px 3px rgb(178, 179, 178);
     cursor: pointer;
     /* width: 130px;text-align: center; */
+}
+
+.infoDescription{
+    margin-top: 12px;
+}
+
+.infoDescription__title{
+    color: rgb(92, 92, 92);
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.infoDescription__text{
+    color: rgb(92, 92, 92);
+    font-size: 14px;
+    font-style: italic;
 }

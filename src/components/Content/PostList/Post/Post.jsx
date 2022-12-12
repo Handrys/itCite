@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import DeleteIcon from '@mui/icons-material/Delete';
-import './Post.css';
+import s from './Post.module.css';
 import PostMenu from './PostMenu/PostMenu';
 import Dialog from '@mui/material/Dialog';
 import { BrowserRouter, Routes, Route, Link, NavLink, useParams } from "react-router-dom";
@@ -16,38 +16,56 @@ export const Post = (props) => {
     const handleDialogClose = () => setDialogOpen(false);
 
     const { state, dispatch } = useContext(Context)
-    const { posts, isLogin, dialog } = state;
+    const { posts, user, dialog } = state;
     const { data, isPending } = posts;
     const { isOpen, variant, succes, answer } = dialog;
-    const { authorized } = isLogin;
+    const { authorized } = user;
+    const [isAuthor, setisAuthor] = useState(false)
 
     useEffect(() => {
         if (variant === 'deletePostDialog' && answer === true) { props.deletePost(props.item) }
-    }, [succes]);
+    }, [succes || user.author]);
 
     /*  isDeleted ? handleDialogStatusOpen() : handleDialogStatusClose() */
     /*  props.isDeleted ? console.log('yes') : console.log('no') */
+    
+    const stylesPage = {
+        padding: '0 10px',
+        margin: '15px 0',
+        width: '33%'
+    }
 
+    const stylesProfile = {
+        padding: '0 10px',
+        margin: '15px 0',
+        width: '100%'
+    }
+    
 
+    useEffect( () => {
+        if (user.userData) {
+            (user.userData._id === props.item.author._id || user.userData.role === 'admin') ? setisAuthor(true) :  setisAuthor(false)
+        }
+    },[])
 
     return (
-        <React.Fragment key={props.item.id}>
-            <div className="post" style={{ with: '100%', height: '100%' }}>
+        <React.Fragment key={props.item._id}>
+            <div className={s.post} style={(props.type === 'userPosts' ? stylesProfile : stylesPage) }>
 
-                <div className="post__img" /* onClick={ () =>  } */>
+                <div className={s.post__img} /* onClick={ () =>  } */>
 
                     <img src={props.image} alt="" />
 
-                    <div className="post-more">
-                        <NavLink key={props.item.id} to={`/${props.blogPage}/post/${props.item.id}`}>
+                    <div className={s.postMore}>
+                        <NavLink key={props.item._id} to={`/posts/${props.item._id}`}>
                             Подробнее...
 
                         </NavLink>
                     </div>
 
                     {/* <span>{props.category}</span> */}
-                    {authorized &&
-                        <div className="delete-icon" /* onClick={deletePost} */>
+                    {isAuthor &&
+                        <div className={s.deleteIcon} /* onClick={deletePost} */>
                             <PostMenu
                                 category={props.category}
                                 blogPost={props.item}
@@ -62,14 +80,17 @@ export const Post = (props) => {
                 </div>
 
 
-                <div className="post__content">
-                    <div className="post__content-title">{props.title}</div>
-                    <div className="post__content-author">
-                        <div className="post-author__avatar"><img src="https://kod.ru/content/images/size/w50/2020/04/------2.jpg" alt="" /></div>
-                        <div className="post-author__info">
-                            <div className="post-author-info__name">{props.author}</div>
-                            <div className="post-author-info__date">
-                                {props.publish_date}
+                <div className={s.post__content}>
+                    <div className={s.postContent__title}><NavLink key={props.item.id} to={`/posts/${props.item._id}`}>{props.title}</NavLink></div>
+                    <div className={s.postContent__author}>
+                        <div className={s.postAuthor__avatar}>
+                            <img src={props.author.avatarUrl} alt="" />
+                        </div>
+                        <div className={s.postAuthor__info}>
+                            <div className={s.postAuthorInfo__name}>{props.author.fullName}</div>
+                            <div className={s.postAuthorInfo__date}>  
+                                <span>Создано: {props.publish_date}</span>
+                                <span style={{marginLeft: '5px'}}>в {props.publish_time}</span>
                             </div>
                         </div>
                     </div>

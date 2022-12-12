@@ -13,28 +13,69 @@ import { Context } from './../../../state/context'
 import Dialog from '@mui/material/Dialog';
 import { useGetPosts, useDeletePost } from './../../../shared/queries';
 import CustomDialog from './../../CustomDialog/CustomDialog';
+import { Button } from '@mui/material';
 
 
 
-const PostList = ({ blogPage, isPage }) => {
+const PostList = ({ blogPage, type, postsCount }) => {
 
 
     const { state, dispatch } = useContext(Context)
-    const { posts, isLogin, dialog } = state;
+    const { posts, user, dialog } = state;
     const { postsArr, isPending } = posts;
     const { isOpen, variant, succes, answer, propsDialog } = dialog;
-    const { authorized } = isLogin;
+    const { authorized } = user;
+    const [postsUserCount, setPostsUserCount] = useState('')
 
     const { status, isLoading, data: dataArr, error, isFetching, refetch } = useGetPosts(blogPage);
 
+    const [userId, setUserId] = useState();
+
     const [isFullpost, setIsFullpost] = React.useState(false)
+
+    const [postsView, setpostsView] = React.useState(12)
 
     const deleteMutation = useDeletePost(blogPage, isFullpost);
 
-    console.log(authorized)
+    /* console.log(postsArr) */
+    /*  setPostsUserCount(postsArr.slice().reverse().filter(element => element.author._id === userId)) */
 
+    useEffect(() => {
+        !user.userData ? setUserId(0) : setUserId(user.userData._id)
+    }, [])
+ 
 
-    if (isLoading) return null
+    useEffect(() => {
+        const num = postsArr.slice().reverse().filter(element => element.author._id === userId).length;
+        setPostsUserCount(num)
+        dispatch({
+            type: 'userPosts',
+            payload: {
+                ...user,
+                myPosts: num
+            },
+        })
+
+    }, [postsArr])
+   
+
+    /*  console.log(postsUserCount)
+     useEffect(() => {     
+         dispatch({
+             type: 'user',
+             payload: {
+                 ...user,
+                 myPosts: postsUserCount
+             },
+         })
+         
+     },[postsUserCount])  */
+
+    if (isFetching) return null
+
+    const addpostsView = () => { setpostsView(postsView + 12) }
+    
+   
 
     const deletePost = (blogPost) => {
         console.log(blogPost)
@@ -43,19 +84,32 @@ const PostList = ({ blogPage, isPage }) => {
                 refetch();
                 dispatch({
                     type: 'isOpenDialog',
-                    payload: { isOpen: true, variant: 'deletePostStatusDialog', succes: 'true' },
+                    payload: {
+                        isOpen: true,
+                        variant: 'succes',
+                        dialogTitle: 'Информация:',
+                        dialogText:'Пост успешно удален!'
+                    }
                 })
             })
             .catch(() => {
                 dispatch({
                     type: 'isOpenDialog',
-                    payload: { isOpen: true, variant: 'deletePostStatusDialog', succes: 'false' },
+                    payload: {
+                        isOpen: true,
+                        variant: 'error',
+                        dialogTitle: 'Ошибка',
+                        dialogText:'При удалении поста произошла ошибка!'
+                    }
                 })
             })
 
     };
 
-    const allPosts = postsArr.reverse().map((item, pos) => {
+    const arr = []
+    const allPosts = postsArr.slice().reverse().filter(element => element.category === blogPage).slice(0, postsView).map((item, pos) => {
+
+        /* console.log(item) */
         return (
             <Post
                 key={pos}
@@ -63,18 +117,43 @@ const PostList = ({ blogPage, isPage }) => {
                 item={item}
                 title={item.title}
                 image={item.image}
-                author={item.author}
-                publish_date={item.publish_date}
+                author= {item.author}
+                publish_date={item.createdAt.split('.').shift().split('T').shift()}
+                publish_time={item.createdAt.split('.').shift().split('T').pop()}
                 deletePost={deletePost}
                 category={item.category}
                 blogPage={blogPage}
+                type={type}
 
 
             />
         )
     })
 
-    const presentPosts = postsArr.slice(0, 3).map((item, pos) => {
+
+
+    const presentPosts = postsArr.slice().reverse().slice(0, 3).map((item, pos) => {
+        return (
+            <Post
+                key={pos}
+                id={pos}
+                item={item}
+                title={item.title}
+                image={item.image}
+                author= {item.author}
+                publish_date={item.createdAt}
+                /*  deletePost={() => deletePost(item)} */
+                category={item.category}
+                blogPage={blogPage}
+                type={type}
+            />
+        )
+    })
+
+
+
+    const userPosts = postsArr.slice().reverse().filter(element => element.author._id === userId).slice(0, postsView).map((item, pos) => {
+
         return (
             <Post
                 key={pos}
@@ -83,36 +162,57 @@ const PostList = ({ blogPage, isPage }) => {
                 title={item.title}
                 image={item.image}
                 author={item.author}
-                publish_date={item.publish_date}
-                /*  deletePost={() => deletePost(item)} */
+                publish_date={item.createdAt}
+                deletePost={deletePost}
                 category={item.category}
                 blogPage={blogPage}
+                type={type}
+
             />
         )
     })
+
+
+
+
+
+
+
+
 
 
     return (
         <>
             {authorized === true ? <div className="post-add-btn">
                 <NavLink to="/addpost" style={{ color: 'black' }}>
-                    <Fab color="primary" aria-label="add">
+                    <Fab color="primary" aria-label="add" sx={{ backgroundColor: '#01579b' }}>
                         <AddIcon />
                     </Fab>
                 </NavLink>
             </div>
                 : null
             }
-            {isPage === 'true' ?
-                <div className="post-list">
-                    {allPosts}
+            {type === 'pagePosts' &&
+                <div className='posts-wrapper'>
+                    <div className="posts-list">
+                        {allPosts}
+                    </div>
+                    <div className="posts-bottom">
+                        <Button disabled={postsCount <= postsView} onClick={addpostsView} variant="outlined">Показать еще</Button>
+                    </div>
                 </div>
-                :
-                <div className="post-list">
+            }
+            {type === 'presentPosts' &&
+                <div className="posts-list">
                     {presentPosts}
                 </div>
             }
-            <CustomDialog deletePost={() => deletePost(propsDialog.blogPost)} />
+            {type === 'userPosts' &&
+                <div className="posts-list">
+                    {userPosts}
+                </div>
+            }
+           { <CustomDialog deletePost={() => deletePost(propsDialog.blogPost)} />}
         </>
 
     );

@@ -1,0 +1,10 @@
+Front-end
+
+ - При создании поста - в user передаем обьект из userData
+
+ - в постах при отрисовке, там где author пишем author.fullName
+
+
+Back-end
+
+ - Поработать с user

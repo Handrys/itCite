@@ -11,10 +11,16 @@
     border-radius: 6px;
 }
 
+
 .editor-class{
     padding: 0px 16px;
     min-height: 500px;
-
+}
+.rdw-option-wrapper{
+    min-width: 0;
+}
+.toolbarBtn div{
+    min-width: 16px;
 }
 
 .add-post__form{

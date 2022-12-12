@@ -8,33 +8,34 @@ import News from './components/Pages/News/News';
 import Articles from './components/Pages/Articles/Articles';
 import Reviews from './components/Pages/Reviews/Reviews';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Login from './components/Pages/Login/Login';
+
 import AddPost from './components/Content/PostList/AddPost/AddPost';
 import { reducer } from './state/reducer'
-import {Context} from './state/context'
+import { Context } from './state/context'
 import axios from "axios";
-import FetchPosts  from './components/Pages/FetchPosts';
+import FetchPosts from './components/Pages/FetchPosts';
 import { createContext } from 'react'
 import NotFound from './components/NotFound/NotFound';
 import { FullPost } from './components/Pages/FullPost/FullPost';
-import { useGetPosts } from './shared/queries';
+import { fetchAuthMe, useGetPosts } from './shared/queries';
 import Dialog from '@mui/material/Dialog';
 import EditPost from './components/Content/PostList/EditPost/EditPost';
 import Profile from './components/Pages/Profile/Profile';
+import { useDispatch } from 'react-redux';
+import CustomDialog from './components/CustomDialog/CustomDialog';
 
 const App = () => {
 
 
-    
-
   const init = {
-    posts : {
+    posts: {
       isPending: false,
       postsArr: []
     },
-    isLogin : {
+    user: {
       authorized: localStorage.getItem('authorized') === 'true',
-      userName: localStorage.getItem('userName')
+      userName: localStorage.getItem('userName'),
+      myPosts: []
     },
     dialog: {
       isOpen: false,
@@ -43,37 +44,61 @@ const App = () => {
       answer: null,
       select: '',
       propsDialog: {}
-    }
+    },
+    errors: []
   }
 
 
   const [state, dispatch] = useReducer(reducer, init)
+  const { posts, user } = state;
 
-console.log(state)
+
+
+  React.useEffect(async () => {
+    let result = await fetchAuthMe();
+
+/*     console.log(result) */
+    /*     if (result) { */
+    dispatch({
+      type: 'user',
+      payload: {
+        authorized: true,
+        userData: result
+      },
+    })
+
+
+    /*     } */
+
+  }, ['userData' in user])
+
+  console.log(state)
 
   return (
-    <div className="App">
-      <Context.Provider value={{ state, dispatch}}>
-        <Header style={{position: 'sticky'}} />
+    <Context.Provider value={{ state, dispatch }}>
+      <div className="App">
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route exact key = 'Profile' path="/Profile" element={<Profile />} />
-          <Route exact key = 'News' path="/News" element={<News />} />
-          <Route exact  key = 'Articles' path="/Articles" element={<Articles />} />
-          <Route exact key = 'Reviews' path="/Reviews" element={<Reviews />} />
-          <Route exact key = 'AddPost' path='/AddPost' element={<AddPost />} />
-          <Route exact key = 'EditPost' path='/:blogPage/post/:postId/edit' element={<EditPost />} />
-          <Route exact path='/:blogPage/post/:postId' element={<FullPost />} />
-         {/*  <Route path='/:News/post/:postId' element={<FullPost />} /> */}
+        <Header style={{ position: 'sticky' }} />
+        <main className='main'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route exact key='Profile' path="/Profile" element={<Profile />} />
+            <Route exact key='News' path="/News" element={<News />} />
+            <Route exact key='Articles' path="/Articles" element={<Articles />} />
+            <Route exact key='Reviews' path="/Reviews" element={<Reviews />} />
+            <Route exact key='AddPost' path='/AddPost' element={<AddPost />} />
+            <Route exact key='EditPost' path='/posts/:postId/edit' element={<EditPost />} />
+            <Route exact path='/posts/:postId' element={<FullPost />} />
+            {/*  <Route path='/:News/post/:postId' element={<FullPost />} /> */}
+            <Route path='*' element={<NotFound />} />
+          </Routes>
 
-          <Route path='*' element={<NotFound />} />
-        </Routes>
+        </main>
 
         <Footer />
-      </Context.Provider>
-    </div>
 
+      </div>
+    </Context.Provider>
 
   );
 }

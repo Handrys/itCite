@@ -7,18 +7,14 @@ import postListJSON from "../../JSON/response-news-main-page.json";
 import PostList from "./PostList/PostList";
 import './Content'
 import FetchPosts from "../Pages/FetchPosts";
+import CustomDialog from "../CustomDialog/CustomDialog";
 
 
-const Content = ({blogPage, isPage}) => {   
+const Content = ({blogPage, type, postsCount}) => {   
     
     return (
         <div className="content" >
-            {/* {isPage === 'false' ?
-            <PostListHome  blogPage = {blogPage}  />
-            :
-            <PostList  blogPage = {blogPage} isPage = {isPage}  /> */}
-            <PostList  blogPage = {blogPage} isPage = {isPage}  />
-
+            <PostList  blogPage = {blogPage} type = { type } postsCount = {postsCount}  />
         </div>
         
     );

@@ -18,9 +18,9 @@ export default function PostMenu(props) {
 
     const { state, dispatch } = useContext(Context)
     const { dialog } = state;
-    const { posts, isLogin } = state;
+    const { posts, user } = state;
     const { isOpen, variant } = dialog;
-    const { authorized } = isLogin;
+    const { authorized } = user;
 
 
     return (
@@ -53,9 +53,9 @@ export default function PostMenu(props) {
                /*  disabled = {!authorized} */
                 onClick={() => {
                     handleClose()
-                    console.log(props.blogPost)
+                    
                 }}>
-                    <NavLink style={{color: 'black'}} key={props.blogPost.id} to={`/${props.blogPage}/post/${props.blogPost.id}/edit`}>
+                    <NavLink style={{color: 'black'}} key={props.blogPost._id} to={`/posts/${props.blogPost._id}/edit`}>
                         Редактировать
                     </NavLink>
                 </MenuItem>

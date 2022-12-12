@@ -12,7 +12,12 @@
     /* align-items: center; */
     flex-direction: column;
 }
+.edit__item-avatar{
 
+}
+/* .edit__item__avatarStatus{
+    color: green;
+} */
 
 .edit__item__name{
     margin-right: 16px;
@@ -32,4 +37,5 @@
     width: 100%;
     display: flex;
     justify-content: center;
+    margin-top: 14px;
 }

@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
+
+/* import './Login.css' */
 
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
@@ -13,28 +15,42 @@ import Input from '@mui/material/Input';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Fab from '@mui/material/Fab';
 import Button from '@mui/material/Button';
-import { Context } from '../../../../state';
+
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { useForm } from 'react-hook-form';
 
+import { useForm, Controller } from "react-hook-form";
+import { useRegistration } from '../../../../shared/queries';
+import { Context } from '../../../../state';
+import { useContext } from 'react';
+import { Alert, Stack } from '@mui/material';
 
-const LoginAuth = () => {
+const LoginReg = ({onClose}) => {
 
     const { state, dispatch } = useContext(Context)
-    const { posts, isLogin } = state;
-    const {authorized} = isLogin;
+    const { posts, user } = state;
+    const { authorized, userData } = user;
+
+    const useRegistrationMutation = useRegistration()
+
+    const navigate = useNavigate()
 
     const [values, setValues] = React.useState({
-        username: '',
-        password: '',
-        weight: '',
-        weightRange: '',
+        user: {
+            email: '',
+            password: '',
+            repeatPassword: '',
+            nickName: '',
+            firstName: 'Новый',
+            lastName: 'Пользователь',
+            description: 'Слишком ленив, чтобы написать о себе'
+        },
         showPassword: false,
     });
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
+        console.log(errors)
     };
 
     const handleClickShowPassword = () => {
@@ -48,21 +64,6 @@ const LoginAuth = () => {
         event.preventDefault();
     };
 
-    const formSubmit = () => {
-        /* event.preventDefault(); */
-        console.log(state)
-        dispatch({
-            type: 'isLogin',
-            payload: {
-                authorized: true,
-                userName: values.username,
-            }
-        })
-        localStorage.setItem('authorized', true)
-        localStorage.setItem('userName',values.username)
-        console.log(state)
-    }
-
     const {
         register,
         getValues,
@@ -72,9 +73,39 @@ const LoginAuth = () => {
         control
     } = useForm({
         mode: 'onChange',
+        defaultValues: {
+            firstName: 'Новый',
+            lastName: 'Пользователь',
+            description: 'Слишком ленив, чтобы написать о себе',
+            avatarUrl: 'http://localhost:4444/uploads/litso.png'
+        }
         /*         reValidateMode: 'onSubmit', */
     });
 
+    const dialogOpen = () => dispatch({
+        type: 'isOpenDialog',
+        payload: {
+            isOpen: true,
+            variant: 'succes',
+            dialogTitle: 'Аккаунт',
+            dialogText:'Ваш аккаунт успешно зарегестрирован!'
+        }
+    });
+
+    const formSubmit = (userData) => {
+        /* event.preventDefault(); */
+        useRegistrationMutation.mutateAsync(userData)
+            .then(() => {
+                console.log(userData)
+                onClose()
+                navigate(`/Profile`)
+                dialogOpen()
+            })
+            .catch((err) => {
+                console.log('err')
+            })
+
+    }
 
     return (
         <>
@@ -84,28 +115,52 @@ const LoginAuth = () => {
                         <LockOutlinedIcon />
                     </Fab>
                 </div>
-                <div className="login-window__top-title">Авторизация</div>
+                <div className="login-window__top-title">Регистрация</div>
             </div>
             <form onSubmit={handleSubmit(formSubmit)} action='#' className="login-window__form">
-            <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
+
+
+                <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
                     <TextField
-                        {...register('username', {
+                        {...register('nickName', {
                             required: {
                                 value: true,
                                 message: '*Обязательное поле'
                             },
-/*                             pattern: {
+                            pattern: {
                                 value: /^[a-z0-9_-]{3,16}$/,
                                 message: 'Имя пользователя должно иметь от 3 до 16 символов (латиница), включая символы "-" и "_"'
-                            } */
+                            }
                         })}
                         id="standard-adornment-username"
                         variant="standard"
-                        /*   value={values.username} */
-                        error={errors.username}
-                        helperText={errors.username ? errors.username.message : ''}
-                        label="Имя пользователя:"
-                        /* onChange={handleChange('username')} */
+                        /*   value={values.nickName} */
+                        error={errors.nickName}
+                        helperText={errors.nickName ? errors.nickName.message : ''}
+                        label="*Имя пользователя:"
+                        /* onChange={handleChange('nickName')} */
+   
+                    />
+                </FormControl>
+
+                <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
+                    <TextField
+                        {...register('email', {
+                            required: {
+                                value: true,
+                                message: '*Обязательное поле'
+                            },
+                            pattern: {
+                                value: /^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/,
+                                message: 'Некорректный e-mail'
+                            }
+                        })}
+                        variant="standard"
+                        id="standard-adornment-username"
+                        /*  value={values.email} */
+                        label="*E-mail:"
+                        error={errors.email}
+                        helperText={errors.email ? errors.email.message : ''}
                         InputProps={{
                             endAdornment: (
                                 <InputAdornment position="end">
@@ -117,20 +172,21 @@ const LoginAuth = () => {
                                 </InputAdornment>
                             )
                         }}
+                    /* onChange={handleChange('email')} */
                     />
                 </FormControl>
 
                 <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
                     <TextField
-                        {...register('password', { 
+                        {...register('password', {
                             required: {
                                 value: true,
                                 message: '*Обязательное поле'
                             },
-                            /* pattern: {
+                            pattern: {
                                 value: /^[a-z0-9_-]{6,18}$/,
                                 message: 'Пароль слижком легкий. Используйте от 6 до 16 символов (латиница), включая спец.символы.'
-                            } */
+                            }
                         })}
                         id="standard-adornment-password"
                         type={values.showPassword ? 'text' : 'password'}
@@ -155,10 +211,30 @@ const LoginAuth = () => {
                         }}
                     />
                 </FormControl>
-                <FormControl sx={{ m: 1, width: '100%', marginTop: '30px' }} variant="standard">
-                    <Button variant="contained" type='submit'>Войти</Button>
-                </FormControl>
+                <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
 
+                    <TextField
+                        {...register('repeatPassword', { required: { value: true, message: '*Обязательное поле' }, validate: value => value === getValues('password') || 'Пароли не совпадают' })}
+                        id="standard-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        /* value={values.password2} */
+                        label='*Повторите пароль:'
+                        error={errors.repeatPassword}
+                        helperText={errors.repeatPassword ? errors.repeatPassword.message : ''}
+                        /*  onChange={handleChange('password2')} */
+                        variant='standard'
+                    />
+                </FormControl>
+                <FormControl sx={{ m: 1, width: '100%', marginTop: '30px' }} variant="standard">
+                    <Button type='submit' variant="contained">Зарегестрироваться</Button>
+                </FormControl>
+                
+                <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
+                    {(state.errors.auth && !authorized) &&
+                        <Alert severity="error">{state.errors.auth}</Alert>
+                    }
+                    
+                </Stack>
             </form>
         </>
 
@@ -166,4 +242,4 @@ const LoginAuth = () => {
     );
 }
 
-export default LoginAuth;
+export default LoginReg;
