@@ -17,7 +17,7 @@ const Footer = () => {
                     <div className="footer-bottom">2022 БлогIT</div>
                 </div>
             </div>
-            <img className='up' src={UP} alt="" />
+            {/* <img className='up' src={UP} alt="" /> */}
         </div>
     );
 }

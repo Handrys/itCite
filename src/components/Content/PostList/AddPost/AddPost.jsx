@@ -125,13 +125,13 @@ const AddPost = (props) => {
         /*   console.log(editorState.getCurrentContent().hasText()) */
         /* const descriptionText = editorState.getCurrentContent().getPlainText(); */
         const descriptionText = draftToHtml(convertToRaw(state.getCurrentContent()))
-        console.log(descriptionText)
+     /*    console.log(descriptionText) */
         setValue('description', descriptionText)
         setForm({
             ...form,
             description: draftToHtml(convertToRaw(state.getCurrentContent()))
         });
-        console.log(getValues('description'));
+        console.log(editorState.getCurrentContent().getPlainText());
 
     }
 
@@ -295,37 +295,62 @@ const convertContentToHTML = () => {
                                             name='title'
                                             error={errors.title} helperText={errors.title ? errors.title.message : ''} />
                                     </FormControl>
-                                    <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" aria-labelledby="form-description-label">
-                                        {/*  <TextField name='description'  error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} /> */}
+                                    <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" aria-labelledby="form-description-label" error={errors.description}>
+                                            {/*  <TextField name='description'  error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} /> */}
+                                            <Controller
+                                                control={control}
+                                                name="description"  
+                                                rules={{
+                                                    required: {
+                                                        value: true,
+                                                        message: 'Это обязательное поле*'
+                                                    },
+                                                    minLength: {
+                                                        value: 160,
+                                                        message: 'Описание должно иметь от 160 символов'
+                                                    },
+                                                    maxLength: {
+                                                        value: 30000,
+                                                        message: 'Слишком длинное описание'
+                                                    }
+                                                }}                                              
+                                                render={({
+                                                    field: { onChange, onBlur, value = editorState.getCurrentContent().getPlainText(), name, ref },
+                                                    fieldState: { invalid, isTouched, isDirty, error },
+                                                    formState,
+                                                    
+                                                }) => (
+                                                    <Editor
+       /*                                              {...register('description', {
+                                                        required: {
+                                                            value: true,
+                                                            message: 'Это обязательное поле*'
+                                                        }
+                                                    })} */
+                                                    /* value={editorState.getCurrentContent().getPlainText()} */
+                                                    wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
+                                                    editorClassName="editor-class"
+                                                    toolbarClassName="toolbar-class"
+                                                    editorState={editorState}
+                                                    onEditorStateChange={handleEditorChange}
+                                                    name= {name}
+    
+                                                    /* toolbarOnFocus */
+                                                    toolbar={{
+                                                        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
+                                                        /* option: {
+                                                            className: 'toolbarBtn'
+                                                        } */
+                                                    }}
+                                                />
+                                                )}
+                                            />
+                                            
 
-                                        <Editor
-                                            {...register('description', {
-                                                required: {
-                                                    value: true,
-                                                    message: 'Это обязательное поле*'
-                                                }
-                                            })}
-                                            /* value={editorState.getCurrentContent().getPlainText()} */
-                                            wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
-                                            editorClassName="editor-class"
-                                            toolbarClassName="toolbar-class"
-                                            editorState={editorState}
-                                            onEditorStateChange={handleEditorChange}
-                                            name='description'
-                                            onChange={update}
-                                            /* toolbarOnFocus */
-                                            toolbar={{
-                                                options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
-                                                /*     option: {
-                                                        className: 'toolbarBtn'
-                                                    } */
-                                            }}
-                                        />
 
 
-
-                                        <FormHelperText sx={{ color: '#d32f2f' }} id="form-description-label">{errors.description ? errors.description.message : ''}</FormHelperText>
-                                    </FormControl>
+                                            <FormHelperText sx={{ color: '#d32f2f' }} id="form-description-label">{errors.description ? errors.description.message : ''}</FormHelperText>
+                                        </FormControl>
 
 
                                     <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" required>

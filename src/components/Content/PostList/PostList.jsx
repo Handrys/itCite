@@ -14,6 +14,7 @@ import Dialog from '@mui/material/Dialog';
 import { useGetPosts, useDeletePost } from './../../../shared/queries';
 import CustomDialog from './../../CustomDialog/CustomDialog';
 import { Button } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 
 
@@ -43,7 +44,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
     useEffect(() => {
         !user.userData ? setUserId(0) : setUserId(user.userData._id)
     }, [])
- 
+
 
     useEffect(() => {
         const num = postsArr.slice().reverse().filter(element => element.author._id === userId).length;
@@ -57,7 +58,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
         })
 
     }, [postsArr])
-   
+
 
     /*  console.log(postsUserCount)
      useEffect(() => {     
@@ -74,8 +75,8 @@ const PostList = ({ blogPage, type, postsCount }) => {
     if (isFetching) return null
 
     const addpostsView = () => { setpostsView(postsView + 12) }
-    
-   
+
+
 
     const deletePost = (blogPost) => {
         console.log(blogPost)
@@ -88,7 +89,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
                         isOpen: true,
                         variant: 'succes',
                         dialogTitle: 'Информация:',
-                        dialogText:'Пост успешно удален!'
+                        dialogText: 'Пост успешно удален!'
                     }
                 })
             })
@@ -99,7 +100,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
                         isOpen: true,
                         variant: 'error',
                         dialogTitle: 'Ошибка',
-                        dialogText:'При удалении поста произошла ошибка!'
+                        dialogText: 'При удалении поста произошла ошибка!'
                     }
                 })
             })
@@ -111,24 +112,52 @@ const PostList = ({ blogPage, type, postsCount }) => {
 
         /* console.log(item) */
         return (
-            <Post
-                key={pos}
-                id={pos}
-                item={item}
-                title={item.title}
-                image={item.image}
-                author= {item.author}
-                publish_date={item.createdAt.split('.').shift().split('T').shift()}
-                publish_time={item.createdAt.split('.').shift().split('T').pop()}
-                deletePost={deletePost}
-                category={item.category}
-                blogPage={blogPage}
-                type={type}
+            <Grid xs={2} sm={4} md={4} key={pos} >
+                <Post
+                    key={pos}
+                    id={pos}
+                    item={item}
+                    title={item.title}
+                    image={item.image}
+                    author={item.author}
+                    publish_date={item.createdAt.split('.').shift().split('T').shift()}
+                    publish_time={item.createdAt.split('.').shift().split('T').pop()}
+                    deletePost={deletePost}
+                    category={item.category}
+                    blogPage={blogPage}
+                    type={type}
 
 
-            />
+                />
+            </Grid>
         )
     })
+
+    const homePosts = postsArr.slice().reverse().filter(element => element.category === blogPage).slice(0, 4).map((item, pos) => {
+
+        /* console.log(item) */
+        return (
+            <Grid xs={2} sm={4} md={6} key={pos} >
+                <Post
+                    key={pos}
+                    id={pos}
+                    item={item}
+                    title={item.title}
+                    image={item.image}
+                    author={item.author}
+                    publish_date={item.createdAt.split('.').shift().split('T').shift()}
+                    publish_time={item.createdAt.split('.').shift().split('T').pop()}
+                    deletePost={deletePost}
+                    category={item.category}
+                    blogPage={blogPage}
+                    type={type}
+
+
+                />
+            </Grid>
+        )
+    })
+
 
 
 
@@ -140,7 +169,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
                 item={item}
                 title={item.title}
                 image={item.image}
-                author= {item.author}
+                author={item.author}
                 publish_date={item.createdAt}
                 /*  deletePost={() => deletePost(item)} */
                 category={item.category}
@@ -195,11 +224,23 @@ const PostList = ({ blogPage, type, postsCount }) => {
             {type === 'pagePosts' &&
                 <div className='posts-wrapper'>
                     <div className="posts-list">
-                        {allPosts}
+                        <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }}>
+                            {allPosts}
+                        </Grid>
                     </div>
                     <div className="posts-bottom">
                         <Button disabled={postsCount <= postsView} onClick={addpostsView} variant="outlined">Показать еще</Button>
                     </div>
+                </div>
+            }
+            {type === 'homePosts' &&
+                <div className='posts-wrapper'>
+                    <div className="posts-list">
+                        <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }}>
+                            {homePosts}
+                        </Grid>
+                    </div>
+
                 </div>
             }
             {type === 'presentPosts' &&
@@ -209,10 +250,12 @@ const PostList = ({ blogPage, type, postsCount }) => {
             }
             {type === 'userPosts' &&
                 <div className="posts-list">
-                    {userPosts}
+                    <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }}>
+                        {userPosts}
+                    </Grid>
                 </div>
             }
-           { <CustomDialog deletePost={() => deletePost(propsDialog.blogPost)} />}
+            {<CustomDialog deletePost={() => deletePost(propsDialog.blogPost)} />}
         </>
 
     );

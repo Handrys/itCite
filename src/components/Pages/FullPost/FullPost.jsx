@@ -119,16 +119,19 @@ export const FullPost = (props) => {
     const [copySuccess, setCopySuccess] = useState(`http://localhost:3000/posts/${postId}`);
 
     const styleSocialLink = {
-        width: '25%'
+        width: '25%',
+        margin: '0 auto',
     }
 
     const styleSocialButton = {
         width: '100%',
         height: '100%',
+        minWidth: '70px',
         padding: '15px 0',
         backgroundColor: '#f2f4f6',
         color: '#424141',
         fontWeight: '700',
+ 
         '&:hover': {
             color: '#ffff'
         }
@@ -144,7 +147,7 @@ export const FullPost = (props) => {
                 'time': post.createdAt.split('.').shift().split('T').pop()
             });
         }
-    }, [status || user.author || postId])
+    }, [isFetching])
 
 
     if (isFetching) return null
@@ -193,11 +196,11 @@ export const FullPost = (props) => {
                                             <Stack direction="row" spacing={2}>
                                                 <Button disabled={!isAuthor} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
                                                     <NavLink style={{ /* color: '#1069a5' */ }} key={post._id} to={`/posts/${post._id}/edit`}>
-                                                        Редактировать
+                                                        <span className={s.post__control__title}>Редактировать</span>
                                                     </NavLink>
                                                 </Button>
                                                 <Button disabled={!isAuthor} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
-                                                    Удалить
+                                                    <span className={s.post__control__title}>Удалить</span>
                                                 </Button>
 
                                             </Stack>
@@ -216,20 +219,20 @@ export const FullPost = (props) => {
                                     <div className={s.post__share}>
                                         <div className={s.post__share__title}>Поделись материалом</div>
                                         <div className={s.post__share__buttons}>
-                                            <Stack direction="row" spacing={3}>
-                                                <ButtonLink sx={styleSocialLink} href="https://twitter.com/intent/tweet?text=%D0%90%D0%B2%D1%82%D0%BE%D0%BF%D0%B8%D0%BB%D0%BE%D1%82%20Tesla%20%D0%B2%D1%80%D0%B5%D0%B7%D0%B0%D0%BB%D1%81%D1%8F%20%D0%B2%20%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%BC%D0%BE%D0%BB%D1%91%D1%82&url=https://kod.ru/tesla-crashed-into-plame/">
+                                            <Stack  direction={{xs: 'column', sm: 'row'}} spacing={{ xs: 1, sm: 2, md: 4 }}>
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href="https://twitter.com/intent/tweet?text=%D0%90%D0%B2%D1%82%D0%BE%D0%BF%D0%B8%D0%BB%D0%BE%D1%82%20Tesla%20%D0%B2%D1%80%D0%B5%D0%B7%D0%B0%D0%BB%D1%81%D1%8F%20%D0%B2%20%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%BC%D0%BE%D0%BB%D1%91%D1%82&url=https://kod.ru/tesla-crashed-into-plame/">
                                                     <Button sx={styleSocialButton} className='fullpost-social-icon' variant="contained" >
                                                         <TwitterIcon />
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink sx={styleSocialLink} href="https://www.facebook.com/sharer/sharer.php?u=http://kod.ru">
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href="https://www.facebook.com/sharer/sharer.php?u=http://kod.ru">
                                                     <Button sx={styleSocialButton} variant="contained" >
                                                         <FacebookIcon />
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink sx={styleSocialLink} href="tg://msg_url?url=https://kod.ru/tesla-crashed-into-plame/">
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href="tg://msg_url?url=https://kod.ru/tesla-crashed-into-plame/">
                                                     <Button sx={styleSocialButton} variant="contained" >
 
                                                         <SendIcon />
@@ -237,7 +240,7 @@ export const FullPost = (props) => {
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink sx={styleSocialLink} onClick={() => { navigator.clipboard.writeText(copySuccess) }}>
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} onClick={() => { navigator.clipboard.writeText(copySuccess) }}>
                                                     <Button sx={styleSocialButton} variant="contained" >
                                                         <ContentCopyIcon />
                                                     </Button>

@@ -5,7 +5,10 @@
 
 .posts-list{
     display: flex;
-    flex-wrap: wrap;
+/*     flex-wrap: wrap;
+    width: fit-content; */
+    justify-content: center;
+    flex-grow: 1;
 
 /*     flex-direction: row-reverse; */
     /* justify-content: space-between; */

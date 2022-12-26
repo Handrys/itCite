@@ -98,7 +98,7 @@ const LoginReg = ({onClose}) => {
             .then(() => {
                 console.log(userData)
                 onClose()
-                navigate(`/Profile`)
+                navigate(`/`)
                 dialogOpen()
             })
             .catch((err) => {

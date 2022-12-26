@@ -232,12 +232,12 @@ const EditPost = (props) => {
     }
 
 
-    useEffect(() => {
+/*     useEffect(() => {
         const editorText = editorState.getCurrentContent().getPlainText();
         const hasText = editorState.getCurrentContent().hasText();
         console.log(editorText.split(''))
         editorText.split('').length < 160 ? setError('description', { type: 'custom', message: 'Минимальная длинна 160 символов' }) : clearErrors('description');
-    }, [editorState.getCurrentContent().getPlainText().length]);
+    }, [editorState.getCurrentContent().getPlainText().length]); */
 
     //===========================================================================================================================================
 
@@ -329,7 +329,7 @@ const EditPost = (props) => {
                                         </FormControl>
                                         <FormControl sx={{ mt: 3, width: '100%' }} variant="standard" aria-labelledby="form-description-label" error={errors.description}>
                                             {/*  <TextField name='description'  error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} /> */}
-                                           {/*  <Controller
+                                            <Controller
                                                 control={control}
                                                 name="description"  
                                                 rules={{
@@ -338,34 +338,34 @@ const EditPost = (props) => {
                                                         message: 'Это обязательное поле*'
                                                     },
                                                     minLength: {
-                                                        value: 10,
-                                                        message: 'Название должно иметь от 10 до 100 символов'
+                                                        value: 160,
+                                                        message: 'Название должно иметь от 160 до 10 000 символов'
                                                     },
                                                     maxLength: {
-                                                        value: 100,
-                                                        message: 'Название должно иметь от 10 до 100 символов'
+                                                        value: 10000,
+                                                        message: 'Название должно иметь от 160 до 10 000 символов'
                                                     }
                                                 }}                                              
                                                 render={({
-                                                    field: { onChange, onBlur, value, name, ref },
+                                                    field: { onChange, onBlur, value = editorState.getCurrentContent().getPlainText(), name, ref },
                                                     fieldState: { invalid, isTouched, isDirty, error },
                                                     formState,
                                                     
-                                                }) => ( */}
+                                                }) => (
                                                     <Editor
-                                                    {...register('description', {
+       /*                                              {...register('description', {
                                                         required: {
                                                             value: true,
                                                             message: 'Это обязательное поле*'
                                                         }
-                                                    })}
+                                                    })} */
                                                     /* value={editorState.getCurrentContent().getPlainText()} */
                                                     wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
                                                     editorClassName="editor-class"
                                                     toolbarClassName="toolbar-class"
                                                     editorState={editorState}
                                                     onEditorStateChange={handleEditorChange}
-                                                    name='description'
+                                                    name= {name}
     
                                                     /* toolbarOnFocus */
                                                     toolbar={{
@@ -374,8 +374,8 @@ const EditPost = (props) => {
                                                             className: 'toolbarBtn'
                                                         } */
                                                     }}
-                                               /*  />
-                                                )} */
+                                                />
+                                                )}
                                             />
                                             
 

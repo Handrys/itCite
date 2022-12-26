@@ -105,7 +105,7 @@ const ProfileData = () => {
             isOpen: true,
             variant: 'succes',
             dialogTitle: 'Профиль',
-            dialogText:'Изменения успешно сохранены!'
+            dialogText: 'Изменения успешно сохранены!'
         }
     });
 
@@ -115,7 +115,7 @@ const ProfileData = () => {
             isOpen: true,
             variant: 'error',
             dialogTitle: 'Ошибка',
-            dialogText:'При редактировании профиля произошла ошибка!'
+            dialogText: 'При редактировании профиля произошла ошибка!'
         }
     });
 
@@ -196,14 +196,14 @@ const ProfileData = () => {
             >
 
                 <form onSubmit={handleSubmit(editProfile)} className={s.edit}>
-                <div className={s.edit__item-avatar}>
+                    <div className={s.edit__item - avatar}>
                         <span className={s.edit__item__name}>Аватар:</span>
-                       {/*  <span>{userData.avatarUrl ? 'Загружено' : 'avatar.png'}</span> */}
-                        <Button variant="contained" sx={{width: 'fit-content'}} component="label" disabled={form.disabled} >
+                        {/*  <span>{userData.avatarUrl ? 'Загружено' : 'avatar.png'}</span> */}
+                        <Button variant="contained" sx={{ width: 'fit-content' }} component="label" disabled={form.disabled} >
                             Upload
                             <input onChange={handleImageChange} hidden accept="image/*" multiple type="file" />
                         </Button>
-                        {avatarUrl&& <span style={{color: 'green', fontWeight: '600', marginLeft: '10px', fontStyle: 'italic'}}>✔️</span>}
+                        {avatarUrl && <span style={{ color: 'green', fontWeight: '600', marginLeft: '10px', fontStyle: 'italic' }}>✔️</span>}
                     </div>
                     <div className={s.edit__item}>
                         <span className={s.edit__item__name}>Фамилия:</span>
@@ -352,7 +352,7 @@ const ProfileData = () => {
                             }}
                         />
                     </div> */}
-                    
+
                     <div className={s.edit__item}>
                         <span className={s.edit__item__name}>Описание профиля:</span>
                         <TextField
@@ -397,26 +397,28 @@ const ProfileData = () => {
                                 type='submit'
                                 startIcon={<SaveIcon />}
                                 variant="contained">
-                                Сохранить
+                                <span className={s.edit__button__text}>Сохранить</span>
+                            </Button>
+                        }
+                        {
+                            form.disabled &&
+                            <Button
+                                sx={{
+                                    width: '40%',
+                                    padding: '10px',
+                                    borderRadius: '10px'
+                                }}
+                                onClick={() => { changeFormDisabledFalse(); console.log(form.disabled) }}
+                                startIcon={<EditIcon />}
+                                variant="contained">
+                               <span className={s.edit__button__text}>Редактировать</span>
                             </Button>
                         }
                     </div>
                     {/* <LinearProgress sx={{margin: '0 -14px -25px -14px'}} color="success" /> */}
+
                 </form>
-                {
-                    form.disabled &&
-                    <Button
-                        sx={{
-                            width: '40%',
-                            padding: '10px',
-                            borderRadius: '10px'
-                        }}
-                        onClick={() => { changeFormDisabledFalse(); console.log(form.disabled) }}
-                        startIcon={<EditIcon />}
-                        variant="contained">
-                        Редактировать
-                    </Button>
-                }
+
 
             </Box>
         </>

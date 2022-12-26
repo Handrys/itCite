@@ -30,23 +30,8 @@ const ProfileTitle = () => {
     },[user])
 
     return (
-        <>
-            <Box
-                sx={{
-                    width: '100%',
-                    height: '100%',
-                    backgroundColor: '#EAEAEA',
-                    borderRadius: '15px',
-                    padding: '25px',
-                    boxSizing: 'border-box',
-                    display: 'flex',
-                    boxShadow: '3px 5px 4px rgba(0, 0, 0, 0.25)'
-                    /* '&:hover': {
-                        backgroundColor: 'primary.main',
-                        opacity: [0.9, 0.8, 0.7],
-                    }, */
-                }}
-            >
+        <div className={s.profileTitle}>
+
                 <div className={s.avatar}>
                     <img src={user.userData.avatarUrl} alt="" />
                 </div>
@@ -73,8 +58,8 @@ const ProfileTitle = () => {
                         <div className={s.infoDescription__text}>{user.userData.description}</div>
                     </div>
                 </div>
-            </Box>
-        </>
+           
+        </div>
     );
 }
 

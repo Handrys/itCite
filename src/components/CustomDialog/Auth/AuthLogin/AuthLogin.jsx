@@ -81,7 +81,7 @@ const LoginAuth = ({ onClose }) => {
             .then(() => {
                 console.log(userData)               
                 onClose();
-                navigate(`/Profile`)
+                navigate(`/`)
                 dialogOpen()
 
             })

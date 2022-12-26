@@ -6,7 +6,8 @@
 }
 
 .pages-description__body{
-    width: 30%;
+    width: 100%;
+    max-width: 380px;
     margin: 0 auto;
 }
 

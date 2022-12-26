@@ -29,16 +29,24 @@ export const Post = (props) => {
     /*  isDeleted ? handleDialogStatusOpen() : handleDialogStatusClose() */
     /*  props.isDeleted ? console.log('yes') : console.log('no') */
     
-    const stylesPage = {
-        padding: '0 10px',
-        margin: '15px 0',
-        width: '33%'
-    }
 
-    const stylesProfile = {
-        padding: '0 10px',
-        margin: '15px 0',
-        width: '100%'
+    const styles = {
+        stylesPage : {
+            padding: '0 10px',
+            margin: '15px 0',
+            width: '100%',
+            /* minWidth: '320px', */
+           /*  flexGrow: '0', */
+            
+        } ,
+        'stylesPage:last-child':{
+            flexGrow: '0'
+        },
+        stylesProfile : {
+            padding: '0 10px',
+            margin: '15px 0',
+            width: '100%'
+        }
     }
     
 
@@ -50,7 +58,7 @@ export const Post = (props) => {
 
     return (
         <React.Fragment key={props.item._id}>
-            <div className={s.post} style={(props.type === 'userPosts' ? stylesProfile : stylesPage) }>
+            <div className={s.post} style={(props.type === 'userPosts' ? styles.stylesProfile : styles.stylesPage) }>
 
                 <div className={s.post__img} /* onClick={ () =>  } */>
 
