@@ -150,7 +150,7 @@ const ProfileData = () => {
 
             const { data } = await axios.post('/upload', formData)
             console.log(URL.createObjectURL(file))
-            setForm({ ...form, ['avatarUrl']: `http://localhost:4444${data.url}` });
+            setForm({ ...form, ['avatarUrl']: `${process.env.REACT_APP_API_URL}${data.url}` });
         } catch (err) {
             console.warn(err)
             console.log('Error')

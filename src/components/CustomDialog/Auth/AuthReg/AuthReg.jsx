@@ -77,7 +77,7 @@ const LoginReg = ({onClose}) => {
             firstName: 'Новый',
             lastName: 'Пользователь',
             description: 'Слишком ленив, чтобы написать о себе',
-            avatarUrl: 'http://localhost:4444/uploads/litso.png'
+            avatarUrl: `${process.env.REACT_APP_API_URL}/uploads/litso.png`
         }
         /*         reValidateMode: 'onSubmit', */
     });

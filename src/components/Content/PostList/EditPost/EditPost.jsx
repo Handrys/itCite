@@ -267,7 +267,7 @@ const EditPost = (props) => {
 
             const { data } = await axios.post('/upload', formData)
             console.log(data.url)
-            setForm({ ...form, ['image']: `http://localhost:4444${data.url}` });
+            setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` });
         } catch (err) {
             console.warn(err)
             console.log('Error')

@@ -83,7 +83,7 @@ const AddPost = (props) => {
 
 
     const [form, setForm] = React.useState({
-        image: "http://localhost:4444/uploads/home.png",
+        image: `${process.env.REACT_APP_API_URL}/uploads/home.png`,
         author: '',
         category: '',
         categoryPresent: '',
@@ -203,7 +203,7 @@ const AddPost = (props) => {
 
             const { data } = await axios.post('/upload', formData)
             console.log(data.url)
-            setForm({ ...form, ['image']: `http://localhost:4444${data.url}` });
+            setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` });
         } catch (err) {
             console.warn(err)
             console.log('Error')
