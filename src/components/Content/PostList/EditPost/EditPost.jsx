@@ -282,7 +282,7 @@ const EditPost = (props) => {
         const requestConfig = {
             url: POST_URL,
             method: "POST",
-            data: formdata,
+            data: formData,
             headers
             // params:{
             //  eager_async:true
