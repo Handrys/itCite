@@ -276,7 +276,7 @@ const EditPost = (props) => {
             };
             headers["X-Unique-Upload-Id"] = uniqueId;
             headers["X-Requested-With"] = "XMLHttpRequest";
-            headers["Content-Range"] = "bytes " + start + "-" + end + "/" + size;
+            headers["Content-Range"] = "bytes ";
 
             const requestConfig = {
                 url: 'https://api.cloudinary.com/v1_1/divogmzjb/image/upload',
