@@ -9,6 +9,7 @@ import axios from 'axios';
 import { Context } from '../../../../state';
 import CustomDialog from '../../../CustomDialog/CustomDialog';
 import DeletePostDialog from './../../../CustomDialog/DeletePostDialog/DeletePostDialog';
+import defaultImg from '../../../../img/vopros-znak.jpg'
 
 export const Post = (props) => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -62,7 +63,7 @@ export const Post = (props) => {
 
                 <div className={s.post__img} /* onClick={ () =>  } */>
 
-                    <img src={props.image} alt="" />
+                    <img src={props.image} alt={defaultImg} />
 
                     <div className={s.postMore}>
                         <NavLink key={props.item._id} to={`/posts/${props.item._id}`}>
