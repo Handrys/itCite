@@ -272,6 +272,8 @@ const EditPost = (props) => {
         formData.append("cloud_name", YOUR_CLOUD_NAME);
         formData.append("upload_preset", YOUR_UNSIGNED_UPLOAD_PRESET);
 
+        setPostImage(URL.createObjectURL(file));
+        
         const headers = {
             Accept: "*/*",
             "Content-Type": "multipart/form-data"
@@ -289,13 +291,14 @@ const EditPost = (props) => {
             // }
             // cancelToken: axiosSource.token
         };
-        await axios(requestConfig)
+        return await axios(requestConfig)
         .then((res) => {
-            res.data
+            console.log(res.data)
+
         })
         .catch((err) => console.log(err))
 
-        setPostImage(URL.createObjectURL(file));
+        
 
 /*         const { data } = await axios.post('/upload', formData)
         console.log(data.url) */
