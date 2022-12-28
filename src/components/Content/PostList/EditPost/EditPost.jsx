@@ -264,7 +264,7 @@ const EditPost = (props) => {
             const file = e.target.files[0];
             formData.append('file', file)
             formData.append('upload_preset', 'upload')
-            formData.append('cloud_name', 'divogmzjb')
+            /* formData.append('cloud_name', 'divogmzjb') */
             setPostImage(URL.createObjectURL(file));
 
             const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/upload', formData)
