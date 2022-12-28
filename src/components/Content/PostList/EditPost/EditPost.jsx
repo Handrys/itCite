@@ -14,7 +14,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import './EditPost.css'
-import axios from '../../../../shared/axios'
+import axios from 'axios'
 import { Context } from '../../../../state'
 import { InitialApp } from '../../../../state/context';
 
