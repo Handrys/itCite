@@ -268,13 +268,12 @@ const EditPost = (props) => {
             setPostImage(URL.createObjectURL(file));
 
             const YOUR_CLOUD_NAME = "divogmzjb";
-            uniqueId = YOUR_CLOUD_NAME + new Date().getTime();
 
             const headers = {
                 Accept: "*/*",
                 "Content-Type": "multipart/form-data"
             };
-            headers["X-Unique-Upload-Id"] = uniqueId;
+            headers["X-Unique-Upload-Id"] = YOUR_CLOUD_NAME + new Date().getTime();
             headers["X-Requested-With"] = "XMLHttpRequest";
             headers["Content-Range"] = "bytes ";
 
