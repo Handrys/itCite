@@ -267,7 +267,14 @@ const EditPost = (props) => {
             formData.append('cloud_name', 'divogmzjb')
             setPostImage(URL.createObjectURL(file));
 
-            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/upload', formData)
+            const config = {
+                headers: {
+                    'content-type': 'multipart/form-data',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            }
+
+            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/upload', formData,config)
             console.log(data.url)
             setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` });
         } catch (err) {
