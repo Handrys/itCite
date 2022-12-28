@@ -267,7 +267,7 @@ const EditPost = (props) => {
             formData.append('cloud_name', 'divogmzjb')
             setPostImage(URL.createObjectURL(file));
 
-            const YOUR_CLOUD_NAME = "divogmzjb";
+         /*    const YOUR_CLOUD_NAME = "divogmzjb"; */
 
             const headers = {
                 Accept: "*/*",
@@ -282,14 +282,10 @@ const EditPost = (props) => {
                 method: "POST",
                 data: formData,
                 headers
-                // params:{
-                //  eager_async:true
-                // }
-                // cancelToken: axiosSource.token
             };
 
 
-            const { data } = await axios.post(requestConfig)
+            const { data } = await axios(requestConfig)
             console.log(data.url)
             setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` });
         } catch (err) {
