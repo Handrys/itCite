@@ -273,9 +273,9 @@ const EditPost = (props) => {
                 Accept: "*/*",
                 "Content-Type": "multipart/form-data"
             };
-            headers["X-Unique-Upload-Id"] = YOUR_CLOUD_NAME + new Date().getTime();
+/*             headers["X-Unique-Upload-Id"] = YOUR_CLOUD_NAME + new Date().getTime();
             headers["X-Requested-With"] = "XMLHttpRequest";
-            headers["Content-Range"] = "bytes ";
+            headers["Content-Range"] = "bytes "; */
 
             const requestConfig = {
                 url: 'https://api.cloudinary.com/v1_1/divogmzjb/image/upload',
