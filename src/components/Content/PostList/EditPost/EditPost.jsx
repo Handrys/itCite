@@ -14,7 +14,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import './EditPost.css'
-import axios from '../../../../shared/axios'
+import axios from 'axios'
 import { Context } from '../../../../state'
 import { InitialApp } from '../../../../state/context';
 
@@ -259,19 +259,51 @@ const EditPost = (props) => {
 
     const handleImageChange = async (e) => {
         console.log('work')
-        try {
-            const formData = new FormData();
-            const file = e.target.files[0];
-            formData.append('image', file)
-            setPostImage(URL.createObjectURL(file));
+        const YOUR_CLOUD_NAME = "divogmzjb";
+        const YOUR_UNSIGNED_UPLOAD_PRESET = "upload";
 
-            const { data } = await axios.post('/upload', formData)
-            console.log(data.url)
-            setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` });
-        } catch (err) {
-            console.warn(err)
-            console.log('Error')
-        }
+        const POST_URL = "https://api.cloudinary.com/v1_1/" + YOUR_CLOUD_NAME + "/image/upload";
+        const uniqueId = YOUR_CLOUD_NAME + new Date().getTime();
+
+        const formData = new FormData();
+        const file = e.target.files[0];
+
+        formData.append('image', file)
+        formData.append("cloud_name", YOUR_CLOUD_NAME);
+        formData.append("upload_preset", YOUR_UNSIGNED_UPLOAD_PRESET);
+
+        setPostImage(URL.createObjectURL(file));
+        
+        const headers = {
+            Accept: "*/*",
+            "Content-Type": "multipart/form-data"
+        };
+        headers["X-Unique-Upload-Id"] = uniqueId;
+        headers["X-Requested-With"] = "XMLHttpRequest";
+        headers["Content-Range"] = "bytes " + file.size;
+        const requestConfig = {
+            url: POST_URL,
+            method: "POST",
+            data: formData,
+            headers
+            // params:{
+            //  eager_async:true
+            // }
+            // cancelToken: axiosSource.token
+        };
+        return await axios(requestConfig)
+        .then((res) => {
+            console.log(res.data)
+
+        })
+        .catch((err) => console.log(err))
+
+        
+
+/*         const { data } = await axios.post('/upload', formData)
+        console.log(data.url) */
+     /*    setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` }); */
+
 
     };
 
