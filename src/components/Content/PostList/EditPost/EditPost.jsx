@@ -57,7 +57,7 @@ const EditPost = (props) => {
     const [postImage, setPostImage] = React.useState();
 
     /*  console.log(postId) */
-    /*    console.log('ID SSILKI: ', postId) */
+ /*    console.log('ID SSILKI: ', postId) */
     const { status, isLoading, data: post, error, isFetching, isMutating, isSuccess, refetch } = useGetSinglePost(postId);
     const setOpacity = !isSuccess ? 0.5 : 1
 
@@ -81,16 +81,16 @@ const EditPost = (props) => {
 
     useEffect(() => {
         if (post) {
-            /*    console.log(post._id, postId) */
+         /*    console.log(post._id, postId) */
             if (post._id != postId) refetch()
         }
     }, [post])
 
     useEffect(() => {
-        /*         console.log(status)
-                console.log(post) */
+/*         console.log(status)
+        console.log(post) */
         if (post) {
-            /*  console.log(post._id, postId) */
+           /*  console.log(post._id, postId) */
             setForm({
                 category: post.category,
                 categoryPresent: post.categoryPresent,
@@ -104,7 +104,7 @@ const EditPost = (props) => {
                         console.log('ID PARAMSA:', postId) */
         }
     }, [post])
-
+    
     const {
         register,
         handleSubmit,
@@ -142,8 +142,8 @@ const EditPost = (props) => {
             categoryPresent: form.categoryPresent,
             image: postImage,
         }
-        /*    console.log(form.image)
-           console.log(blogPost) */
+     /*    console.log(form.image)
+        console.log(blogPost) */
 
         editPostMutation.mutateAsync({ blogPost })
             .then(() => {
@@ -232,12 +232,12 @@ const EditPost = (props) => {
     }
 
 
-    /*     useEffect(() => {
-            const editorText = editorState.getCurrentContent().getPlainText();
-            const hasText = editorState.getCurrentContent().hasText();
-            console.log(editorText.split(''))
-            editorText.split('').length < 160 ? setError('description', { type: 'custom', message: 'Минимальная длинна 160 символов' }) : clearErrors('description');
-        }, [editorState.getCurrentContent().getPlainText().length]); */
+/*     useEffect(() => {
+        const editorText = editorState.getCurrentContent().getPlainText();
+        const hasText = editorState.getCurrentContent().hasText();
+        console.log(editorText.split(''))
+        editorText.split('').length < 160 ? setError('description', { type: 'custom', message: 'Минимальная длинна 160 символов' }) : clearErrors('description');
+    }, [editorState.getCurrentContent().getPlainText().length]); */
 
     //===========================================================================================================================================
 
@@ -259,51 +259,19 @@ const EditPost = (props) => {
 
     const handleImageChange = async (e) => {
         console.log('work')
-        const YOUR_CLOUD_NAME = "divogmzjb";
-        const YOUR_UNSIGNED_UPLOAD_PRESET = "upload";
+        try {
+            const formData = new FormData();
+            const file = e.target.files[0];
+            formData.append('image', file)
+            setPostImage(URL.createObjectURL(file));
 
-        const POST_URL = "https://api.cloudinary.com/v1_1/" + YOUR_CLOUD_NAME + "/image/upload";
-        const uniqueId = YOUR_CLOUD_NAME + new Date().getTime();
-
-        const formData = new FormData();
-        const file = e.target.files[0];
-
-        formData.append('image', file)
-        formData.append("cloud_name", YOUR_CLOUD_NAME);
-        formData.append("upload_preset", YOUR_UNSIGNED_UPLOAD_PRESET);
-
-        setPostImage(URL.createObjectURL(file));
-        
-        const headers = {
-            Accept: "*/*",
-            "Content-Type": "multipart/form-data"
-        };
-        headers["X-Unique-Upload-Id"] = uniqueId;
-        headers["X-Requested-With"] = "XMLHttpRequest";
-        headers["Content-Range"] = "bytes " + file.size;
-        const requestConfig = {
-            url: POST_URL,
-            method: "POST",
-            data: formData,
-            headers
-            // params:{
-            //  eager_async:true
-            // }
-            // cancelToken: axiosSource.token
-        };
-        return await axios(requestConfig)
-        .then((res) => {
-            console.log(res.data)
-
-        })
-        .catch((err) => console.log(err))
-
-        
-
-/*         const { data } = await axios.post('/upload', formData)
-        console.log(data.url) */
-     /*    setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` }); */
-
+            const { data } = await axios.post('/upload', formData)
+            console.log(data.url)
+            setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` });
+        } catch (err) {
+            console.warn(err)
+            console.log('Error')
+        }
 
     };
 
@@ -363,7 +331,7 @@ const EditPost = (props) => {
                                             {/*  <TextField name='description'  error={errors.description} id="post-text" label="Описание" variant="outlined" multiline rows={10} value={editorState.getCurrentContent().getPlainText()} /> */}
                                             <Controller
                                                 control={control}
-                                                name="description"
+                                                name="description"  
                                                 rules={{
                                                     required: {
                                                         value: true,
@@ -377,39 +345,39 @@ const EditPost = (props) => {
                                                         value: 30000,
                                                         message: 'Слишком длинное описание'
                                                     }
-                                                }}
+                                                }}                                              
                                                 render={({
                                                     field: { onChange, onBlur, value = editorState.getCurrentContent().getPlainText(), name, ref },
                                                     fieldState: { invalid, isTouched, isDirty, error },
                                                     formState,
-
+                                                    
                                                 }) => (
                                                     <Editor
-                                                        /*                                              {...register('description', {
-                                                                                                         required: {
-                                                                                                             value: true,
-                                                                                                             message: 'Это обязательное поле*'
-                                                                                                         }
-                                                                                                     })} */
-                                                        /* value={editorState.getCurrentContent().getPlainText()} */
-                                                        wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
-                                                        editorClassName="editor-class"
-                                                        toolbarClassName="toolbar-class"
-                                                        editorState={editorState}
-                                                        onEditorStateChange={handleEditorChange}
-                                                        name={name}
-
-                                                        /* toolbarOnFocus */
-                                                        toolbar={{
-                                                            options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
-                                                            /* option: {
-                                                                className: 'toolbarBtn'
-                                                            } */
-                                                        }}
-                                                    />
+       /*                                              {...register('description', {
+                                                        required: {
+                                                            value: true,
+                                                            message: 'Это обязательное поле*'
+                                                        }
+                                                    })} */
+                                                    /* value={editorState.getCurrentContent().getPlainText()} */
+                                                    wrapperClassName={errors.description ? "wrapper-class-error" : "wrapper-class"}
+                                                    editorClassName="editor-class"
+                                                    toolbarClassName="toolbar-class"
+                                                    editorState={editorState}
+                                                    onEditorStateChange={handleEditorChange}
+                                                    name= {name}
+    
+                                                    /* toolbarOnFocus */
+                                                    toolbar={{
+                                                        options: ['inline', 'blockType', 'fontSize', 'fontFamily', 'list', 'textAlign', 'colorPicker', 'link', 'embedded', 'emoji', 'image', 'remove', 'history'],
+                                                        /* option: {
+                                                            className: 'toolbarBtn'
+                                                        } */
+                                                    }}
+                                                />
                                                 )}
                                             />
-
+                                            
 
 
 
