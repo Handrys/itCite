@@ -49,6 +49,7 @@
         width: 100%;
         max-width: 600px;
         height: auto;
+        margin: 20px 0;
     }
     .posts{
         height: auto;

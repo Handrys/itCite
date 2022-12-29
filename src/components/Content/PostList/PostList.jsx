@@ -171,7 +171,8 @@ const PostList = ({ blogPage, type, postsCount }) => {
                     title={item.title}
                     image={item.image}
                     author={item.author}
-                    publish_date={item.createdAt}
+                    publish_date={item.createdAt.split('.').shift().split('T').shift()}
+                    publish_time={item.createdAt.split('.').shift().split('T').pop()}
                     /*  deletePost={() => deletePost(item)} */
                     category={item.category}
                     blogPage={blogPage}
@@ -193,7 +194,8 @@ const PostList = ({ blogPage, type, postsCount }) => {
                 title={item.title}
                 image={item.image}
                 author={item.author}
-                publish_date={item.createdAt}
+                publish_date={item.createdAt.split('.').shift().split('T').shift()}
+                publish_time={item.createdAt.split('.').shift().split('T').pop()}
                 deletePost={deletePost}
                 category={item.category}
                 blogPage={blogPage}
