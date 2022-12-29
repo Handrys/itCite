@@ -14,7 +14,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import './EditPost.css'
-import axios from '../../../../shared/axios'
+import axios from 'axios'
 import { Context } from '../../../../state'
 import { InitialApp } from '../../../../state/context';
 
@@ -262,10 +262,12 @@ const EditPost = (props) => {
         try {
             const formData = new FormData();
             const file = e.target.files[0];
-            formData.append('image', file)
+            formData.append('file', file)
+            formData.append('upload_preset', 'upload')
+            formData.append('cloud_name', 'divogmzjb')
             setPostImage(URL.createObjectURL(file));
 
-            const { data } = await axios.post('/upload', formData)
+            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/upload', formData)
             console.log(data.url)
             setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` });
         } catch (err) {
