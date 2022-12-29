@@ -247,7 +247,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
             }
             {type === 'presentPosts' &&
                 <div className="posts-list">
-                    <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 2, md: 12 }}>
+                    <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 2, md: 18 }}>
                         {presentPosts}
                     </Grid>
                 </div>
