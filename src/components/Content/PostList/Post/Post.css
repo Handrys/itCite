@@ -21,7 +21,7 @@
 
 }
 
-.post-more{
+.postMore{
     display: none;
     position: absolute;
     top: 0;
@@ -32,7 +32,7 @@
    height: 100%;
 }
 
-.post-more a{
+.postMore a{
     color: rgb(180, 179, 179);
     font-size: 18px;
 }
