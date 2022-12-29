@@ -150,7 +150,7 @@ const ProfileData = () => {
             formData.append('cloud_name', 'divogmzjb')
             setAvatarUrl(URL.createObjectURL(file));
 
-            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/userImages', formData)
+            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/upload', formData)
             console.log(URL.createObjectURL(file))
             setForm({ ...form, ['avatarUrl']: data.url });
         } catch (err) {
