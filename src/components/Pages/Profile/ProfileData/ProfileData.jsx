@@ -22,7 +22,7 @@ import { useForm } from 'react-hook-form';
 import { useContext } from 'react';
 import { Context } from '../../../../state';
 import { fetchAuthMe, useEditProfile } from '../../../../shared/queries';
-import axios from '../../../../shared/axios';
+import axios from 'axios';
 
 const ProfileData = () => {
 
