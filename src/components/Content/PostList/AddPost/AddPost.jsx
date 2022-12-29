@@ -203,7 +203,7 @@ const AddPost = (props) => {
             formData.append('cloud_name', 'divogmzjb')
             setPostImage(URL.createObjectURL(file));
 
-            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/postImages', formData)
+            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/upload', formData)
             console.log(data.url)
             setForm({ ...form, ['image']: data.url });
         } catch (err) {
