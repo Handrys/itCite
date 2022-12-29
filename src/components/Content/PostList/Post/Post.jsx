@@ -29,41 +29,42 @@ export const Post = (props) => {
 
     /*  isDeleted ? handleDialogStatusOpen() : handleDialogStatusClose() */
     /*  props.isDeleted ? console.log('yes') : console.log('no') */
-    
+
 
     const styles = {
-        stylesPage : {
+        stylesPage: {
             padding: '0 10px',
             margin: '15px 0',
             width: '100%',
             /* minWidth: '320px', */
-           /*  flexGrow: '0', */
-            
-        } ,
-        'stylesPage:last-child':{
+            /*  flexGrow: '0', */
+
+        },
+        'stylesPage:last-child': {
             flexGrow: '0'
         },
-        stylesProfile : {
+        stylesProfile: {
             padding: '0 10px',
             margin: '15px 0',
             width: '100%'
         }
     }
-    
 
-    useEffect( () => {
+
+    useEffect(() => {
         if (user.userData) {
-            (user.userData._id === props.item.author._id || user.userData.role === 'admin') ? setisAuthor(true) :  setisAuthor(false)
+            (user.userData._id === props.item.author._id || user.userData.role === 'admin') ? setisAuthor(true) : setisAuthor(false)
         }
-    },[])
+    }, [])
 
     return (
         <React.Fragment key={props.item._id}>
-            <div className={s.post} style={(props.type === 'userPosts' ? styles.stylesProfile : styles.stylesPage) }>
+            <div className={s.post} style={(props.type === 'userPosts' ? styles.stylesProfile : styles.stylesPage)}>
 
                 <div className={s.post__img} /* onClick={ () =>  } */>
-
-                    <img src={props.image} alt='Картинка поста' />
+                    <NavLink key={props.item._id} to={`/posts/${props.item._id}`}>
+                        <img src={props.image} alt='Картинка поста' />
+                    </NavLink>
 
                     <div className={s.postMore}>
                         <NavLink key={props.item._id} to={`/posts/${props.item._id}`}>
@@ -97,9 +98,9 @@ export const Post = (props) => {
                         </div>
                         <div className={s.postAuthor__info}>
                             <div className={s.postAuthorInfo__name}>{props.author.fullName}</div>
-                            <div className={s.postAuthorInfo__date}>  
+                            <div className={s.postAuthorInfo__date}>
                                 <span>Создано: {props.publish_date}</span>
-                                <span style={{marginLeft: '5px'}}>в {props.publish_time}</span>
+                                <span style={{ marginLeft: '5px' }}>в {props.publish_time}</span>
                             </div>
                         </div>
                     </div>
