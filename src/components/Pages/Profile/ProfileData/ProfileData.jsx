@@ -145,12 +145,14 @@ const ProfileData = () => {
         try {
             const formData = new FormData();
             const file = e.target.files[0];
-            formData.append('image', file)
+            formData.append('file', file)
+            formData.append('upload_preset', 'userImages')
+            formData.append('cloud_name', 'divogmzjb')
             setAvatarUrl(URL.createObjectURL(file));
 
-            const { data } = await axios.post('/upload', formData)
+            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/userImages', formData)
             console.log(URL.createObjectURL(file))
-            setForm({ ...form, ['avatarUrl']: `${process.env.REACT_APP_API_URL}${data.url}` });
+            setForm({ ...form, ['avatarUrl']: data.url });
         } catch (err) {
             console.warn(err)
             console.log('Error')

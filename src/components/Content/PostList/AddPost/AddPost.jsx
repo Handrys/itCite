@@ -198,12 +198,14 @@ const AddPost = (props) => {
         try {
             const formData = new FormData();
             const file = e.target.files[0];
-            formData.append('image', file)
+            formData.append('file', file)
+            formData.append('upload_preset', 'postImages')
+            formData.append('cloud_name', 'divogmzjb')
             setPostImage(URL.createObjectURL(file));
 
-            const { data } = await axios.post('/upload', formData)
+            const { data } = await axios.post('https://api.cloudinary.com/v1_1/divogmzjb/image/postImages', formData)
             console.log(data.url)
-            setForm({ ...form, ['image']: `${process.env.REACT_APP_API_URL}${data.url}` });
+            setForm({ ...form, ['image']: data.url });
         } catch (err) {
             console.warn(err)
             console.log('Error')
