@@ -68,15 +68,15 @@ const Login = (props) => {
                     <div className="login__window">
                         <div className="login-window__change">
                             <DialogTitle>
-                                <Tabs value={selectedTab} onChange={handleChaneTab} variant="fullWidth">
+                                <Tabs value={selectedTab} onChange={handleChaneTab} variant="scrollable" scrollButtons="auto" >
                                     <Tab label='Авторизация' />
                                     <Tab label='Регистрация' />
                                 </Tabs>
                             </DialogTitle>
                         </div>
                         <div className="login-window__content">
-                            {selectedTab === 0 && <AuthLogin  onClose = {props.onClose} />}
-                            {selectedTab === 1 && <AuthReg  onClose = {props.onClose} />}
+                            {selectedTab === 0 && <AuthLogin onClose={props.onClose} />}
+                            {selectedTab === 1 && <AuthReg onClose={props.onClose} />}
 
                         </div>
                         <div className="login-close" onClick={props.onClose}>x</div>

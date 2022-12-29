@@ -63,7 +63,7 @@ export const Post = (props) => {
 
                 <div className={s.post__img} /* onClick={ () =>  } */>
 
-                    <img src={props.image} alt='Если ты меня видишь, значит хост бэк-енда удаляет картинки в моем тарифе :(' />
+                    <img src={props.image} alt='Картинка поста' />
 
                     <div className={s.postMore}>
                         <NavLink key={props.item._id} to={`/posts/${props.item._id}`}>
