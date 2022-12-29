@@ -163,7 +163,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
 
     const presentPosts = postsArr.slice().reverse().slice(0, 3).map((item, pos) => {
         return (
-            <Grid xs={2} sm={4} md={6} key={pos} >
+            <Grid xs={2} sm={2} md={6} key={pos} >
                 <Post
                     key={pos}
                     id={pos}
