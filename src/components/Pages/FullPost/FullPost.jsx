@@ -116,10 +116,10 @@ export const FullPost = (props) => {
 
     };
 
-    const [postLink, setPostLink] = useState(`${process.env.REACT_APP_API_URL}/${postId}`);
+    const [postLink, setPostLink] = useState(`https://blogt-it.vercel.app/${postId}`);
     const [telegramLink, setTelegramLink] = useState(`tg://msg_url?url=${postLink}`);
     const [facebookLink, setFacebookLink] = useState(`https://www.facebook.com/sharer/sharer.php?u=${postLink}`);
-    const [twitterLink, setTwitterLink] = useState(`https://twitter.com/intent/tweet?text=Новая%статья&url=${postLink}`);
+    const [twitterLink, setTwitterLink] = useState(`https://twitter.com/intent/tweet?text=Новаястатья&url=${postLink}`);
 
 
     const styleSocialLink = {
