@@ -116,7 +116,11 @@ export const FullPost = (props) => {
 
     };
 
-    const [copySuccess, setCopySuccess] = useState(`http://localhost:3000/posts/${postId}`);
+    const [postLink, setPostLink] = useState(`${process.env.REACT_APP_API_URL}/${postId}`);
+    const [telegramLink, setTelegramLink] = useState(`tg://msg_url?url=${postLink}`);
+    const [facebookLink, setFacebookLink] = useState(`https://www.facebook.com/sharer/sharer.php?u=${postLink}`);
+    const [twitterLink, setTwitterLink] = useState(`https://twitter.com/intent/tweet?text=Новая%статья&url=${postLink}`);
+
 
     const styleSocialLink = {
         width: '25%',
@@ -220,19 +224,19 @@ export const FullPost = (props) => {
                                         <div className={s.post__share__title}>Поделись материалом</div>
                                         <div className={s.post__share__buttons}>
                                             <Stack  direction={{xs: 'column', sm: 'row'}} spacing={{ xs: 1, sm: 2, md: 4 }}>
-                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href="https://twitter.com/intent/tweet?text=%D0%90%D0%B2%D1%82%D0%BE%D0%BF%D0%B8%D0%BB%D0%BE%D1%82%20Tesla%20%D0%B2%D1%80%D0%B5%D0%B7%D0%B0%D0%BB%D1%81%D1%8F%20%D0%B2%20%D1%80%D0%B5%D0%B0%D0%BA%D1%82%D0%B8%D0%B2%D0%BD%D1%8B%D0%B9%20%D1%81%D0%B0%D0%BC%D0%BE%D0%BB%D1%91%D1%82&url=https://kod.ru/tesla-crashed-into-plame/">
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href={twitterLink}>
                                                     <Button sx={styleSocialButton} className='fullpost-social-icon' variant="contained" >
                                                         <TwitterIcon />
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href="https://www.facebook.com/sharer/sharer.php?u=http://kod.ru">
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href={facebookLink}>
                                                     <Button sx={styleSocialButton} variant="contained" >
                                                         <FacebookIcon />
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href="tg://msg_url?url=https://kod.ru/tesla-crashed-into-plame/">
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href={telegramLink}>
                                                     <Button sx={styleSocialButton} variant="contained" >
 
                                                         <SendIcon />
@@ -240,7 +244,7 @@ export const FullPost = (props) => {
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} onClick={() => { navigator.clipboard.writeText(copySuccess) }}>
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} onClick={() => { navigator.clipboard.writeText(postLink) }}>
                                                     <Button sx={styleSocialButton} variant="contained" >
                                                         <ContentCopyIcon />
                                                     </Button>
