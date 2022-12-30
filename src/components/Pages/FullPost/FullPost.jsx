@@ -116,7 +116,7 @@ export const FullPost = (props) => {
 
     };
 
-    const [postLink, setPostLink] = useState(`https://blogt-it.vercel.app/${postId}`);
+    const [postLink, setPostLink] = useState(`https://blogt-it.vercel.app/posts/${postId}`);
     const [telegramLink, setTelegramLink] = useState(`tg://msg_url?url=${postLink}`);
     const [facebookLink, setFacebookLink] = useState(`https://www.facebook.com/sharer/sharer.php?u=${postLink}`);
     const [twitterLink, setTwitterLink] = useState(`https://twitter.com/intent/tweet?text=Новаястатья&url=${postLink}`);
