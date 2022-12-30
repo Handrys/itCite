@@ -164,7 +164,7 @@ export const FullPost = (props) => {
         backgroundSize: 'cover',
         backgroundImage: `url(${post.image})`
     }
-
+    console.log(post)
    /*  console.log(post.image) */
     return (
         <div className={s.fullpost}>
@@ -198,11 +198,13 @@ export const FullPost = (props) => {
                                         {/* <span className={s.post__category}>{categoryPresent}</span> */}
                                         <div className={s.post__control}>
                                             <Stack direction="row" spacing={2}>
+                                            <NavLink style={{ /* color: '#1069a5' */ }} key={post._id} to={`/posts/${post._id}/edit`}>
                                                 <Button disabled={!isAuthor} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
-                                                    <NavLink style={{ /* color: '#1069a5' */ }} key={post._id} to={`/posts/${post._id}/edit`}>
+                                                    
                                                         <span className={s.post__control__title}>Редактировать</span>
-                                                    </NavLink>
+                                                   
                                                 </Button>
+                                                </NavLink>
                                                 <Button disabled={!isAuthor} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
                                                     <span className={s.post__control__title}>Удалить</span>
                                                 </Button>

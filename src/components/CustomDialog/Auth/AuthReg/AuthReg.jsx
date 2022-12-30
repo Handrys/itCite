@@ -25,6 +25,8 @@ import { Context } from '../../../../state';
 import { useContext } from 'react';
 import { Alert, Stack } from '@mui/material';
 
+import {backendLink} from '../../../../shared/projectData'
+
 const LoginReg = ({onClose}) => {
 
     const { state, dispatch } = useContext(Context)
@@ -34,6 +36,8 @@ const LoginReg = ({onClose}) => {
     const useRegistrationMutation = useRegistration()
 
     const navigate = useNavigate()
+
+    console.log(backendLink)
 
     const [values, setValues] = React.useState({
         user: {
@@ -77,7 +81,7 @@ const LoginReg = ({onClose}) => {
             firstName: 'Новый',
             lastName: 'Пользователь',
             description: 'Слишком ленив, чтобы написать о себе',
-            avatarUrl: `${process.env.REACT_APP_API_URL}/uploads/litso.png`
+            avatarUrl: `${backendLink}/uploads/litso.png`
         }
         /*         reValidateMode: 'onSubmit', */
     });
@@ -128,7 +132,7 @@ const LoginReg = ({onClose}) => {
                                 message: '*Обязательное поле'
                             },
                             pattern: {
-                                value: /^[a-z0-9_-]{3,16}$/,
+                                value: /^[a-zA-Z0-9_-]{3,16}$/,
                                 message: 'Имя пользователя должно иметь от 3 до 16 символов (латиница), включая символы "-" и "_"'
                             }
                         })}

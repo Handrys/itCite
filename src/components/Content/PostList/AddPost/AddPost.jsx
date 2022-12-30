@@ -14,7 +14,7 @@ import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import './AddPost.css'
-import axios from '../../../../shared/axios'
+import axios from 'axios'
 import { Context } from '../../../../state'
 import { InitialApp } from '../../../../state/context';
 import AddPostDialog from './AddPostDialog/AddPostDialog';
@@ -36,6 +36,8 @@ import draftToHtml from 'draftjs-to-html';
 
 /* import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator'; */
 import { useForm, Controller } from "react-hook-form";
+
+import {backendLink} from '../../../../shared/projectData'
 
 
 
@@ -83,7 +85,7 @@ const AddPost = (props) => {
 
 
     const [form, setForm] = React.useState({
-        image: `${process.env.REACT_APP_API_URL}/uploads/home.png`,
+        image: `${backendLink}/uploads/home.png`,
         author: '',
         category: '',
         categoryPresent: '',

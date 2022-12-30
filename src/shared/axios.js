@@ -1,7 +1,8 @@
 import axios from "axios";
+import {backendLink} from './projectData'
 
 const instance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL
+    baseURL: backendLink
 })
 
 instance.interceptors.request.use((config) => {
