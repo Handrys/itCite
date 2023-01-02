@@ -133,7 +133,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
         )
     })
 
-    const homePosts = postsArr.slice().reverse().filter(element => element.category === blogPage).slice(0, 4).map((item, pos) => {
+    const homePosts = postsArr.slice().reverse().slice(0, 4).map((item, pos) => {
 
         /* console.log(item) */
         return (

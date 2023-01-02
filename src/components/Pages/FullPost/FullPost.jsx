@@ -135,7 +135,7 @@ export const FullPost = (props) => {
         backgroundColor: '#f2f4f6',
         color: '#424141',
         fontWeight: '700',
- 
+
         '&:hover': {
             color: '#ffff'
         }
@@ -165,14 +165,14 @@ export const FullPost = (props) => {
         backgroundImage: `url(${post.image})`
     }
     console.log(post)
-   /*  console.log(post.image) */
+    /*  console.log(post.image) */
     return (
         <div className={s.fullpost}>
             {isFetching ?
                 <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>
                 :
                 <>
-                    <div className={s.post__img} style ={stylePostImage}>
+                    <div className={s.post__img} style={stylePostImage}>
                         {/* <img src={post.image} alt="" /> */}
                         <div className={s.post__title}>{post.title}</div>
 
@@ -198,13 +198,17 @@ export const FullPost = (props) => {
                                         {/* <span className={s.post__category}>{categoryPresent}</span> */}
                                         <div className={s.post__control}>
                                             <Stack direction="row" spacing={2}>
-                                            <NavLink style={{ /* color: '#1069a5' */ }} key={post._id} to={`/posts/${post._id}/edit`}>
+
                                                 <Button disabled={!isAuthor} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
-                                                    
-                                                        <span className={s.post__control__title}>Редактировать</span>
-                                                   
+
+                                                    <span className={s.post__control__title}>
+                                                        <NavLink style={{ /* color: '#1069a5' */ }} key={post._id} to={`/posts/${post._id}/edit`}>
+                                                            Редактировать
+                                                        </NavLink>
+                                                    </span>
+
                                                 </Button>
-                                                </NavLink>
+
                                                 <Button disabled={!isAuthor} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
                                                     <span className={s.post__control__title}>Удалить</span>
                                                 </Button>
@@ -225,20 +229,20 @@ export const FullPost = (props) => {
                                     <div className={s.post__share}>
                                         <div className={s.post__share__title}>Поделись материалом</div>
                                         <div className={s.post__share__buttons}>
-                                            <Stack  direction={{xs: 'column', sm: 'row'}} spacing={{ xs: 1, sm: 2, md: 4 }}>
-                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href={twitterLink}>
+                                            <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1, sm: 2, md: 4 }}>
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{ margin: '0 auto' }} href={twitterLink}>
                                                     <Button sx={styleSocialButton} className='fullpost-social-icon' variant="contained" >
                                                         <TwitterIcon />
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href={facebookLink}>
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{ margin: '0 auto' }} href={facebookLink}>
                                                     <Button sx={styleSocialButton} variant="contained" >
                                                         <FacebookIcon />
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} href={telegramLink}>
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{ margin: '0 auto' }} href={telegramLink}>
                                                     <Button sx={styleSocialButton} variant="contained" >
 
                                                         <SendIcon />
@@ -246,7 +250,7 @@ export const FullPost = (props) => {
                                                     </Button>
                                                 </ButtonLink>
 
-                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{margin: '0 auto'}} onClick={() => { navigator.clipboard.writeText(postLink) }}>
+                                                <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{ margin: '0 auto' }} onClick={() => { navigator.clipboard.writeText(postLink) }}>
                                                     <Button sx={styleSocialButton} variant="contained" >
                                                         <ContentCopyIcon />
                                                     </Button>

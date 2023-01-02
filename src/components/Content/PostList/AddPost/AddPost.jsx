@@ -37,7 +37,7 @@ import draftToHtml from 'draftjs-to-html';
 /* import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator'; */
 import { useForm, Controller } from "react-hook-form";
 
-import {backendLink} from '../../../../shared/projectData'
+import {backendLink, defaultPostImg} from '../../../../shared/projectData'
 
 
 
@@ -85,7 +85,7 @@ const AddPost = (props) => {
 
 
     const [form, setForm] = React.useState({
-        image: `${backendLink}/uploads/home.png`,
+        image: `${defaultPostImg}`,
         author: '',
         category: '',
         categoryPresent: '',

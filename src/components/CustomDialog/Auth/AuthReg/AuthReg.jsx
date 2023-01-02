@@ -25,7 +25,7 @@ import { Context } from '../../../../state';
 import { useContext } from 'react';
 import { Alert, Stack } from '@mui/material';
 
-import {backendLink} from '../../../../shared/projectData'
+import {backendLink, defaultAvatar} from '../../../../shared/projectData'
 
 const LoginReg = ({onClose}) => {
 
@@ -81,7 +81,7 @@ const LoginReg = ({onClose}) => {
             firstName: 'Новый',
             lastName: 'Пользователь',
             description: 'Слишком ленив, чтобы написать о себе',
-            avatarUrl: `${backendLink}/uploads/litso.png`
+            avatarUrl: `${defaultAvatar}`
         }
         /*         reValidateMode: 'onSubmit', */
     });
