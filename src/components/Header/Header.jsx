@@ -97,7 +97,7 @@ const ResponsiveAppBar = () => {
     
     return (
         <>
-            <AppBar position="sticky" className='header' sx={{ top: 'auto', bottom: 0, backgroundColor: '#192738' }}>
+            <AppBar position="sticky" className='header' sx={{ top: '0', backgroundColor: '#192738' }}>
                 <div className='container'>
                     <div className="header__body">
                         <Toolbar disableGutters>

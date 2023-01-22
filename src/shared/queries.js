@@ -63,7 +63,7 @@ export const useGetSinglePost = (postId) => {
     return useQuery('postSingle', async() => {
         return axios.get(`/posts/${postId}`)
             .then((res) => {
-                console.log(res.data)
+                /* console.log(res.data) */
                 /* res.data.createdAt = 'test' */
                 return res.data
             })
@@ -73,7 +73,7 @@ export const useGetSinglePost = (postId) => {
 
     }, {
         onSuccess: (data) => {
-            console.log(data)
+          /*   console.log(data) */
        /*      queryClient.invalidateQueries('postSingle', data._id); */
 
         }
@@ -170,11 +170,30 @@ export const useEditPost = () => {
     )
 }
 
-const test = {
-    "email": "test1@gmail.com",
-    "password": "test1"
-}
+export const useMutationComments = () => {
+    const queryClient = useQueryClient();
+    const history = useNavigate()
+    return useMutation(
+        ({ postId, commentsList }) => {
+            return axios.patch(`/posts/${postId}/addComment`, commentsList)
+                .then(res => res.data)
+                .catch(err => {
+                    console.log(commentsList)
+                    throw new Error(err)
 
+                })
+        }, {
+        onSuccess: (data) => {
+            /* queryClient.invalidateQueries('post'); */
+
+        },
+        onError: (error) => {
+            console.log(error)
+
+        },
+    }
+    )
+}
 
 export const useLogin = () => {
     const { state, dispatch } = useContext(Context)

@@ -43,7 +43,7 @@ useEffect(() => {
 
     
 })
-console.log(postsCount)
+/* console.log(postsCount) */
 
 
 

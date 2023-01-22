@@ -18,7 +18,7 @@ const Profile = () => {
     const { authorized, userData } = user;
 
     if (!user.userData && authorized) return null
-    console.log(user)
+    /* console.log(user) */
 
     return user.userData ? (
         <div className={s.profile}>

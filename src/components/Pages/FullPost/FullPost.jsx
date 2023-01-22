@@ -30,20 +30,9 @@ import { styled } from '@mui/material/styles';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import CustomDialog from './../../CustomDialog/CustomDialog';
 import { Popover, Typography } from 'antd';
+import { Comments } from './Comments/Comments';
 
 export const FullPost = (props) => {
-
-    const handleDialogOpen = () => dispatch({
-        type: 'isOpenDialog',
-        payload: {
-            isOpen: true,
-            variant: 'deletePostDialog',
-            propsDialog: {
-                blogPost: post,
-            }
-        }
-    });
-
 
     const { state, dispatch } = useContext(Context)
     const { posts, user } = state;
@@ -64,6 +53,7 @@ export const FullPost = (props) => {
 
 
 
+
     useEffect(() => {
         refetch()
     }, [postId])
@@ -71,7 +61,7 @@ export const FullPost = (props) => {
 
     const setOpacity = isFetching ? 0.5 : 1
 
-    const history = useNavigate()
+    const navigate = useNavigate()
 
     useEffect(() => {
         if (!isFetching) {
@@ -84,6 +74,20 @@ export const FullPost = (props) => {
 
         }
     }, [status]);
+
+    const confirmPostDelete = () => dispatch({
+        type: 'isOpenDialog',
+        payload: {
+            isOpen: true,
+            variant: 'confirm',
+            dialogTitle: 'Подтверждение',
+            dialogText: 'Вы действительно хотите удалить этот пост?',
+            propsDialog: {
+                isConfirmed: () => deletePost(post)
+            }
+        }
+    });
+    
 
     const deleteMutation = useDeletePost(isFullpost);
 
@@ -100,7 +104,7 @@ export const FullPost = (props) => {
                         dialogText: 'Пост успешно удален!'
                     }
                 })
-                refetch();
+                navigate(`/`)
             })
             .catch((err) => {
                 dispatch({
@@ -150,6 +154,7 @@ export const FullPost = (props) => {
                 'data': post.createdAt.split('.').shift().split('T').shift(),
                 'time': post.createdAt.split('.').shift().split('T').pop()
             });
+     
         }
     }, [isFetching])
 
@@ -164,7 +169,7 @@ export const FullPost = (props) => {
         backgroundSize: 'cover',
         backgroundImage: `url(${post.image})`
     }
-    console.log(post)
+   /*  console.log(post) */
     /*  console.log(post.image) */
     return (
         <div className={s.fullpost}>
@@ -209,7 +214,7 @@ export const FullPost = (props) => {
 
                                                 </Button>
 
-                                                <Button disabled={!isAuthor} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={handleDialogOpen} variant="outlined" startIcon={<DeleteIcon />}>
+                                                <Button disabled={!isAuthor} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={confirmPostDelete} variant="outlined" startIcon={<DeleteIcon />}>
                                                     <span className={s.post__control__title}>Удалить</span>
                                                 </Button>
 
@@ -259,20 +264,26 @@ export const FullPost = (props) => {
                                             </Stack>
                                         </div>
                                     </div>
+
+                                    
+
                                     <div className={s.post__publishData}>
                                         <span>Создано: {publishData.data}</span>
                                         <span style={{ marginLeft: '5px' }}>в {publishData.time}</span>
                                     </div>
-                                    <div style={{ height: '1px', width: '33.333%', margin: '20px auto', backgroundColor: '#858383', border: 'none' }} />
-                                    <div className={s.post__more}>
+
+                                    <Comments postId = {postId} comments = {post.comments} />   
+                                
+                                    {/* <div style={{ height: '1px', width: '33.333%', margin: '30px auto', backgroundColor: '#858383', border: 'none' }} /> */}
+                                  {/*   <div className={s.post__more}>
                                         <div className={s.post__more__title}>Редакция рекомендует:</div>
                                         <PostList blogPage={post.category} type='presentPosts' isPage='false' />
-                                    </div>
+                                    </div> */}
                                 </div>
 
+                                        
 
-
-                                <CustomDialog deletePost={() => deletePost(post)} />
+                                <CustomDialog  />
 
                             </div>
 

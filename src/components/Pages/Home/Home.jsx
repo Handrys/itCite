@@ -61,6 +61,7 @@ const Home = () => {
             </div>
 
             <div className="home__body">
+                
                 <div className="home__line">
                     <div className="home-line__img">
                         {/* <img src={bckgImg} alt="" /> */}
@@ -85,6 +86,7 @@ const Home = () => {
                 <div className="home-line__description">Прямиком из нашего блога ты можешь поделится постом в Telegram, Twitter или Facebook, чтобы твои друзья тоже были в теме</div>
                 {/*  <div className="home-line__btn">Читать...</div> */}
             </div>
+
             <div className="home__share">
                 <div className="container">
                     <div className="home__share-body">

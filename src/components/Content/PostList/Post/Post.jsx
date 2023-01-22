@@ -10,6 +10,7 @@ import { Context } from '../../../../state';
 import CustomDialog from '../../../CustomDialog/CustomDialog';
 import DeletePostDialog from './../../../CustomDialog/DeletePostDialog/DeletePostDialog';
 import defaultImg from '../../../../img/vopros-znak.jpg'
+import { Author } from '../../../Author/Author';
 
 export const Post = (props) => {
     const [dialogOpen, setDialogOpen] = React.useState(false);
@@ -83,6 +84,7 @@ export const Post = (props) => {
                                 dialogOpen={dialogOpen}
                                 handleDialogOpen={handleDialogOpen}
                                 handleDialogClose={handleDialogClose}
+                                deletePost={props.deletePost}
                             />
                         </div>
                     }
@@ -92,18 +94,8 @@ export const Post = (props) => {
 
                 <div className={s.post__content}>
                     <div className={s.postContent__title}><NavLink key={props.item.id} to={`/posts/${props.item._id}`}>{props.title}</NavLink></div>
-                    <div className={s.postContent__author}>
-                        <div className={s.postAuthor__avatar}>
-                            <img src={props.author.avatarUrl} alt="" />
-                        </div>
-                        <div className={s.postAuthor__info}>
-                            <div className={s.postAuthorInfo__name}>{props.author.fullName}</div>
-                            <div className={s.postAuthorInfo__date}>
-                                <span>Создано: {props.publish_date}</span>
-                                <span style={{ marginLeft: '5px' }}>в {props.publish_time}</span>
-                            </div>
-                        </div>
-                    </div>
+            
+                    <Author avatarUrl = {props.author.avatarUrl} fullName = {props.author.fullName} publishDate = {props.publish_time} />
                 </div>
 
 

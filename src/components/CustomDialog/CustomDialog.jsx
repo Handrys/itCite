@@ -11,6 +11,7 @@ import Auth from './Auth/Auth'
 import AuthSucces from './AuthSucces/AuthSucces'
 import DialogSucces from './DialogSucces/DialogSucces';
 import DialogError from './DialogError/DialogError';
+import DialogConfirm from './DialogConfirm/DialogConfirm';
 
 const CustomDialog = (props) => {
 
@@ -45,7 +46,7 @@ const CustomDialog = (props) => {
     })
 
 
-
+/*     console.log(props) */
 
     return (
         <>
@@ -66,7 +67,7 @@ const CustomDialog = (props) => {
                 <Auth
                     open={isOpen}
                     onClose={handleDialogClose}
-                    
+
                 />
             }
 
@@ -86,6 +87,17 @@ const CustomDialog = (props) => {
                     onClose={handleDialogClose}
                     dialogTitle={dialogTitle}
                     dialogText={dialogText}
+                />
+            }
+            {
+                variant === 'confirm' &&
+                <DialogConfirm
+                    open={isOpen}
+                    onClose={handleDialogClose}
+                    dialogTitle={dialogTitle}
+                    dialogText={dialogText}
+
+                    isConfirmed = {propsDialog.isConfirmed}
                 />
             }
 

@@ -67,10 +67,11 @@ export default function PostMenu(props) {
                         type: 'isOpenDialog',
                         payload: {
                             isOpen: true,
-                            variant: 'deletePostDialog',
+                            variant: 'confirm',
+                            dialogTitle: 'Подтверждение',
+                            dialogText: `Вы действительно хотите удалить пост "${props.blogPost.title.split('').slice(0,9).join('')}..." ?`,
                             propsDialog: {
-                                blogPost: props.blogPost,
-                                blogPage: props.blogPage
+                                isConfirmed: () => props.deletePost(props.blogPost)
                             }
                         }
                     })

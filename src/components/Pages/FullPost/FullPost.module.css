@@ -1,6 +1,7 @@
 .fullpost{
     min-height: 400px;
     position: relative;
+ 
 }
 
 .fullpost__body{
@@ -164,7 +165,7 @@ margin: 0 auto;
 }
 
 .post__more{
-    
+    margin-top: 50px;
 }
 
 .post__more__title{

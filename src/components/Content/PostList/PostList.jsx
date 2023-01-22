@@ -262,7 +262,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
                     </Grid>
                 </div>
             }
-            {<CustomDialog deletePost={() => deletePost(propsDialog.blogPost)} />}
+            {<CustomDialog  />}
         </>
 
     );

@@ -72,7 +72,7 @@ const App = () => {
 
   }, ['userData' in user])
 
-  console.log(state)
+/*   console.log(state) */
 
   return (
     <Context.Provider value={{ state, dispatch }}>

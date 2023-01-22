@@ -42,7 +42,7 @@ const ProfileData = () => {
         },
     };
 
-    console.log(state)
+  /*   console.log(state) */
 
     const [form, setForm] = React.useState({
         avatarUrl: userData.avatarUrl,
