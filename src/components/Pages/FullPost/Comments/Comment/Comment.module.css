@@ -80,7 +80,7 @@
 
 @media(max-width: 768px){
     .date{
-        white-space: wrap; 
+        white-space: normal;
         text-align: end;
         font-size: 14px;
     }
