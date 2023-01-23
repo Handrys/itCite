@@ -60,7 +60,7 @@ export const Comment = ({ item, confirmCommentDelete }) => {
             <div className={s.addition}>
             <div className={s.date}>{item.createdAt}</div>
             {isAuthor && 
-                 <div className={s.delete}><Button onClick={() => {confirmCommentDelete(item._id)}} /* endIcon={<DeleteIcon fontSize='large' />} */ size='small' color='error'>удалить</Button></div>
+                 <div className={s.delete}><Button onClick={() => confirmCommentDelete(item._id)} /* endIcon={<DeleteIcon fontSize='large' />} */ size='small' color='error'>удалить</Button></div>
             }
            
             </div>

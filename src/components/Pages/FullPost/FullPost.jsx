@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import { BrowserRouter, Routes, Route, Link, useParams, NavLink } from "react-router-dom";
 import axios from 'axios';
 import { Context } from '../../../state/context';
-import { useGetSinglePost, useDeletePost } from './../../../shared/queries';
+import { useGetSinglePost, useDeletePost, useMutationComments } from './../../../shared/queries';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
@@ -51,7 +51,7 @@ export const FullPost = (props) => {
     const [publishData, setPublishData] = useState({ data: '', time: '' })
 
 
-
+    const useCommentsMutation = useMutationComments();
 
 
     useEffect(() => {
@@ -87,7 +87,9 @@ export const FullPost = (props) => {
             }
         }
     });
+
     
+
 
     const deleteMutation = useDeletePost(isFullpost);
 
@@ -272,7 +274,12 @@ export const FullPost = (props) => {
                                         <span style={{ marginLeft: '5px' }}>в {publishData.time}</span>
                                     </div>
 
-                                    <Comments postId = {postId} comments = {post.comments} />   
+                                    <Comments 
+                                    postId = {postId} 
+                                    comments = {post.comments}
+                                    refetchPost = {refetch}
+                                    
+                                    />   
                                 
                                     {/* <div style={{ height: '1px', width: '33.333%', margin: '30px auto', backgroundColor: '#858383', border: 'none' }} /> */}
                                   {/*   <div className={s.post__more}>

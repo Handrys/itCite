@@ -19,7 +19,7 @@ import { useForm } from 'react-hook-form';
 import { useState } from 'react';
 
 
-export const Comments = ({ postId, comments }) => {
+export const Comments = ({ postId, comments, refetchPost }) => {
 
     const { state, dispatch } = useContext(Context)
     const { posts, user } = state;
@@ -79,27 +79,12 @@ export const Comments = ({ postId, comments }) => {
         useCommentsMutation.mutateAsync({ postId, commentsList })
             .then(() => {
                 console.log('ok')
+                refetchPost()
             })
             .catch((err) => {
                 badDialogOpen()
             })
         setValue('text','')    
-    }
-
-    const deleteComment = (id) => {
-        
-        const commentsList = comments;
-        commentsList.map((item,pos) => {
-            if (item._id == id) commentsList.splice(pos, 1)
-        }) 
-
-        console.log(commentsList)
-        useCommentsMutation.mutateAsync({ postId, commentsList })
-            .then(() => {
-                console.log('ok')
-            })
-            .catch((err) => {
-            })
     }
 
     const confirmCommentDelete = (id) => dispatch({
@@ -114,6 +99,25 @@ export const Comments = ({ postId, comments }) => {
             }
         }
     });
+
+    const deleteComment = (id) => {
+        
+        const commentsList = comments;
+        commentsList.map((item,pos) => {
+            if (item._id == id) commentsList.splice(pos, 1)
+        }) 
+
+        console.log(commentsList)
+        useCommentsMutation.mutateAsync({ postId, commentsList })
+            .then(() => {
+                console.log('ok')
+                refetchPost()
+            })
+            .catch((err) => {
+            })
+    }
+    
+
 
 
 
