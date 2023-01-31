@@ -151,14 +151,19 @@ export const FullPost = (props) => {
 
     useEffect(() => {
         if (user.userData && post) {
-            (user.userData._id === post.author._id || user.userData.role === 'admin') ? setisAuthor(true) : setisAuthor(false)
-            setPublishData({
-                'data': post.createdAt.split('.').shift().split('T').shift(),
-                'time': post.createdAt.split('.').shift().split('T').pop()
-            });
-     
+            (user.userData._id === post.author._id || user.userData.role === 'admin') ? setisAuthor(true) : setisAuthor(false)   
         }
     }, [isFetching])
+
+    useEffect(() => {
+        if (post) {      
+            setPublishData({
+                'data': post.createdAt.split('T').shift(),
+                'time': post.createdAt.split('.').shift().split('T').pop()
+            });
+        }
+    }, [isFetching])
+
 
 
     if (isFetching) return null

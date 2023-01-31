@@ -95,7 +95,7 @@ export const Post = (props) => {
                 <div className={s.post__content}>
                     <div className={s.postContent__title}><NavLink key={props.item.id} to={`/posts/${props.item._id}`}>{props.title}</NavLink></div>
             
-                    <Author avatarUrl = {props.author.avatarUrl} fullName = {props.author.fullName} publishDate = {props.publish_time} />
+                    <Author avatarUrl = {props.author.avatarUrl} fullName = {props.author.fullName} publishDate = {props.publish_date} publishTime = {props.publish_time} />
                 </div>
 
 

@@ -57,22 +57,20 @@ const App = () => {
   React.useEffect(async () => {
     let result = await fetchAuthMe();
 
-/*     console.log(result) */
-    /*     if (result) { */
-    dispatch({
-      type: 'user',
-      payload: {
-        authorized: true,
-        userData: result
-      },
-    })
-
-
-    /*     } */
+    /*     console.log(result) */
+    if (result) {
+      dispatch({
+        type: 'user',
+        payload: {
+          authorized: true,
+          userData: result
+        },
+      })
+    }
 
   }, ['userData' in user])
 
-/*   console.log(state) */
+  /*   console.log(state) */
 
   return (
     <Context.Provider value={{ state, dispatch }}>
