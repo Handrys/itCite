@@ -4,7 +4,8 @@
 
 .home__content {
     background-color: rgb(236, 232, 232);
-    padding-top: 70px;
+    padding: 70px 0;
+    position: relative;
 }
 
 

@@ -11,6 +11,8 @@ import { Button, Link } from "@mui/material";
 import { Context } from "../../../state";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { useGetPosts } from "../../../shared/queries";
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Home = () => {
     const [postList, setPostList] = React.useState(postListMain);
@@ -18,6 +20,7 @@ const Home = () => {
     const { state, dispatch } = useContext(Context)
     const { posts, user } = state;
     const { authorized, userData, userName } = user;
+    const { status, isLoading, error, data:dataArr, isFetching } = useGetPosts();
 
     const handleDialogOpen = () => dispatch({
         type: 'isOpenDialog',
@@ -74,7 +77,7 @@ const Home = () => {
                 <div className="home__content">
                     <div className="container">
                         {/*        {<div className="home-content-elem__title">Последние посты:</div>} */}
-
+                        {isFetching &&  <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>}
                         <Content blogPage={'news'} type={'homePosts'} />
 
                     </div>

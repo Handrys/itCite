@@ -27,7 +27,7 @@ const postsUrl = 'https://61fe8fc6a58a4e00173c98db.mockapi.io/posts'
         refetchOnWindowFocus: false,
     })
 } */
-export const useGetPosts = (blogPage) => {
+export const useGetPosts = () => {
     const { state, dispatch } = useContext(Context)
     return useQuery('post', () => {
         return axios.get(`/posts`)
