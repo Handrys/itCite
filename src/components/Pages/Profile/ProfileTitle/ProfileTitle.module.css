@@ -14,8 +14,9 @@
 }
 
 .avatar {
-    width: 180px;
-    height: 180px;
+    width: 100%;
+    max-width: 170px;
+   /*  height: 180px; */
     position: relative;
   
 }
