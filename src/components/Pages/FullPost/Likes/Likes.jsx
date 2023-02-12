@@ -22,9 +22,11 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
 
 
     React.useEffect(() => {
-        likes.map((item, index) => {
-            userData._id === item._id ? setIsLiked(true) : setIsLiked(false)
-        })
+        if (likes) {
+            likes.map((item, index) => {
+                userData._id === item._id ? setIsLiked(true) : setIsLiked(false)
+            })
+        }
 
     }, [likes.length])
 
