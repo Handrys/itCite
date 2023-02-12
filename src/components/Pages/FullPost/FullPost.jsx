@@ -54,6 +54,8 @@ export const FullPost = (props) => {
 
     const useCommentsMutation = useMutationComments();
 
+    const navigate = useNavigate()
+
 
     useEffect(() => {
         refetch()
@@ -62,7 +64,6 @@ export const FullPost = (props) => {
 
     const setOpacity = isFetching ? 0.5 : 1
 
-    const navigate = useNavigate()
 
     useEffect(() => {
         if (!isFetching) {
@@ -211,15 +212,11 @@ export const FullPost = (props) => {
                                         {/* <span className={s.post__category}>{categoryPresent}</span> */}
                                         <div className={s.post__control}>
                                             <Stack direction="row" spacing={2}>
-
-                                                <Button disabled={!isAuthor} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
-
-                                                    <span className={s.post__control__title}>
-                                                        <NavLink style={{ /* color: '#1069a5' */ }} key={post._id} to={`/posts/${post._id}/edit`}>
+                                                <Button onClick={() => navigate(`/posts/${post._id}/edit`)} disabled={!isAuthor} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
+                                                  
+                                                        <span className={s.post__control__title}>
                                                             Редактировать
-                                                        </NavLink>
-                                                    </span>
-
+                                                     </span>      
                                                 </Button>
 
                                                 <Button disabled={!isAuthor} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={confirmPostDelete} variant="outlined" startIcon={<DeleteIcon />}>
