@@ -195,6 +195,33 @@ export const useMutationComments = () => {
     )
 }
 
+export const useMutationLikes = () => {
+    /* const queryClient = useQueryClient(); */
+    const history = useNavigate()
+    return useMutation(
+        ({ postId, likesList }) => {
+            console.log(postId,likesList)
+            return axios.patch(`/posts/${postId}/likeToggle`, likesList)
+                .then(res => res.data)
+                .catch(err => {
+                    
+                    throw new Error(err)
+
+                })
+                
+        }, {
+        onSuccess: (data) => {
+            /* queryClient.invalidateQueries('post'); */
+
+        },
+        onError: (error) => {
+            console.log(error)
+
+        },
+    }
+    )
+}
+
 export const useLogin = () => {
     const { state, dispatch } = useContext(Context)
     return useMutation('', (params) => {

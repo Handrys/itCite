@@ -1,0 +1,14 @@
+.likes{
+    display: flex;
+}
+
+.title{
+
+}
+
+.count{}
+
+
+.userAvatar:hover{
+    transform: scale(1.1);
+}

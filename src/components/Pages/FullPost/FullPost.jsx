@@ -31,6 +31,7 @@ import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import CustomDialog from './../../CustomDialog/CustomDialog';
 import { Popover, Typography } from 'antd';
 import { Comments } from './Comments/Comments';
+import { Likes } from './Likes/Likes';
 
 export const FullPost = (props) => {
 
@@ -88,7 +89,7 @@ export const FullPost = (props) => {
         }
     });
 
-    
+
 
 
     const deleteMutation = useDeletePost(isFullpost);
@@ -151,12 +152,12 @@ export const FullPost = (props) => {
 
     useEffect(() => {
         if (user.userData && post) {
-            (user.userData._id === post.author._id || user.userData.role === 'admin') ? setisAuthor(true) : setisAuthor(false)   
+            (user.userData._id === post.author._id || user.userData.role === 'admin') ? setisAuthor(true) : setisAuthor(false)
         }
     }, [isFetching])
 
     useEffect(() => {
-        if (post) {      
+        if (post) {
             setPublishData({
                 'data': post.createdAt.split('T').shift(),
                 'time': post.createdAt.split('.').shift().split('T').pop()
@@ -176,7 +177,7 @@ export const FullPost = (props) => {
         backgroundSize: 'cover',
         backgroundImage: `url(${post.image})`
     }
-   /*  console.log(post) */
+    /*  console.log(post) */
     /*  console.log(post.image) */
     return (
         <div className={s.fullpost}>
@@ -237,6 +238,13 @@ export const FullPost = (props) => {
                                         <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
 
                                     </div>
+                                    <div className={s.likes}>
+                                        <Likes
+                                            postId={postId}
+                                            postLikes={post.likes}
+                                            refetchPost={refetch}
+                                        />
+                                    </div>
 
                                     <div className={s.post__share}>
                                         <div className={s.post__share__title}>Поделись материалом</div>
@@ -272,30 +280,30 @@ export const FullPost = (props) => {
                                         </div>
                                     </div>
 
-                                    
+
 
                                     <div className={s.post__publishData}>
                                         <span>Создано: {publishData.data}</span>
                                         <span style={{ marginLeft: '5px' }}>в {publishData.time}</span>
                                     </div>
 
-                                    <Comments 
-                                    postId = {postId} 
-                                    comments = {post.comments}
-                                    refetchPost = {refetch}
-                                    
-                                    />   
-                                
+                                    <Comments
+                                        postId={postId}
+                                        comments={post.comments}
+                                        refetchPost={refetch}
+
+                                    />
+
                                     {/* <div style={{ height: '1px', width: '33.333%', margin: '30px auto', backgroundColor: '#858383', border: 'none' }} /> */}
-                                  {/*   <div className={s.post__more}>
+                                    {/*   <div className={s.post__more}>
                                         <div className={s.post__more__title}>Редакция рекомендует:</div>
                                         <PostList blogPage={post.category} type='presentPosts' isPage='false' />
                                     </div> */}
                                 </div>
 
-                                        
 
-                                <CustomDialog  />
+
+                                <CustomDialog />
 
                             </div>
 
