@@ -291,6 +291,7 @@ const ProfileData = () => {
                             error={errors.email}
                             disabled={form.disabled}
                             variant="standard"
+                           
                             /* value={form.email} */
                             /*  onChange={handleChange('email')} */
                             InputProps={{
@@ -329,13 +330,14 @@ const ProfileData = () => {
                         /* onChange={handleChange('username')} */
                         />
                     </div>
-                    {/* <div className={s.edit__item}>
+                    {<div className={s.edit__item}>
                         <span className={s.edit__item__name}>Пароль:</span>
                         <TextField
-                            disabled={form.disabled}
-                            type={form.showPassword ? 'text' : 'password'}
+                            disabled= {true}
+                            /* type={form.showPassword ? 'text' : 'password'} */
+                            type='text'
                             variant="standard"
-                            value={form.password}
+                            value={'(пока не доступно)'}
                             onChange={handleChange('password')}
                             InputProps={{
                                 style: inputStyle,
@@ -354,7 +356,7 @@ const ProfileData = () => {
 
                             }}
                         />
-                    </div> */}
+                    </div>}
 
                     <div className={s.edit__item}>
                         <span className={s.edit__item__name}>Описание профиля:</span>
