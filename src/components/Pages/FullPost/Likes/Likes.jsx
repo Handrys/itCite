@@ -77,7 +77,7 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
         );
     })
 
-
+    console.log(authorized)
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', alignSelf: 'flex-end' }}>
             <Button>Нравится</Button>
@@ -86,7 +86,7 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
 
 
 
-            <Checkbox onClick={changeLike} {...label} checked={isLiked} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+            <Checkbox disabled={!authorized} onClick={changeLike} {...label} checked={isLiked} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
         </Box>
     );
 }
