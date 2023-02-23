@@ -33,6 +33,7 @@ import description from './Description.css'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import { convertToHTML } from 'draft-convert';
 import draftToHtml from 'draftjs-to-html';
+import { Navigate, unstable_HistoryRouter } from "react-router-dom";
 
 /* import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator'; */
 import { useForm, Controller } from "react-hook-form";
@@ -45,6 +46,7 @@ const AddPost = (props) => {
 
     const navigate = useNavigate()
     const [isPending, setIsPending] = React.useState(false);
+  
 
     const setOpacity = isPending ? 0.5 : 1
 
@@ -194,6 +196,10 @@ const AddPost = (props) => {
         display: 'none',
     });
 
+    useEffect(() => {
+        !user.userData && navigate(`/`)
+    }, [user])
+
     const [postImage, setPostImage] = React.useState(ManImg);
     const handleImageChange = async (e) => {
         console.log('work')
@@ -251,9 +257,9 @@ const convertContentToHTML = () => {
         defaultValues: form,
     });
 
+    if (!user.userData && !authorized) return null
 
-
-    return (
+    return  (
         <>
 
             <div className='add-post'>
@@ -417,6 +423,8 @@ const convertContentToHTML = () => {
             <CustomDialog />
         </>
     );
+        
+
 }
 
 export default AddPost;

@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import { useState, useRef, useEffect, useContext } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
@@ -46,15 +46,21 @@ const EditPost = (props) => {
     const { postId } = useParams();
     const navigate = useNavigate()
 
-    const [isPending, setIsPending] = React.useState(false);
+    const [isPending, setIsPending] = useState(false);
 
 
 
     const { state, dispatch } = useContext(Context)
+    const { posts, user } = state;
+    const { authorized, userData } = user;
 
     const [dialogType, setDialogType] = useState(null)
 
-    const [postImage, setPostImage] = React.useState();
+    const [postImage, setPostImage] = useState();
+
+    const [isAuthor, setIsAuthor] = useState(false)
+
+    const [test, isTest] = useState(false)
 
     /*  console.log(postId) */
  /*    console.log('ID SSILKI: ', postId) */
@@ -67,7 +73,7 @@ const EditPost = (props) => {
     const curTime = new Date().toLocaleString();
 
 
-    const [form, setForm] = React.useState({
+    const [form, setForm] = useState({
         category: '',
         categoryPresent: '',
         title: '',
@@ -104,6 +110,8 @@ const EditPost = (props) => {
                         console.log('ID PARAMSA:', postId) */
         }
     }, [post])
+
+
     
     const {
         register,
@@ -255,7 +263,13 @@ const EditPost = (props) => {
     }, [form._id])
     //===========================================================================================================================================
 
-
+    useEffect(() => {
+        if (user.userData && post) {
+            (user.userData._id == post.author._id || user.userData.role == 'admin') && setIsAuthor(true)     
+        } else{
+            (isSuccess && post) && navigate(`/`)
+        }
+    }, [isSuccess])
 
     const handleImageChange = async (e) => {
         console.log('work')
@@ -276,19 +290,20 @@ const EditPost = (props) => {
         }
 
     };
+    console.log(isAuthor)
+    if (!user.userData && !isSuccess ) return null
+    
+    /* console.log(isAuthor) */
 
-
-
-
-
-    return (
+    return  (
         /*         isFetching ? <div className="progress">  <CircularProgress /></div>
                 : */
+    
         <>
             <div className='add-post'>
                 <div className="container">
                     <div className="add-post__body">
-                        {(!form._id || form._id != postId) ? <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>
+                        {(!form._id || form._id !== postId) ? <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>
                             :
                             <div className="add-post__form" style={{ opacity: setOpacity }}>
                                 <form onSubmit={handleSubmit(editPost)}>
@@ -424,6 +439,10 @@ const EditPost = (props) => {
             <CustomDialog />
 
         </>
+
+      
+       /*   */
+
     );
 }
 

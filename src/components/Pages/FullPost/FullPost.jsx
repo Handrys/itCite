@@ -170,7 +170,7 @@ export const FullPost = (props) => {
 
     if (isFetching) return null
 
-
+    console.log(authorized)
     const stylePostImage = {
         backgroundAttachment: 'fixed',
         backgroundPosition: 'center',

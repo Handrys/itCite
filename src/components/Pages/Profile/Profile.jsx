@@ -17,7 +17,7 @@ const Profile = () => {
     const { posts, user } = state;
     const { authorized, userData } = user;
 
-    if (!user.userData && authorized) return null
+    if (!user.userData) return null
     /* console.log(user) */
 
     return user.userData ? (

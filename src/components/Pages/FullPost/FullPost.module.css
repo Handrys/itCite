@@ -54,7 +54,7 @@
     justify-content: space-between;
     align-items: center;
     background-color: rgba(110, 110, 110, 0.089);
-    flex-wrap: wrap;
+   
     /* flex-shrink: 1; */
 }
 
@@ -202,5 +202,8 @@ margin: 0 auto;
 @media(max-width:990px){
     .post__control__title{
         display: none;
+    }
+    .post__head{
+        flex-wrap: wrap;
     }
 }
