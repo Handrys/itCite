@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import { BrowserRouter, Routes, Route, Link, useParams, NavLink } from "react-router-dom";
 import axios from 'axios';
 import { Context } from '../../../state/context';
-import { useGetSinglePost, useDeletePost, useMutationComments } from './../../../shared/queries';
+import { useGetSinglePost, useDeletePost, useMutationComments, useGetLikes } from './../../../shared/queries';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
@@ -49,6 +49,8 @@ export const FullPost = (props) => {
 
     const { status, isLoading, data: post, error, isFetching, refetch } = useGetSinglePost(postId);
 
+
+
     const [publishData, setPublishData] = useState({ data: '', time: '' })
 
 
@@ -63,7 +65,7 @@ export const FullPost = (props) => {
 
 
     const setOpacity = isFetching ? 0.5 : 1
-
+    /* console.log(likes) */
 
     useEffect(() => {
         if (!isFetching) {
@@ -238,7 +240,7 @@ export const FullPost = (props) => {
                                     <div className={s.likes}>
                                         <Likes
                                             postId={postId}
-                                            postLikes={post.likes}
+                                            /* postLikes={post.likes} */
                                             refetchPost={refetch}
                                         />
                                     </div>

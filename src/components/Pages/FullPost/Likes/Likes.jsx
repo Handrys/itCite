@@ -5,7 +5,7 @@ import Favorite from '@mui/icons-material/Favorite';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import { Context } from '../../../../state';
-import { useMutationLikes } from '../../../../shared/queries';
+import { useDeleteLike, useAddLike, useGetLikes, useMutationLikes } from '../../../../shared/queries';
 
 export const Likes = ({ postId, postLikes, refetchPost }) => {
 
@@ -13,71 +13,119 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
     const { posts, user } = state;
     const { data, isPending } = posts;
     const { authorized, userData } = user;
+    const { status, isLoading, data: likeList, error, isFetching, refetch } = useGetLikes(postId);
+
 
     const label = { inputProps: { 'aria-label': '111' } };
-
-    const [isLiked, setIsLiked] = React.useState(false)
-    const [likes, setLikes] = React.useState(postLikes)
+    const [likes, setLikes] = React.useState([])
+    const [isLiked, setIsLiked] = React.useState({status: false})
+    /* const [likes, setLikes] = React.useState([]) */
 
 
 
     React.useEffect(() => {
-        if (likes) {
-            likes.map((item, index) => {
+        if (likeList) {
+            setLikes(likeList)
+            setIsLiked({status: false})
+            likeList.map((item, index) => {
                 if (userData) {
-                    userData._id === item._id ? setIsLiked(true) : setIsLiked(false)
+/*                     console.log(userData._id === item.user._id) */
+                    userData._id === item.user._id && setIsLiked({status: true, id: item._id})
+                    console.log(isLiked)
+
                 }
-                
+
             })
         }
 
-    }, [likes.length])
+    }, [likeList])
 
-    const useLikesMutation = useMutationLikes();
+    /*   const useLikesMutation = useMutationLikes(); */
+    const useLikeAdd = useAddLike();
+    const useLikeDelete = useDeleteLike();
 
+
+    console.log(isLiked)
+
+
+
+    /*   const changeLike = () => {
+          const likesList = likes;
+  
+          const addLike = () => {
+              likesList.push(userData)
+              setLikes(likesList)
+              setIsLiked(true)
+          }
+  
+          const deleteLike = () => {
+              likesList.map((item, index) => {
+                  item._id === userData._id && likesList.splice(index, 1   )
+              })
+              setLikes(likesList)
+              setIsLiked(false)
+          }
+  
+          isLiked ? deleteLike() : addLike()
+  
+  
+  
+  
+          console.log(likesList)
+          useLikesMutation.mutateAsync({ postId, likesList })
+              .then(() => {
+                  console.log('ok')
+                 
+              })
+              .catch((err) => {
+               
+              })
+  
+      } */
 
     const changeLike = () => {
-        const likesList = likes;
+        const userId = userData._id
+        const likeId = isLiked.id
+        const data = {userId,postId,likeId}
 
         const addLike = () => {
-            likesList.push(userData)
-            setLikes(likesList)
-            setIsLiked(true)
+            useLikeAdd.mutateAsync(data)
+                .then(() => {
+                    refetch()
+                })
+                .catch((err) => {
+                    /* refetch() */
+                })
+
         }
 
-        const deleteLike = () => {
-            likesList.map((item, index) => {
-                item._id === userData._id && likesList.splice(index, 1)
-            })
-            setLikes(likesList)
-            setIsLiked(false)
+        const removeLike = () => {
+            useLikeDelete.mutateAsync(data)
+                .then(() => {
+                    console.log('ok')
+                   /*  setIsLiked({status:false}) */
+                    refetch()
+                })
+                .catch((err) => {
+                    /*  badDialogOpen() */
+                })
+
         }
 
-        isLiked ? deleteLike() : addLike()
+        isLiked.status ? removeLike() : addLike()
 
 
-
-
-        console.log(likesList)
-        useLikesMutation.mutateAsync({ postId, likesList })
-            .then(() => {
-                console.log('ok')
-                /* refetchPost() */
-            })
-            .catch((err) => {
-                /*  badDialogOpen() */
-            })
 
     }
-
-    const likesPeople = likes.slice(0, 2).map((item, index) => {
+ 
+    const likesPeople = likes.slice(0, 2).map((item, index, key) => {
         console.log(item)
         return (
-            <img style={{ width: '24px', height: '24px', borderRadius: '50%', margin: '3px' }} src={item.avatarUrl} alt="" />
+            <img style={{ width: '24px', height: '24px', borderRadius: '50%', margin: '3px' }} src={item.user.avatarUrl} alt="" />
         );
     })
 
-    console.log(authorized)
+
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', alignSelf: 'flex-end' }}>
             <Button>Нравится</Button>
@@ -86,7 +134,7 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
 
 
 
-            <Checkbox disabled={!authorized} onClick={changeLike} {...label} checked={isLiked} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
+            <Checkbox disabled={!authorized} onClick={changeLike} {...label} checked={isLiked.status} icon={<FavoriteBorder />} checkedIcon={<Favorite />} />
         </Box>
     );
 }

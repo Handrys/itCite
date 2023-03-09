@@ -222,6 +222,67 @@ export const useMutationLikes = () => {
     )
 }
 
+export const useAddLike = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        ( data ) => {
+            const {postId} = data;
+            console.log(data)
+            return axios.post(`/posts/${postId}/addLike`, data)
+                .then(res => res.data)
+                .catch(err => {
+                    throw new Error(err)
+                })
+        }, {
+        onSuccess: (data) => {
+            console.log('success', data);
+            queryClient.invalidateQueries('likes');
+        },
+        onError: (error) => {
+            console.log(error)
+        },
+    }
+    )
+}
+
+export const useDeleteLike= () => {
+    const queryClient = useQueryClient();
+    const history = useNavigate()
+    return useMutation(
+        ( data ) => {
+            const {postId, likeId} = data;
+            console.log(data)
+            return axios.delete(`/posts/${postId}/removeLike/${likeId}`, data)
+                .then(res => res.data)
+                .catch(err => {
+                    throw new Error(err)
+                })
+        }, {
+        onSuccess: (data) => {
+            
+            queryClient.invalidateQueries('likes');
+        },
+        onError: (error) => {
+            console.log(error)
+        },
+    }
+    )
+}
+
+export const useGetLikes = (postId ) => {
+    const { state, dispatch } = useContext(Context)
+    return useQuery('likes', () => {
+        return axios.get(`/posts/${postId}/getLikes`)
+            .then(res => res.data)
+            .catch(err => err)
+
+    }, {
+        refetchOnWindowFocus: false,
+    })
+}
+
+
 export const useLogin = () => {
     const { state, dispatch } = useContext(Context)
     return useMutation('', (params) => {
