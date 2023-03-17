@@ -170,7 +170,7 @@ export const useEditPost = () => {
     )
 }
 
-export const useMutationComments = () => {
+/* export const useMutationComments = () => {
     const queryClient = useQueryClient();
     const history = useNavigate()
     return useMutation(
@@ -184,7 +184,7 @@ export const useMutationComments = () => {
                 })
         }, {
         onSuccess: (data) => {
-            /* queryClient.invalidateQueries('post'); */
+             queryClient.invalidateQueries('post'); 
 
         },
         onError: (error) => {
@@ -193,10 +193,10 @@ export const useMutationComments = () => {
         },
     }
     )
-}
+} */
 
-export const useMutationLikes = () => {
-    /* const queryClient = useQueryClient(); */
+/* export const useMutationLikes = () => {
+ 
     const history = useNavigate()
     return useMutation(
         ({ postId, likesList }) => {
@@ -211,7 +211,7 @@ export const useMutationLikes = () => {
                 
         }, {
         onSuccess: (data) => {
-            /* queryClient.invalidateQueries('post'); */
+          
 
         },
         onError: (error) => {
@@ -220,7 +220,7 @@ export const useMutationLikes = () => {
         },
     }
     )
-}
+} */
 
 export const useAddLike = () => {
     const queryClient = useQueryClient();
@@ -238,6 +238,67 @@ export const useAddLike = () => {
         onSuccess: (data) => {
             console.log('success', data);
             queryClient.invalidateQueries('likes');
+        },
+        onError: (error) => {
+            console.log(error)
+        },
+    }
+    )
+}
+
+export const useDeleteComment= () => {
+    const queryClient = useQueryClient();
+    const history = useNavigate()
+    return useMutation(
+        ( data ) => {
+            const {postId, commentId} = data;
+            console.log(data)
+            return axios.delete(`/posts/${postId}/removeComment/${commentId}`, data)
+                .then(res => res.data)
+                .catch(err => {
+                    throw new Error(err)
+                })
+        }, {
+        onSuccess: (data) => {
+            
+            queryClient.invalidateQueries('comments');
+        },
+        onError: (error) => {
+            console.log(error)
+        },
+    }
+    )
+}
+
+export const useGetComments = (postId ) => {
+    const { state, dispatch } = useContext(Context)
+    return useQuery('comments', () => {
+        return axios.get(`/posts/${postId}/getComments`)
+            .then(res => res.data)
+            .catch(err => err)
+
+    }, {
+        refetchOnWindowFocus: false,
+    })
+}
+
+
+export const useAddComment = () => {
+    const queryClient = useQueryClient();
+
+    return useMutation(
+        ( data ) => {
+            const {postId} = data;
+            console.log(data)
+            return axios.post(`/posts/${postId}/addComment`, data)
+                .then(res => res.data)
+                .catch(err => {
+                    throw new Error(err)
+                })
+        }, {
+        onSuccess: (data) => {
+            console.log('success', data);
+            queryClient.invalidateQueries('comments');
         },
         onError: (error) => {
             console.log(error)

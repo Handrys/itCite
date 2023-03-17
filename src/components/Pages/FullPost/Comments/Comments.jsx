@@ -14,19 +14,20 @@ import IconButton from '@mui/material/IconButton';
 import Avatar from '@mui/material/Avatar';
 import { Comment } from './Comment/Comment';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { useMutationComments } from '../../../../shared/queries';
+import { useAddComment, useDeleteComment, useGetComments } from '../../../../shared/queries';
 import { useForm } from 'react-hook-form';
 import { useState } from 'react';
+import { useEffect } from 'react';
 
 
-export const Comments = ({ postId, comments, refetchPost }) => {
+export const Comments = ({ postId, refetchPost }) => {
 
     const { state, dispatch } = useContext(Context)
     const { posts, user } = state;
-    const { data, isPending } = posts;
     const { authorized, userData } = user;
+    const { status, isLoading, data: commentList, error, isFetching, refetch } = useGetComments(postId);
 
-/*     const [commentsList, setCommentsList] = useState(comments); */
+    const [comments, setComments] = useState([]);
     const [commentsView, setCommentsView] = useState(9)
     const [commentsCount, setCommentsCount] = useState(comments.length)
     
@@ -57,26 +58,28 @@ export const Comments = ({ postId, comments, refetchPost }) => {
         }
     });
 
+    useEffect(() => {
+        if (commentList) {
+            setComments(commentList)         
+        }
+
+    }, [commentList])
 
 
-    const useCommentsMutation = useMutationComments();
 
-    /*  console.log(comments)
-     console.log(comments.author) */
+    const useCommentAdd = useAddComment();
+    const useCommentDelete = useDeleteComment();
 
-    const addComment = (data) => {
+    const addComment = (text) => {
         const publishDate = new Date().toLocaleString();
-        const comment = {
-            author: userData,
-            text: data.text,
+        const data = {
+            userId: userData._id,
+            postId: postId,
+            text: text.text, 
             createdAt: publishDate
         }
 
-        const commentsList = comments;
-        commentsList.push(comment)
-
-        console.log(commentsList)
-        useCommentsMutation.mutateAsync({ postId, commentsList })
+        useCommentAdd.mutateAsync(data)
             .then(() => {
                 console.log('ok')
                 refetchPost()
@@ -101,14 +104,12 @@ export const Comments = ({ postId, comments, refetchPost }) => {
     });
 
     const deleteComment = (id) => {
-        
-        const commentsList = comments;
-        commentsList.map((item,pos) => {
-            if (item._id == id) commentsList.splice(pos, 1)
-        }) 
-
-        console.log(commentsList)
-        useCommentsMutation.mutateAsync({ postId, commentsList })
+        const data = {
+            userId: userData._id,
+            postId: postId,
+            commentId: id
+        }
+        useCommentDelete.mutateAsync(data)
             .then(() => {
                 console.log('ok')
                 refetchPost()
@@ -119,7 +120,8 @@ export const Comments = ({ postId, comments, refetchPost }) => {
     
 
 
-
+    if (isFetching) return null
+    console.log(comments)
 
     return (
         <div className={s.comments}>
@@ -127,7 +129,7 @@ export const Comments = ({ postId, comments, refetchPost }) => {
             <div className={s.list}>
                 {/*   <Comment avatarUrl={userData.avatarUrl} fullName={'Вячеслав Кабачков'} commentText={'Неплохо, наконец-то годная обнова!'} publishDate={'15.01.2023'} /> */}
                 {
-                    comments.slice().reverse().slice(0, commentsView).map((item, pos) => {
+                    commentList.slice().reverse().slice(0, commentsView).map((item, pos) => {
 
                      return (
                             <Comment

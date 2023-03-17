@@ -7,7 +7,7 @@ import Dialog from '@mui/material/Dialog';
 import { BrowserRouter, Routes, Route, Link, useParams, NavLink } from "react-router-dom";
 import axios from 'axios';
 import { Context } from '../../../state/context';
-import { useGetSinglePost, useDeletePost, useMutationComments, useGetLikes } from './../../../shared/queries';
+import { useGetSinglePost, useDeletePost, useGetLikes } from './../../../shared/queries';
 
 import CircularProgress from '@mui/material/CircularProgress';
 import Button from '@mui/material/Button';
@@ -54,7 +54,7 @@ export const FullPost = (props) => {
     const [publishData, setPublishData] = useState({ data: '', time: '' })
 
 
-    const useCommentsMutation = useMutationComments();
+
 
     const navigate = useNavigate()
 

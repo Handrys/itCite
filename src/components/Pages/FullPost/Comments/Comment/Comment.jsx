@@ -18,7 +18,7 @@ export const Comment = ({ item, confirmCommentDelete }) => {
 
     useEffect(() => {
         if (user.userData) {
-            (user.userData._id === item.author._id || user.userData.role === 'admin') ? setisAuthor(true) : setisAuthor(false)
+            (user.userData._id === item.user._id || user.userData.role === 'admin') ? setisAuthor(true) : setisAuthor(false)
         }
     }, [])
 
@@ -29,9 +29,9 @@ export const Comment = ({ item, confirmCommentDelete }) => {
     })
 
     useEffect(() => {
-        item.author.role === 'user' && setStyles({ role: { color: '#1976d2' } })
-        item.author.role === 'admin' && setStyles({ role: { color: '#a85446' } })
-    }, [item.author])
+        item.user.role === 'user' && setStyles({ role: { color: '#1976d2' } })
+        item.user.role === 'admin' && setStyles({ role: { color: '#a85446' } })
+    }, [item.user])
 
 /*     const confirmCommentDelete = () => dispatch({
         type: 'isOpenDialog',
@@ -46,13 +46,13 @@ export const Comment = ({ item, confirmCommentDelete }) => {
         }
     }); */
 
-  
+    if (!item) return null
     return (
         <div className={s.comment}>
             <div className={s.author}>
-                <div className={s.avatar}><img src={item.author.avatarUrl} alt="" /></div>
+                <div className={s.avatar}><img src={item.user.avatarUrl} alt="" /></div>
                 <div className={s.info}>
-                    <div className={s.name} style={styles.role}>{item.author.fullName}</div>
+                    <div className={s.name} style={styles.role}>{item.user.fullName}</div>
                     <div className={s.text}>{item.text}</div>
 
                 </div>

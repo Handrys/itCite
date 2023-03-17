@@ -1,6 +1,6 @@
 export const backendLink = 'https://itcite.onrender.com/';
 
-/* export const backendLink = 'https://it-blog.herokuapp.com/'; */
+
 
 /* export const backendLink = 'http://localhost:4444/'; */
 

@@ -27,9 +27,11 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
         if (likeList) {
             setLikes(likeList)
             setIsLiked({status: false})
-            likeList.map((item, index) => {
+            console.log(likes)
+            console.log(likeList)
+            likes.map((item, index) => {
                 if (userData) {
-/*                     console.log(userData._id === item.user._id) */
+               
                     userData._id === item.user._id && setIsLiked({status: true, id: item._id})
                     console.log(isLiked)
 
