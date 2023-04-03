@@ -26,7 +26,7 @@ const Profile = () => {
                 {(!user.userData && authorized) ?
                     <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>
                     :
-                    <div className={s.profile__body}>
+                    <div className={s.body}>
 
                         <div className={s.column}>
                             <div className={s.title}>

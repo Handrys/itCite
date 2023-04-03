@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useCallback } from 'react';
 import AddPost from "./AddPost/AddPost";
 import Post from './Post/Post';
-import './PostList.css'
+import s from './PostList.module.css'
 import './postLogic.js'
 /* import postListJSON from "../../../JSON/response-news-main-page.json"; */
 import Fab from '@mui/material/Fab';
@@ -26,7 +26,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
     const { postsArr, isPending } = posts;
     const { isOpen, variant, succes, answer, propsDialog } = dialog;
     const { authorized } = user;
-    const [postsUserCount, setPostsUserCount] = useState('')
+
 
     const { status, isLoading, data: dataArr, error, isFetching, refetch } = useGetPosts(blogPage);
 
@@ -38,8 +38,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
 
     const deleteMutation = useDeletePost(blogPage, isFullpost);
 
-    /* console.log(postsArr) */
-    /*  setPostsUserCount(postsArr.slice().reverse().filter(element => element.author._id === userId)) */
+
 
     useEffect(() => {
         !user.userData ? setUserId(0) : setUserId(user.userData._id)
@@ -48,7 +47,6 @@ const PostList = ({ blogPage, type, postsCount }) => {
 
     useEffect(() => {
         const num = postsArr.slice().reverse().filter(element => element.author._id === userId).length;
-        setPostsUserCount(num)
         dispatch({
             type: 'userPosts',
             payload: {
@@ -60,17 +58,6 @@ const PostList = ({ blogPage, type, postsCount }) => {
     }, [postsArr])
 
 
-    /*  console.log(postsUserCount)
-     useEffect(() => {     
-         dispatch({
-             type: 'user',
-             payload: {
-                 ...user,
-                 myPosts: postsUserCount
-             },
-         })
-         
-     },[postsUserCount])  */
 
     if (isFetching) return null
 
@@ -216,7 +203,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
 
     return (
         <>
-            {authorized === true ? <div className="post-add-btn">
+            {authorized === true ? <div className={s.btnAdd}>
                 <NavLink to="/addpost" style={{ color: 'black' }}>
                     <Fab color="primary" aria-label="add" sx={{ backgroundColor: '#01579b' }}>
                         <AddIcon />
@@ -226,20 +213,20 @@ const PostList = ({ blogPage, type, postsCount }) => {
                 : null
             }
             {type === 'pagePosts' &&
-                <div className='posts-wrapper'>
-                    <div className="posts-list">
+                <div className={s.wrapper}>
+                    <div className={s.list}>
                         <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }}>
                             {allPosts}
                         </Grid>
                     </div>
-                    <div className="posts-bottom">
+                    <div className={s.bottom}>
                         <Button disabled={postsCount <= postsView} onClick={addpostsView} variant="outlined">Показать еще</Button>
                     </div>
                 </div>
             }
             {type === 'homePosts' &&
-                <div className='posts-wrapper'>
-                    <div className="posts-list">
+                <div className={s.wrapper}>
+                    <div className={s.list}>
                         <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }}>
                             {homePosts}
                         </Grid>
@@ -248,7 +235,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
                 </div>
             }
             {type === 'presentPosts' &&
-                <div className="posts-list">
+                <div className={s.list}>
                     <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 2, md: 18 }}>
                         {presentPosts}
                     </Grid>
@@ -256,7 +243,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
             }
             {
                 type === 'userPosts' &&
-                <div className="posts-list">
+                <div className={s.list}>
                     <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }}>
                         {userPosts}
                     </Grid>

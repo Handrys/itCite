@@ -199,8 +199,8 @@ const ProfileData = () => {
             >
 
                 <form onSubmit={handleSubmit(editProfile)} className={s.edit}>
-                    <div className={s.edit__item - avatar}>
-                        <span className={s.edit__item__name}>Аватар:</span>
+                    <div className={s.item}>
+                        <span className={s.itemName}>Аватар:</span>
                         {/*  <span>{userData.avatarUrl ? 'Загружено' : 'avatar.png'}</span> */}
                         <Button variant="contained" sx={{ width: 'fit-content' }} component="label" disabled={form.disabled} >
                             Upload
@@ -208,8 +208,8 @@ const ProfileData = () => {
                         </Button>
                         {avatarUrl && <span style={{ color: 'green', fontWeight: '600', marginLeft: '10px', fontStyle: 'italic' }}>✔️</span>}
                     </div>
-                    <div className={s.edit__item}>
-                        <span className={s.edit__item__name}>Фамилия:</span>
+                    <div className={s.item}>
+                        <span className={s.itemName}>Фамилия:</span>
                         <TextField
                             {...register('lastName', {
                                 required: {
@@ -241,8 +241,8 @@ const ProfileData = () => {
                             }}
                         />
                     </div>
-                    <div className={s.edit__item}>
-                        <span className={s.edit__item__name}>Имя:</span>
+                    <div className={s.item}>
+                        <span className={s.itemName}>Имя:</span>
                         <TextField
                             {...register('firstName', {
                                 required: {
@@ -274,8 +274,8 @@ const ProfileData = () => {
                             }}
                         />
                     </div>
-                    <div className={s.edit__item}>
-                        <span className={s.edit__item__name}>E-mail:</span>
+                    <div className={s.item}>
+                        <span className={s.itemName}>E-mail:</span>
                         <TextField
                             {...register('email', {
                                 required: {
@@ -309,8 +309,8 @@ const ProfileData = () => {
                             }}
                         />
                     </div>
-                    <div className={s.edit__item}>
-                        <span className={s.edit__item__name}>Логин:</span>
+                    <div className={s.item}>
+                        <span className={s.itemName}>Логин:</span>
                         <TextField
                             {...register('nickName', {
                                 required: {
@@ -330,8 +330,8 @@ const ProfileData = () => {
                         /* onChange={handleChange('username')} */
                         />
                     </div>
-                    {<div className={s.edit__item}>
-                        <span className={s.edit__item__name}>Пароль:</span>
+                    {<div className={s.item}>
+                        <span className={s.itemName}>Пароль:</span>
                         <TextField
                             disabled= {true}
                             /* type={form.showPassword ? 'text' : 'password'} */
@@ -358,8 +358,8 @@ const ProfileData = () => {
                         />
                     </div>}
 
-                    <div className={s.edit__item}>
-                        <span className={s.edit__item__name}>Описание профиля:</span>
+                    <div className={s.item}>
+                        <span className={s.itemName}>Описание профиля:</span>
                         <TextField
                             {...register('description', {
                                 /* required: {
@@ -389,7 +389,7 @@ const ProfileData = () => {
                     {/*   <div className={s.edit__item}>
                         <span className={s.edit__item__name}> <i>Дата регистрации: {form.registrationDate}</i> </span>
                     </div> */}
-                    <div className={s.edit__button}>
+                    <div className={s.button}>
                         {
                             !form.disabled &&
 
@@ -416,7 +416,7 @@ const ProfileData = () => {
                                 onClick={() => { changeFormDisabledFalse(); console.log(form.disabled) }}
                                 startIcon={<EditIcon />}
                                 variant="contained">
-                               <span className={s.edit__button__text}>Редактировать</span>
+                               <span className={s.buttonText}>Редактировать</span>
                             </Button>
                         }
                     </div>

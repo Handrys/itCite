@@ -36,26 +36,17 @@ const ProfileTitle = () => {
                     <img src={user.userData.avatarUrl} alt="" />
                 </div>
                 <div className={s.info}>
-                    <div className={s.info__name}>
-                        <div className={s.info__firstName}>{userData.firstName}</div>
-                        <div className={s.info__lastName}>{userData.lastName}</div>
+                    <div className={s.infoName}>
+                        <div className={s.firstName}>{userData.firstName}</div>
+                        <div className={s.lastName}>{userData.lastName}</div>
                     </div>
-                    <div className={s.info__userName}>@{userData.nickName}
-                        <span style={styles.role} className={`${s.status__condition}`}>{`(${user.userData.role})`}</span>
+                    <div className={s.userName}>@{userData.nickName}
+                        <span style={styles.role} className={`${s.role}`}>{`(${user.userData.role})`}</span>
                     </div>
-                    {/*  <div className={s.info__status}>
-                    {<div className={`${s.info__statusAccount} + ${s.info__statusElement}`}>
-                        <div className={` ${s.statusAccount__title} + ${s.status__title}`}>Аккаунт: <span></span></div>
-                        <div className={` ${s.statusAccount__condition} + ${s.status__condition}`}>Подтвержден</div>
-                    </div>}
-                   { <div className={`${s.info__statusRole} + ${s.info__statusElement}`}>
-                        <div className={` ${s.statusRole__title} + ${s.status__title}`}>Статус:</div>
-                        <div className={` ${s.statusRole__condition} + ${s.status__condition}`}>Администратор</div>
-                    </div>}
-                </div> */}
+                
                     <div className={s.infoDescription}>
-                        <div className={s.infoDescription__title}></div>
-                        <div className={s.infoDescription__text}>{user.userData.description}</div>
+                        <div className={s.descriptionTitle}></div>
+                        <div className={s.descriptionText}>{user.userData.description}</div>
                     </div>
                 </div>
            

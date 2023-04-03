@@ -7,7 +7,7 @@
    /*  overflow-y: scroll; */
 }
 
-.edit__item{
+.item{
     margin: 20px 0;
     display: flex;
     /* align-items: center; */
@@ -20,7 +20,7 @@
     color: green;
 } */
 
-.edit__item__name{
+.itemName{
     margin-right: 16px;
     font-size: 18px;
     font-weight: 500;
@@ -34,7 +34,7 @@
 
 }
 
-.edit__button{
+.button{
     width: 100%;
     display: flex;
     justify-content: center;
@@ -45,7 +45,7 @@
 
 
 @media(max-width:520px){
-    .edit__button__text{
+    .buttonText{
         display: none;
     }
 }

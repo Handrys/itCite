@@ -52,7 +52,7 @@ const ProfilePosts = () => {
                     <Content blogPage={'news'} type={'userPosts'} />
                     {myPosts === 0
                         &&
-                        <div className={s.content__none}>
+                        <div className={s.contentNone}>
                             <img src={sadImg} alt="" />
                             <span>Вы не создали ни одного поста... <br /> Не пора-ли это исправить?</span>
                         </div>

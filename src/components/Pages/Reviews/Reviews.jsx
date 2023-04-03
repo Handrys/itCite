@@ -7,10 +7,9 @@ import axios from "axios";
 import CircularProgress from '@mui/material/CircularProgress';
 import { useGetPosts } from './../../../shared/queries';
 import Button from '@mui/material/Button';
+import {reviewsTitle,reviewsDescription} from '../../../shared/projectData'
 
 const Reviews = () => {
-    const [categoryTitle, setCategoryTitle] = React.useState('Обзоры')
-    const [categoryDescription, setCategoryDescription] = React.useState('Смотрим на актуальные гаджеты и не только. Предлагаем вашему вниманию честное и качественное мнение.')
     const [blogPage, setBlogPage] = React.useState('reviews')
 
     const { state, dispatch } = useContext(Context)
@@ -33,8 +32,6 @@ const Reviews = () => {
             setPostsCount(count)
     
         }
-    
-        
     })
 
     console.log(isFetching)
@@ -42,8 +39,8 @@ const Reviews = () => {
         <div className="reviews page">
             <div className="container">
                 {isFetching && <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>}
-                <div className="reviews__body" style={{ opacity: setOpacity }}>
-                    <PagesDescription postsCount={postsCount} categoryTitle={categoryTitle} categoryDescription={categoryDescription} />
+                <div className="body" style={{ opacity: setOpacity }}>
+                    <PagesDescription postsCount={postsCount} categoryTitle={reviewsTitle} categoryDescription={reviewsDescription} />
                     <Content postsCount = {postsCount} blogPage={blogPage} type = {'pagePosts'} />
                 </div>
             </div>

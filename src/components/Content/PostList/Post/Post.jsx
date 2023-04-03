@@ -62,13 +62,13 @@ export const Post = (props) => {
         <React.Fragment key={props.item._id}>
             <div className={s.post} style={(props.type === 'userPosts' ? styles.stylesProfile : styles.stylesPage)}>
 
-                <div className={s.post__img} /* onClick={ () =>  } */>
+                <div className={s.img} /* onClick={ () =>  } */>
 
                     <img src={props.image} alt='Картинка поста' />
 
 
                     <NavLink key={props.item._id} to={`/posts/${props.item._id}`}>
-                        <div className={s.postMore}>
+                        <div className={s.more}>
                             Подробнее...
                         </div>
                     </NavLink>
@@ -92,9 +92,8 @@ export const Post = (props) => {
                 </div>
 
 
-                <div className={s.post__content}>
-                    <div className={s.postContent__title}><NavLink key={props.item.id} to={`/posts/${props.item._id}`}>{props.title}</NavLink></div>
-            
+                <div className={s.content}>
+                    <div className={s.contentTitle}><NavLink key={props.item.id} to={`/posts/${props.item._id}`}>{props.title}</NavLink></div>         
                     <Author avatarUrl = {props.author.avatarUrl} fullName = {props.author.fullName} publishDate = {props.publish_date} publishTime = {props.publish_time} />
                 </div>
 

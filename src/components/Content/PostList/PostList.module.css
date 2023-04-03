@@ -1,9 +1,9 @@
-.posts-wrapper{
+.wrapper{
     width: 100%;
 
 }
 
-.posts-list{
+.list{
     display: flex;
 /*     flex-wrap: wrap;
     width: fit-content; */
@@ -16,13 +16,13 @@
 }
 
 
-.posts-bottom{
+.bottom{
     display: flex;
     justify-content: center;
     margin-top: 60px;
 }
 
-.post-add-btn{
+.btnAdd{
     position: fixed;
     z-index: 5;
     bottom: 20px;

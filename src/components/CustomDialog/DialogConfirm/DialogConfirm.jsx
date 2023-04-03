@@ -25,7 +25,7 @@ export default function DialogConfirm(props) {
                     {/*           <Button onClick={handleDialogClose}>Disagree</Button> */}
 
                     <Button onClick={() => {
-                        props.isConfirmed()
+                        props.isConfirmed && props.isConfirmed()
                         props.onClose()
                     }} autoFocus>
                         ОК

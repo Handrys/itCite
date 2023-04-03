@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import './Content.css';
 import Post from './PostList/Post/Post';
 import { render } from '@testing-library/react';
 import { posts } from './../../shared/projectData';
 import postListJSON from "../../JSON/response-news-main-page.json";
 import PostList from "./PostList/PostList";
-import './Content'
+import s from './Content.module.css'
 import FetchPosts from "../Pages/FetchPosts";
 import CustomDialog from "../CustomDialog/CustomDialog";
 
@@ -13,7 +12,7 @@ import CustomDialog from "../CustomDialog/CustomDialog";
 const Content = ({blogPage, type, postsCount}) => {   
     
     return (
-        <div className="content" >
+        <div className={s.content}>
             <PostList  blogPage = {blogPage} type = { type } postsCount = {postsCount}  />
         </div>
         

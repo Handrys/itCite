@@ -7,12 +7,10 @@ import Content from './../../Content/Content';
 import { Context } from '../../../state'
 import { useGetPosts } from './../../../shared/queries';
 import Button from '@mui/material/Button';
+import {articlesTitle,articlesDescription} from '../../../shared/projectData'
 
 const Articles = () => {
     const [blogPage, setBlogPage] = React.useState('articles')
-    const [categoryTitle, setCategoryTitle] = React.useState('Статьи')
-    const [categoryDescription, setCategoryDescription] = React.useState('Авторские материалы от редакции. Своё мнение, своя аналитика, свои прогнозы. Совместная работа с экспертами рынка.')
-    const postWidth = '30%'
     const [postsCount, setPostsCount] = React.useState(0)
 
     const { state, dispatch } = useContext(Context)
@@ -34,7 +32,6 @@ const Articles = () => {
 
         }
 
-
     })
 
 
@@ -43,8 +40,8 @@ const Articles = () => {
         <div className="articles page">
             <div className="container">
                 {isFetching && <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>}
-                <div className="articles__body" style={{ opacity: setOpacity }}>
-                    <PagesDescription postsCount={postsCount} categoryTitle={categoryTitle} categoryDescription={categoryDescription} />
+                <div className="body" style={{ opacity: setOpacity }}>
+                    <PagesDescription postsCount={postsCount} categoryTitle={articlesTitle} categoryDescription={articlesDescription} />
                     <Content postsCount={postsCount} blogPage={blogPage} type = {'pagePosts'} />
                 </div>
             </div>

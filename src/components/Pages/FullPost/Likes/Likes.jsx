@@ -24,66 +24,24 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
 
 
     React.useEffect(() => {
-        if (likeList) {
+        if (likeList && userData) {
             setLikes(likeList)
             setIsLiked({status: false})
             console.log(likes)
             console.log(likeList)
-            likes.map((item, index) => {
-                if (userData) {
-               
+          
+            likeList.map((item, index) => {
                     userData._id === item.user._id && setIsLiked({status: true, id: item._id})
                     console.log(isLiked)
-
                 }
-
-            })
+            )
         }
 
     }, [likeList])
 
-    /*   const useLikesMutation = useMutationLikes(); */
     const useLikeAdd = useAddLike();
     const useLikeDelete = useDeleteLike();
 
-
-    console.log(isLiked)
-
-
-
-    /*   const changeLike = () => {
-          const likesList = likes;
-  
-          const addLike = () => {
-              likesList.push(userData)
-              setLikes(likesList)
-              setIsLiked(true)
-          }
-  
-          const deleteLike = () => {
-              likesList.map((item, index) => {
-                  item._id === userData._id && likesList.splice(index, 1   )
-              })
-              setLikes(likesList)
-              setIsLiked(false)
-          }
-  
-          isLiked ? deleteLike() : addLike()
-  
-  
-  
-  
-          console.log(likesList)
-          useLikesMutation.mutateAsync({ postId, likesList })
-              .then(() => {
-                  console.log('ok')
-                 
-              })
-              .catch((err) => {
-               
-              })
-  
-      } */
 
     const changeLike = () => {
         const userId = userData._id
@@ -93,6 +51,7 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
         const addLike = () => {
             useLikeAdd.mutateAsync(data)
                 .then(() => {
+                   /*  setIsLiked({status:true}) */
                     refetch()
                 })
                 .catch((err) => {
@@ -105,7 +64,7 @@ export const Likes = ({ postId, postLikes, refetchPost }) => {
             useLikeDelete.mutateAsync(data)
                 .then(() => {
                     console.log('ok')
-                   /*  setIsLiked({status:false}) */
+                    /* setIsLiked({status:false}) */
                     refetch()
                 })
                 .catch((err) => {
