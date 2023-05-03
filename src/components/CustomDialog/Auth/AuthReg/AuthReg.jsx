@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
 
 /* import './Login.css' */
-
+import s from './../Auth.module.css'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -25,9 +25,9 @@ import { Context } from '../../../../state';
 import { useContext } from 'react';
 import { Alert, Stack } from '@mui/material';
 
-import {backendLink, defaultAvatar} from '../../../../shared/projectData'
+import { backendLink, defaultAvatar } from '../../../../shared/projectData'
 
-const LoginReg = ({onClose}) => {
+const LoginReg = ({ onClose }) => {
 
     const { state, dispatch } = useContext(Context)
     const { posts, user } = state;
@@ -92,7 +92,7 @@ const LoginReg = ({onClose}) => {
             isOpen: true,
             variant: 'succes',
             dialogTitle: 'Аккаунт',
-            dialogText:'Ваш аккаунт успешно зарегестрирован!'
+            dialogText: 'Ваш аккаунт успешно зарегестрирован!'
         }
     });
 
@@ -113,15 +113,15 @@ const LoginReg = ({onClose}) => {
 
     return (
         <>
-            <div className="login-window__top">
-                <div className="login-window__top-icon">
+            <div className={s.windowTop}>
+                <div className={s.windowTopIcon}>
                     <Fab color="primary" aria-label="add">
                         <LockOutlinedIcon />
                     </Fab>
                 </div>
-                <div className="login-window__top-title">Регистрация</div>
+                <div className={s.windowTopTitle}>Регистрация</div>
             </div>
-            <form onSubmit={handleSubmit(formSubmit)} action='#' className="login-window__form">
+            <form onSubmit={handleSubmit(formSubmit)} action='#' className={s.windowForm}>
 
 
                 <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
@@ -142,8 +142,8 @@ const LoginReg = ({onClose}) => {
                         error={errors.nickName}
                         helperText={errors.nickName ? errors.nickName.message : ''}
                         label="*Имя пользователя:"
-                        /* onChange={handleChange('nickName')} */
-   
+                    /* onChange={handleChange('nickName')} */
+
                     />
                 </FormControl>
 
@@ -232,12 +232,12 @@ const LoginReg = ({onClose}) => {
                 <FormControl sx={{ m: 1, width: '100%', marginTop: '30px' }} variant="standard">
                     <Button type='submit' variant="contained">Зарегестрироваться</Button>
                 </FormControl>
-                
+
                 <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
                     {(state.errors.auth && !authorized) &&
                         <Alert severity="error">{state.errors.auth}</Alert>
                     }
-                    
+
                 </Stack>
             </form>
         </>

@@ -4,7 +4,7 @@
  
 }
 
-.fullpost__body{
+.body{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +12,7 @@
     margin: 40px 0;
 }
 
-.post__img {
+.img {
     width: 100%;
     height: 100%;
     min-height:480px;
@@ -20,7 +20,7 @@
     position: relative;
 }
 
-.post__img img{
+.img img{
     min-width:100%;
     min-height:100%;
     max-height: 480px;
@@ -31,7 +31,7 @@
     background-attachment: scroll;
 }
 
-.post__title{
+.title{
     position: absolute;
     font-size: 32px;
     max-width: 600px;
@@ -45,7 +45,7 @@
 }
 
 
-.post__head{
+.head{
     padding: 1% 4%;
     margin: 10px 0 20px 0;
     /* border: 1px solid #646566; */
@@ -58,27 +58,27 @@
     /* flex-shrink: 1; */
 }
 
-.post__category{
+.category{
     color: grey;
     font-size: 18px;
 }
 
 
-.post__content{
+.content{
     padding: 1% 8%;
 
 }
 
-.post__author {
+.author {
     display: flex;
     margin: 12px auto 0 auto;
 }
-.post__author__avatar{
+.authorAvatar{
     max-width: 50px;
     max-height: 50px;
 }
 
-.post__author__avatar img{
+.authorAvatar img{
     box-shadow: 0 0 1px 3px #3a8cc8;
     border-radius: 50%;
     transition: box-shadow .25s ease-in-out;
@@ -86,30 +86,30 @@
     height: 50px;
  
 }
-.post__author__info {
+.authorInfo {
     margin-left: 14px;
     width: 90%;
 }
 
-.post__author__name {
+.authorName {
     font-size: 18px;
     font-weight: 500;
 }
-.post__author__description {
+.authorDescription {
     font-size: 16px;
     color: #4d3e0096;
 }
-.fullpost-author-info__when {
+/* .fullpost-author-info__when {
     display: flex;
 }
-
+ */
 .post__author__date {
 }
-.fullpost-author-info__when-time {
+/* .fullpost-author-info__when-time {
     margin-left: 10px;
-}
+} */
 
-.post__description{
+.description{
     color: rgb(39, 38, 38);
     font-size: 20px;
     line-height: 36px;
@@ -120,18 +120,18 @@
     word-wrap: break-word;
 }
 
-.post__description img{
+.description img{
     width: 100%;
     max-width: 100%;
 }
 
-.post__publishData{
+.publishData{
     text-align: center;
     margin-top: 30px;
     color: #808080;
 }
 
-.post__share{
+.share{
     margin-top: 60px;
     padding: 1% 6%;
 }
@@ -140,13 +140,13 @@
 
 }
 
-.post__share__title{
+.shareTitle{
     color: #808080;
     font-size: 20px;
     font-weight: 600;
 }
 
-.post__share__buttons{
+.shareButtons{
     margin-top: 20px;
 }
 
@@ -154,7 +154,7 @@
 
 }
 
-.post__control{
+.postControl{
 display: flex;
 justify-content: flex-end;
 margin: 0 auto;

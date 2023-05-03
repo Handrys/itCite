@@ -9,7 +9,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import { NavLink } from "react-router-dom";
 
 export default function DialogConfirm(props) {
-    console.log(props)
+ 
     return (
         <div>
             <Dialog open={props.open}>

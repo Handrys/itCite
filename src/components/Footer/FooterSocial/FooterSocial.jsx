@@ -1,5 +1,5 @@
 import './FooterSocial.css';
-import '.././Footer.css';
+
 import iconTelegram from './img/telegram.png'
 import iconInstagram from './img/instagram.png'
 import iconTiktok from './img/tik-tok.png'

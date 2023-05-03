@@ -188,41 +188,37 @@ export const FullPost = (props) => {
                 <div className="progress"><CircularProgress /><Button variant="text">Загрузка...</Button></div>
                 :
                 <>
-                    <div className={s.post__img} style={stylePostImage}>
+                    <div className={s.img} style={stylePostImage}>
                         {/* <img src={post.image} alt="" /> */}
-                        <div className={s.post__title}>{post.title}</div>
+                        <div className={s.title}>{post.title}</div>
 
                     </div>
                     <div className="container">
-
-                        <div className={s.fullpost__body}>
+                        <div className={s.body}>
                             <div className={s.post} style={{ width: '100%', height: '100%', opacity: setOpacity }}>
 
-                                <div className={s.post__content}>
+                                <div className={s.content}>
 
-                                    <div className={s.post__head}>
-                                        <div className={s.post__author}>
-                                            <div className={s.post__author__avatar}><img src={post.author.avatarUrl} alt="" /></div>
-                                            <div className={s.post__author__info}>
-                                                <div className={s.post__author__name}>{post.author.fullName}</div>
-                                                <div className={s.post__author__description}>{post.author.description}</div>
-                                                {/*                                             <div className={s.post__author__date}>
-                                                Дата создания: {post.createdAt}
-                                            </div> */}
+                                    <div className={s.head}>
+                                        <div className={s.author}>
+                                            <div className={s.authorAvatar}><img src={post.author.avatarUrl} alt="" /></div>
+                                            <div className={s.authorInfo}>
+                                                <div className={s.authorName}>{post.author.fullName}</div>
+                                                <div className={s.authorDescription}>{post.author.description}</div>
                                             </div>
                                         </div>
                                         {/* <span className={s.post__category}>{categoryPresent}</span> */}
-                                        <div className={s.post__control}>
+                                        <div className={s.control}>
                                             <Stack direction="row" spacing={2}>
                                                 <Button onClick={() => navigate(`/posts/${post._id}/edit`)} disabled={!isAuthor} sx={{ color: '#1069a5', border: 'none' }} variant="outlined" startIcon={<EditIcon />}>
                                                   
-                                                        <span className={s.post__control__title}>
+                                                        <span className={s.controlTitle}>
                                                             Редактировать
                                                      </span>      
                                                 </Button>
 
                                                 <Button disabled={!isAuthor} sx={{ color: '#ed2626', border: 'none', '&:hover': { border: ' 1px solid #ed2626' } }} onClick={confirmPostDelete} variant="outlined" startIcon={<DeleteIcon />}>
-                                                    <span className={s.post__control__title}>Удалить</span>
+                                                    <span className={s.controlTitle}>Удалить</span>
                                                 </Button>
 
                                             </Stack>
@@ -230,27 +226,23 @@ export const FullPost = (props) => {
 
                                     </div>
 
-                                    <div className={s.post__description} >
-
-                                        {/* {post.description.split('\n').map(s => <p>{s}</p>)} */}
-                                        {/*                                 {post.description} */}
+                                    <div className={s.description} >
                                         <div dangerouslySetInnerHTML={{ __html: post.description }}></div>
 
                                     </div>
                                     <div className={s.likes}>
                                         <Likes
                                             postId={postId}
-                                            /* postLikes={post.likes} */
                                             refetchPost={refetch}
                                         />
                                     </div>
 
-                                    <div className={s.post__share}>
-                                        <div className={s.post__share__title}>Поделись материалом</div>
-                                        <div className={s.post__share__buttons}>
+                                    <div className={s.share}>
+                                        <div className={s.shareTitle}>Поделись материалом</div>
+                                        <div className={s.shareButtons}>
                                             <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 1, sm: 2, md: 4 }}>
                                                 <ButtonLink width={{ xs: '100%', sm: '25%' }} sx={{ margin: '0 auto' }} href={twitterLink}>
-                                                    <Button sx={styleSocialButton} className='fullpost-social-icon' variant="contained" >
+                                                    <Button sx={styleSocialButton}  variant="contained" >
                                                         <TwitterIcon />
                                                     </Button>
                                                 </ButtonLink>
@@ -281,7 +273,7 @@ export const FullPost = (props) => {
 
 
 
-                                    <div className={s.post__publishData}>
+                                    <div className={s.publishData}>
                                         <span>Создано: {publishData.data}</span>
                                         <span style={{ marginLeft: '5px' }}>в {publishData.time}</span>
                                     </div>

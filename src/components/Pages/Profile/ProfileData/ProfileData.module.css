@@ -22,11 +22,12 @@
 
 .itemName{
     margin-right: 16px;
+    margin-bottom: 12px;
     font-size: 18px;
     font-weight: 500;
     color: rgb(82, 80, 80);
 }
-.edit__item__name i {
+.itemName i {
     color: grey;
 }
 

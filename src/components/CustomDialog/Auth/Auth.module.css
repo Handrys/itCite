@@ -1,21 +1,13 @@
-.login {
+.auth{
     overflow: hidden;
 }
 .container {
 }
-.login__body {
-/*     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 420px;
-    background-color: 'background.paper';
-    border: '2px solid #000';
-    box-shadow: 24; */
+.body {
     max-width: 420px;
     width: 100%;
 }
-.login__window {
+.window {
 /*     box-shadow: 0px 5px 10px 2px rgba(24, 24, 24, 0.425);
     border-radius: 10px;
     background-color: #FFFF;
@@ -24,7 +16,7 @@
     position: relative;
 
 }
-.login-close{
+.windowClose{
     font-weight: 700;
     font-size: 24px;
     position: absolute;
@@ -34,38 +26,35 @@
     color: grey;
 
 }
-.login-close:hover{
+.authClose:hover{
     color: rgb(54, 31, 31);
     transform: scale(1.1);
 }
 
-.login-window__change{
+.windowChange{
  
     padding: 0 16px;
 }
-.login-window__content{
+.windowContent{
     padding: 7px 8% 25px 8%;
 }
-.login-change__elem{
+.auth-change__elem{
    /*  width: 50%; */
    text-align: center;
 }
-.login-window__top {
+.windowTop {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-.login-window__top-icon {
-}
-.login-window__top-title {
+
+.windowTopTitle {
     margin-top: 10px;
     font-size: 22px;
     font-weight: 500;
 }
-.login-window__form {
+.windowForm {
     display: flex;
     flex-direction: column;
-}
-.login-window__bottom {
 }

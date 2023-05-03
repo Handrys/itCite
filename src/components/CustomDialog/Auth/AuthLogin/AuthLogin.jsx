@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Routes, Route, Link, useNavigate } from "react-router-dom";
-
+import s from './../Auth.module.css'
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -111,15 +111,15 @@ const LoginAuth = ({ onClose }) => {
 
     return (
         <>
-            <div className="login-window__top">
-                <div className="login-window__top-icon">
+            <div className={s.windowTop}>
+            <div className={s.windowTopIcon}>
                     <Fab color="primary" aria-label="add">
                         <LockOutlinedIcon />
                     </Fab>
                 </div>
-                <div className="login-window__top-title">Авторизация</div>
+                <div className={s.windowTopTitle}>Авторизация</div>
             </div>
-            <form onSubmit={handleSubmit(formSubmit)} action='#' className="login-window__form">
+            <form onSubmit={handleSubmit(formSubmit)} action='#' className={s.windowForm}>
                 <FormControl sx={{ m: 1, width: '100%' }} variant="standard">
                     <TextField
                         {...register('email', {

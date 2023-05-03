@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 
-import './Auth.css'
+import s from './Auth.module.css'
 
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
@@ -63,10 +63,10 @@ const Login = (props) => {
 
     return (
         <Dialog open={props.open}>
-            <div className="login">
-                <div className="login__body">
-                    <div className="login__window">
-                        <div className="login-window__change">
+            <div className={s.auth}>
+                <div className={s.body}>
+                    <div className={s.window}>
+                        <div className={s.windowChange}>
                             <DialogTitle>
                                 <Tabs value={selectedTab} onChange={handleChaneTab} variant="scrollable" scrollButtons="auto" >
                                     <Tab label='Авторизация' />
@@ -74,12 +74,12 @@ const Login = (props) => {
                                 </Tabs>
                             </DialogTitle>
                         </div>
-                        <div className="login-window__content">
+                        <div className={s.windowContent}>
                             {selectedTab === 0 && <AuthLogin onClose={props.onClose} />}
                             {selectedTab === 1 && <AuthReg onClose={props.onClose} />}
 
                         </div>
-                        <div className="login-close" onClick={props.onClose}>x</div>
+                        <div className={s.windowClose} onClick={props.onClose}>x</div>
                     </div>
                 </div>
             </div>

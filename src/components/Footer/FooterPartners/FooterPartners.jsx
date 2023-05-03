@@ -1,5 +1,5 @@
 import './FooterPartners.css';
-import '.././Footer.css';
+
 
 const FooterPartners = () => {
     return ( 

@@ -246,6 +246,7 @@ const PostList = ({ blogPage, type, postsCount }) => {
                 <div className={s.list}>
                     <Grid container sx={{ flexGrow: 1 }} spacing={{ xs: 2, md: 3 }} columns={{ xs: 2, sm: 8, md: 12 }}>
                         {userPosts}
+                        
                     </Grid>
                 </div>
             }
